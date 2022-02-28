@@ -2,6 +2,7 @@
 // Julius Flores
 // Ivan Macias
 // Alex Torres
+// discord bot test
 
 //program: asteroids.cpp
 //author:  Gordon Griesel
