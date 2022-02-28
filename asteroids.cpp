@@ -1,4 +1,8 @@
-//
+// Bryan Ayapantecatl
+// Julius Flores
+// Ivan Macias
+// Alex Torres
+
 //program: asteroids.cpp
 //author:  Gordon Griesel
 //date:    2014 - 2021
