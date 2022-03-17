@@ -4,6 +4,6 @@
 class Credits {
 	public: 
 		void showPage();
-}
+};
 
 #endif
