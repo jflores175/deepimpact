@@ -178,6 +178,8 @@ public:
 	}
 } g;
 
+extern Background b; // from imacias.cpp
+
 //X Windows variables
 class X11_wrapper {
 private:
