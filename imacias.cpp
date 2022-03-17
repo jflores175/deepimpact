@@ -9,11 +9,14 @@
 
 #include <stdio.h>
 #include <GL/glx.h>
+#include <cstring>
+#include <math.h>
+#include <unistd.h>
 
 // This function will print out message from this file
 void print_my_name() {
-	printf("From imacias.cpp\n");
-	printf("You pressed the f key\n"); // Tells what key was pressed
+	printf("Ivan Macias\n");
+	printf("-------------\n"); // Tells what key was pressed
 }
 
 class Background {
@@ -28,16 +31,14 @@ void Background::set_background(int xres, int yres)
 {
 	// code for background
 	//
-	float w = 20.0f;
-
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_QUADS);
-		glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
-		glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
-		glTexCoord2f(1.0f, 0.0f); glVertex2f(w,   w);
-		glTexCoord2f(1.0f, 1.0f); glVertex2f(w,  -w);
+		glTexCoord2f(-xres, -yres); 
+		glTexCoord2f(-xres, yres); 
+		glTexCoord2f(xres, yres); 
+		glTexCoord2f(xres, -yres); 
 	glEnd();
-}
+};
 
 // This image class will get an image file from images folder
 class Image {
