@@ -27,6 +27,16 @@ class Background {
 void Background::set_background(int xres, int yres)
 {
 	// code for background
+	//
+	float w = 20.0f;
+
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+		glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+		glTexCoord2f(1.0f, 0.0f); glVertex2f(w,   w);
+		glTexCoord2f(1.0f, 1.0f); glVertex2f(w,  -w);
+	glEnd();
 }
 
 // This image class will get an image file from images folder
