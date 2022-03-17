@@ -27,6 +27,7 @@
 #include "fonts.h"
 #include "project.h"
 
+#include "credits.h"
 //defined types
 typedef float Flt;
 typedef float Vec[3];
@@ -66,10 +67,12 @@ class Global {
 public:
 	int xres, yres;
 	char keys[65536];
+	int credits_state;
 	Global() {
 		xres = 640;
 		yres = 480;
 		memset(keys, 0, 65536);
+		credits_state = 0;
 	}
 } gl;
 
@@ -524,6 +527,11 @@ int check_keys(XEvent *e)
 			break;
 		case XK_minus:
 			break;
+		//new
+		case XK_c:
+			gl.credits_state = !gl.credits_state;
+			break;
+		//bew
 	}
 	return 0;
 }
@@ -792,6 +800,12 @@ void render()
 {
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
+	//NEW
+	//if (gl.credits_state) {
+	//	credits.showPage(gl.xres, gl.yres);
+	//	return;
+	//}
+	//NEW
 	//
 	r.bot = gl.yres - 20;
 	r.left = 10;
