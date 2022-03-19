@@ -6,12 +6,23 @@
  *
  */
 
-
 #include <stdio.h>
 #include <GL/glx.h>
 #include <cstring>
 #include <math.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include "fonts.h"
+#include <X11/Xlib.h>
+#include <time.h>
+#include <GL/glx.h>
+#include <X11/keysym.h>
+
+typedef double Flt;
+typedef double Vec[3];
+
+#define rnd() (((double)rand())/(double)RAND_MAX)
+#define MakeVector(v, x, y, z) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
 
 // This function will print out message from this file
 void print_my_name() {
@@ -19,82 +30,63 @@ void print_my_name() {
 	printf("-------------\n"); // Tells what key was pressed
 }
 
-class Background {
-	public:
-		Background();
-		~Background();
 
-		void set_background(int x, int y);
-};
+class Info {
+    public:
+        int x_res;
+        int y_res;
+        Vec box[20];
+    
+        Info() {
+            x_res = 640;
+            y_res = 480;
 
-void Background::set_background(int xres, int yres)
+            for (int i=0; i<20; i++) {
+                box[i][0] = rnd() * x_res;
+                box[i][1] = rnd() * (y_res-220) + 220.0;
+                box[i][2] = 0.0;
+            }
+        }
+} info;
+
+class Background 
 {
-	// code for background
-	//
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_QUADS);
-		glTexCoord2f(-xres, -yres); 
-		glTexCoord2f(-xres, yres); 
-		glTexCoord2f(xres, yres); 
-		glTexCoord2f(xres, -yres); 
-	glEnd();
+    public:
+        void draw_ground(int, int);
+        void show_boxes();
 };
 
-// This image class will get an image file from images folder
-class Image {
-public:
-	int width, height;
-	unsigned char *data;
-	~Image() { delete [] data; }
-	Image(const char *fname) {
-		if (fname[0] == '\0')
-			return;
-		//printf("fname **%s**\n", fname);
-		int ppmFlag = 0;
-		char name[40];
-		strcpy(name, fname);
-		int slen = strlen(name);
-		char ppmname[80];
-		if (strncmp(name+(slen-4), ".ppm", 4) == 0)
-			ppmFlag = 1;
-		if (ppmFlag) {
-			strcpy(ppmname, name);
-		} else {
-			name[slen-4] = '\0';
-			//printf("name **%s**\n", name);
-			sprintf(ppmname,"%s.ppm", name);
-			//printf("ppmname **%s**\n", ppmname);
-			char ts[100];
-			//system("convert eball.jpg eball.ppm");
-			sprintf(ts, "convert %s %s", fname, ppmname);
-			system(ts);
-		}
-		//sprintf(ts, "%s", name);
-		//printf("read ppm **%s**\n", ppmname); fflush(stdout);
-		FILE *fpi = fopen(ppmname, "r");
-		if (fpi) {
-			char line[200];
-			fgets(line, 200, fpi);
-			fgets(line, 200, fpi);
-			//skip comments and blank lines
-			while (line[0] == '#' || strlen(line) < 2)
-				fgets(line, 200, fpi);
-			sscanf(line, "%i %i", &width, &height);
-			fgets(line, 200, fpi);
-			//get pixel data
-			int n = width * height * 3;
-			data = new unsigned char[n];
-			for (int i=0; i<n; i++)
-				data[i] = fgetc(fpi);
-			fclose(fpi);
-		} else {
-			printf("ERROR opening image: %s\n",ppmname);
-			exit(0);
-		}
-		if (!ppmFlag)
-			unlink(ppmname);
-	}
-} img("./images/game_landscape.bmp");
+void Background::draw_ground(int x, int y)
+{
+    x = info.x_res;
+    y = info.y_res;
+    //
+    //show ground
+    glBegin(GL_QUADS);
+        glColor3f(0.2, 0.2, 0.2);
+        glVertex2i(0,       220);
+        glVertex2i(x, 220);
+        glColor3f(0.4, 0.4, 0.4);
+        glVertex2i(y,   0);
+        glVertex2i(0,         0);
+    glEnd();
+}
 
+void Background::show_boxes()
+{
+    for (int i=0; i<20; i++) {
+        glPushMatrix();
+        glTranslated(info.box[i][0],info.box[i][1],info.box[i][2]);
+        glColor3f(0.2, 0.2, 0.2);
+        glBegin(GL_QUADS);
+            glVertex2i( 0,  0);
+            glVertex2i( 0, 30);
+            glVertex2i(20, 30);
+            glVertex2i(20,  0);
+        glEnd();
+        glPopMatrix();
+    }
+}
 
+//extern class Level lev;
 
