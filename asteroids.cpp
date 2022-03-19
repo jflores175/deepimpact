@@ -28,6 +28,8 @@
 #include "project.h"
 
 #include "credits.h"
+#include "imacias.h"
+
 //defined types
 typedef float Flt;
 typedef float Vec[3];
@@ -63,18 +65,130 @@ extern double timeDiff(struct timespec *start, struct timespec *end);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 //-----------------------------------------------------------------------------
 
+class Image;
+
+// From walk2.cpp
+class Sprite {
+public:   
+    int onoff;
+    int frame;
+    double delay;
+    Vec pos;
+    Image *image;
+    GLuint tex;
+    struct timespec time;
+    Sprite() {
+        onoff = 0;
+        frame = 0;
+        image = NULL;
+        delay = 0.1;
+    }
+};
+
 class Global {
 public:
-	int xres, yres;
-	char keys[65536];
+    unsigned char keys[65536];
+    int xres, yres;
+
+    // From walk2.cpp
+    int movie, movieStep;
+    int walk;
+    int walkFrame;
+    double delay;
+    Image *walkImage;
+    GLuint walkTexture;
+    Vec box[20];
+    Sprite exp;
+    Sprite exp44;
+    //camera is centered at (0,0) lower-left of screen.
+    Flt camera[2];
+
 	int credits_state;
 	Global() {
 		xres = 640;
 		yres = 480;
 		memset(keys, 0, 65536);
 		credits_state = 0;
+        
+        // From walk2.cpp
+        camera[0] = camera[1] = 0.0;
+        movie=0;
+        movieStep=2;
+        xres=800;
+        yres=600;
+        walk=0;
+        walkFrame=0;
+        walkImage=NULL;
+        delay = 0.1;
+        exp.onoff=0;
+        exp.frame=0;
+        exp.image=NULL;
+        exp.delay = 0.02;
+        exp44.onoff=0;
+        exp44.frame=0;
+        exp44.image=NULL;
+        exp44.delay = 0.022;
+        for (int i=0; i<20; i++) {
+            box[i][0] = rnd() * xres;
+            box[i][1] = rnd() * (yres-220) + 220.0;
+            box[i][2] = 0.0;
+        }
+        memset(keys, 0, 65536);
 	}
 } gl;
+
+class Level {
+public:
+    unsigned char arr[16][80];
+    int nrows, ncols;
+    int tilesize[2];
+    Flt ftsz[2];
+    Flt tile_base;
+    Level() {
+        //Log("Level constructor\n");
+        tilesize[0] = 32;
+        tilesize[1] = 32;
+        ftsz[0] = (Flt)tilesize[0];
+        ftsz[1] = (Flt)tilesize[1];
+        tile_base = 220.0;
+        //read level
+        FILE *fpi = fopen("level1.txt","r");
+        if (fpi) {
+            nrows=0;
+            char line[100];
+            while (fgets(line, 100, fpi) != NULL) {
+                removeCrLf(line);
+                int slen = strlen(line);
+                ncols = slen;
+                //Log("line: %s\n", line);
+                for (int j=0; j<slen; j++) {
+                    arr[nrows][j] = line[j];
+                }
+                ++nrows;
+            }
+            fclose(fpi);
+            //printf("nrows of background data: %i\n", nrows);
+        }
+        for (int i=0; i<nrows; i++) {
+            for (int j=0; j<ncols; j++) {
+                printf("%c", arr[i][j]);
+            }
+            printf("\n");
+        }
+    }
+    void removeCrLf(char *str) {
+        //remove carriage return and linefeed from a Cstring
+        char *p = str;
+        while (*p) {
+            if (*p == 10 || *p == 13) {
+                *p = '\0';
+                break;
+            }
+            ++p;
+        }
+    }
+} lev;
+
 
 class Ship {
 public:
@@ -125,6 +239,8 @@ public:
 		next = NULL;
 	}
 };
+
+
 
 class Game {
 public:
@@ -180,8 +296,6 @@ public:
 		delete [] barr;
 	}
 } g;
-
-extern Background b; // from imacias.cpp
 
 //X Windows variables
 class X11_wrapper {
@@ -372,8 +486,9 @@ void init_opengl(void)
 	glDisable(GL_CULL_FACE);
 	//
 	//Clear the screen to black
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	//Do this to allow fonts
+    glClearColor(0.0, 0.0, 0.0, -1.0);
+    
+    //Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
 }
@@ -906,7 +1021,10 @@ void render()
 		glVertex2f(b->pos[0]+1.0f, b->pos[1]+1.0f);
 		glEnd();
 	}
+
+
 }
+
 
 
 
