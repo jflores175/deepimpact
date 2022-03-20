@@ -30,7 +30,7 @@
 #include "credits.h"
 #include "imacias.h"
 
-extern class Menu menu
+extern class Menu menu;
 
 //defined types
 typedef float Flt;
