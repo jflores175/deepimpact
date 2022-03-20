@@ -4,9 +4,12 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
 all: deepimpact
 
-deepimpact: asteroids.cpp timers.cpp 
+atorres.o: atorres.o atorres.h
+	g++ -c atorres.cpp -Wall $(LFLAGS)
+
+deepimpact: asteroids.cpp timers.cpp atorres.o
 	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \
-	imacias.cpp atorres.cpp libggfonts.a credits.h -Wall -Wextra $(LFLAGS) -o deepimpact
+	imacias.cpp atorres.o libggfonts.a credits.h -Wall -Wextra $(LFLAGS) -o deepimpact
 
 clean:
 	rm -f deepimpact
