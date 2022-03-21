@@ -473,8 +473,8 @@ int main()
 }
 
 void init_opengl(void)
-{
-	//OpenGL initialization
+{     
+    //OpenGL initialization
 	glViewport(0, 0, gl.xres, gl.yres);
 	//Initialize matrices
 	glMatrixMode(GL_PROJECTION); glLoadIdentity();
@@ -488,7 +488,7 @@ void init_opengl(void)
 	glDisable(GL_CULL_FACE);
 	//
 	//Clear the screen to black
-    glClearColor(0.0, 0.0, 0.0, -1.0);
+    //glClearColor(0.0, 0.0, 0.0, -1.0);
     
     //Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
@@ -920,7 +920,12 @@ void render()
 {
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
-	//NEW
+	
+    // Sets background color to a dark blue
+    Background bb;   
+    bb.draw_background(); // From imacias.cpp
+    
+    //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
 	//	return;

@@ -13,5 +13,10 @@
 
 // This function will print out message from this file
 void print_my_name();
-
+class Background {
+    public:
+        void draw_background();
+        void draw_ground();
+        void show_boxes();
+};
 #endif

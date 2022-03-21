@@ -52,14 +52,20 @@ class Info {
 class Background 
 {
     public:
-        void draw_ground(int, int);
+        void draw_background();
+        void draw_ground();
         void show_boxes();
 };
 
-void Background::draw_ground(int x, int y)
+void Background::draw_background()
 {
-    x = info.x_res;
-    y = info.y_res;
+    glClearColor(0.0, 0.0, 0.15, 0.0);   
+}
+
+void Background::draw_ground()
+{
+    int x = info.x_res;
+    int y = info.y_res;
     //
     //show ground
     glBegin(GL_QUADS);
