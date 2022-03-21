@@ -8,15 +8,10 @@
 
 #include <stdio.h>
 #include <GL/glx.h>
-#include <cstring>
 #include <math.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "fonts.h"
 #include <X11/Xlib.h>
-#include <time.h>
-#include <GL/glx.h>
-#include <X11/keysym.h>
+#include "imacias.h"
 
 typedef double Flt;
 typedef double Vec[3];
@@ -48,14 +43,6 @@ class Info {
             }
         }
 } info;
-
-class Background 
-{
-    public:
-        void draw_background();
-        void draw_ground();
-        void show_boxes();
-};
 
 void Background::draw_background()
 {
@@ -93,6 +80,4 @@ void Background::show_boxes()
         glPopMatrix();
     }
 }
-
-//extern class Level lev;
 
