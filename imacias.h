@@ -15,8 +15,14 @@
 void print_my_name();
 class Background {
     public:
-        void draw_background();
-        void draw_ground();
-        void show_boxes();
+        void color_bg();    // Colors background
+        void draw_ground(); 
+        void draw_bg();     // Draws background
+        void render_tiles();
 };
+/*
+class Info {
+    public:
+        void removeCrLf(char *);
+};*/
 #endif
