@@ -67,76 +67,20 @@ extern double timeDiff(struct timespec *start, struct timespec *end);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 //-----------------------------------------------------------------------------
 
-class Image;
-
-// From walk2.cpp
-class Sprite {
-public:   
-    int onoff;
-    int frame;
-    double delay;
-    Vec pos;
-    Image *image;
-    GLuint tex;
-    struct timespec time;
-    Sprite() {
-        onoff = 0;
-        frame = 0;
-        image = NULL;
-        delay = 0.1;
-    }
-};
-
 class Global {
 public:
     unsigned char keys[65536];
     int xres, yres;
+    
+    int credits_state;
 
-    // From walk2.cpp
-    int movie, movieStep;
-    int walk;
-    int walkFrame;
-    double delay;
-    Image *walkImage;
-    GLuint walkTexture;
-    Vec box[20];
-    Sprite exp;
-    Sprite exp44;
-    //camera is centered at (0,0) lower-left of screen.
-    Flt camera[2];
-
-	int credits_state;
-	Global() {
-		xres = 640;
+    Global() {
+        xres = 640;
 		yres = 480;
 		memset(keys, 0, 65536);
 		credits_state = 0;
-        
-        // From walk2.cpp
-        camera[0] = camera[1] = 0.0;
-        movie=0;
-        movieStep=2;
-        xres=800;
-        yres=600;
-        walk=0;
-        walkFrame=0;
-        walkImage=NULL;
-        delay = 0.1;
-        exp.onoff=0;
-        exp.frame=0;
-        exp.image=NULL;
-        exp.delay = 0.02;
-        exp44.onoff=0;
-        exp44.frame=0;
-        exp44.image=NULL;
-        exp44.delay = 0.022;
-        for (int i=0; i<20; i++) {
-            box[i][0] = rnd() * xres;
-            box[i][1] = rnd() * (yres-220) + 220.0;
-            box[i][2] = 0.0;
         }
-        memset(keys, 0, 65536);
-	}
+        //memset(keys, 0, 65536);	
 } gl;
 
 class Ship {
@@ -871,8 +815,8 @@ void render()
     // Sets background color to a dark blue
     Background bb;   
     bb.color_bg(); // From imacias.cpp
-    bb.draw_bg();
-    //bb.render_tiles();    
+    bb.draw_bg();  // From imacias.cpp
+       
     //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
