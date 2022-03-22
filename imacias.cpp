@@ -28,60 +28,16 @@ void print_my_name() {
 class Info {
     public:
         int x_res, y_res;
-        int num_rows, num_cols;
-        unsigned char arr[16][80];
-
         Vec box[20];
-        Flt tile_size[2];
-        Flt fsize[2];
-        Flt base;
-        Flt camera[2];
         
         Info() {
-            x_res = 750; // testing from 640
-            y_res = 550; // testing from 480
-            
-            // testing from 20
-            for (int i=0; i<40; i++) {
+            x_res = 680;
+            y_res = 480;            
+            for (int i=0; i<20; i++) {
                 box[i][0] = rnd() * x_res;
                 box[i][1] = rnd() * (y_res-220) + 220.0;
                 box[i][2] = 0.0;
             }
-            tile_size[0] = 32;
-            tile_size[1] = 32;
-            
-            fsize[0] = (Flt)(tile_size[0]);
-            fsize[1] = (Flt)(tile_size[1]);
-            base = 220.0;
-
-            camera[0] = camera[1] = 0.0;
-            /*
-            FILE *fpi = fopen("level1.txt", "r");
-            if (fpi) {
-                num_rows = 0;
-                char line[100];
-                while (fgets(line, 100, fpi) != NULL) {
-                    removeCrLf(line);
-                    int len = strlen(line);
-                    num_cols = len;
-
-                    for (int j=0; j<len; j++) {
-                        arr[num_rows][j] = line[j];
-                    }
-                    printf("\n");
-                }
-            }
-        }
-        void removeCrLf(char *str) {
-            char *p = str;
-            while (*p) {
-                if (*p == 10 || *p == 13) {
-                    *p = '\0';
-                    break;
-                }
-                ++p;
-            }
-        }*/
         }
 } info;
 
@@ -106,3 +62,23 @@ void Background::draw_bg()
         glPopMatrix();
     }
 }
+
+void Background::add_bg_image(int x, int y, unsigned int textid)
+{
+    float w = 200.0;
+    glPushMatrix();
+    glTranslatef(x/2, y/2, 0);
+    glColor3ub(255, 255, 255);
+    glBindTexture(GL_TEXTURE_2D, textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( w,  w);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+}
+
+
+

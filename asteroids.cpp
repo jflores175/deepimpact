@@ -67,9 +67,66 @@ extern double timeDiff(struct timespec *start, struct timespec *end);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 //-----------------------------------------------------------------------------
 
+class Image {
+    public:
+        int width, height;
+        unsigned char *data;
+        ~Image() { delete [] data; }
+        Image(const char *fname) {
+        if (fname[0] == '\0')
+            return;
+        //
+        int ppmFlag = 0;
+        char name[40];
+        strcpy(name, fname);
+        int slen = strlen(name);
+        char ppmname[80];
+        if (strncmp(name+(slen-4), ".ppm", 4) == 0)
+            ppmFlag = 1;
+        if (ppmFlag) {
+            strcpy(ppmname, name);
+        } else {
+            name[slen-4] = '\0';
+            //printf("name **%s**\n", name);
+            sprintf(ppmname,"%s.ppm", name);
+            //printf("ppmname **%s**\n", ppmname);
+            char ts[100];
+            //system("convert eball.jpg eball.ppm");
+            sprintf(ts, "convert %s %s", fname, ppmname);
+            system(ts);
+        }
+
+        FILE *fpi = fopen(ppmname, "r");
+        if (fpi) {
+            char line[200];
+            fgets(line, 200, fpi);
+            fgets(line, 200, fpi);
+            //
+            while (line[0] == '#' || strlen(line) < 2)
+                fgets(line, 200, fpi);
+            sscanf(line, "%i %i", &width, &height);
+            fgets(line, 200, fpi);
+            //
+            int n = width * height * 3;
+            data = new unsigned char[n];
+            for (int i=0; i<n; i++) 
+                data[i] = fgetc(fpi);
+            fclose(fpi);
+         } else {
+            printf("ERROR opening image: %s\n",ppmname);
+            exit(0);
+         }
+         if (!ppmFlag)
+            unlink(ppmname);
+    }        
+};
+
+Image img("./images/game_landscape.png");
+
 class Global {
 public:
     unsigned char keys[65536];
+    unsigned int textid;
     int xres, yres;
     
     int credits_state;
@@ -384,6 +441,16 @@ void init_opengl(void)
     //Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+    //
+    //Define texture maps for background image stream
+    glGenTextures(1, &gl.textid);
+    glBindTexture(GL_TEXTURE_2D, gl.textid);
+    //
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img.width, img.height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img.data);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void normalize2d(Vec v)
@@ -813,10 +880,12 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	
     // Sets background color to a dark blue
-    Background bb;   
+    Background bb; // Background class from imacias.cpp  
     bb.color_bg(); // From imacias.cpp
     bb.draw_bg();  // From imacias.cpp
-       
+    // Add when level class is made
+    //bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
+        
     //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
