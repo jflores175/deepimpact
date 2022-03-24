@@ -121,7 +121,7 @@ class Image {
     }        
 };
 
-Image img("./images/game_landscape.png");
+Image img("./images/game.png");
 
 class Global {
 public:
@@ -451,6 +451,7 @@ void init_opengl(void)
     glTexImage2D(GL_TEXTURE_2D, 0, 3, img.width, img.height, 0,
         GL_RGB, GL_UNSIGNED_BYTE, img.data);
     glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 void normalize2d(Vec v)
@@ -878,13 +879,14 @@ void render()
 {
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+	    
     // Sets background color to a dark blue
     Background bb; // Background class from imacias.cpp  
     bb.color_bg(); // From imacias.cpp
     bb.draw_bg();  // From imacias.cpp
     // Add when level class is made
-    //bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
+    // This will set the background for the first level
+    // bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
         
     //NEW
 	//if (gl.credits_state) {
