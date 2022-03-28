@@ -880,14 +880,20 @@ void render()
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
 	    
-    // Sets background color to a dark blue
-    Background bb; // Background class from imacias.cpp  
-    //bb.color_bg(); // From imacias.cpp
-    //bb.draw_bg();  // From imacias.cpp
+    // ----------------------------------------------------
+    //
+    // This comment block will be removed once we work on 
+    // the level implementation.
+    //
+    // Background bb; // Background class from imacias.cpp  
+    // bb.color_bg(); // From imacias.cpp
+    // bb.draw_bg();  // From imacias.cpp
     // Add when level class is made
     // This will set the background for the first level
     // bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
-        
+    //
+    // ----------------------------------------------------
+
     //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
