@@ -54,6 +54,7 @@ void Background::color_bg()
 }
 
 // This will be for the space level
+/*
 void Background::draw_bg()
 {
     //show boxes as stars for background
@@ -69,10 +70,10 @@ void Background::draw_bg()
         glEnd();
         glPopMatrix();
     }
-}
+}*/
 
 // This is for the first level
-void Background::add_bg_image(int x, int y, unsigned int textid)
+void Background::add_image_level(int x, int y, unsigned int textid)
 {
     float w = 325.0;
     glPushMatrix();
@@ -88,6 +89,45 @@ void Background::add_bg_image(int x, int y, unsigned int textid)
     glEnd();
     glPopMatrix();
 }
+
+// This is for the second level in the clouds
+//
+void Background::add_image_level2(int x, int y, unsigned int textid)
+{
+    float w = 325.0;
+    glPushMatrix();
+    glTranslatef(x/2, y/2, 0);
+    glColor3ub(255, 255, 255);
+    glBindTexture(GL_TEXTURE_2D, textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+}
+
+// This is for the third level in the clouds
+//
+void Background::add_image_level3(int x, int y, unsigned int textid)
+{
+    float w = 325.0;
+    glPushMatrix();
+    glTranslatef(x/2, y/2, 0);
+    glColor3ub(255, 255, 255);
+    glBindTexture(GL_TEXTURE_2D, textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+}
+
 /*
 void Background::music() {
 //Get started right here.
@@ -143,4 +183,11 @@ void Background::music() {
 #endif
 }*/
 
+// ------------------------------------------------------------------------
+//
+// Should we do a while loop into a switch statement for multiple levels?
+// That way if the user wants to go back to main menu then they have that
+// option, and they can choose from various levels we desgin.
+//
+// ------------------------------------------------------------------------
 

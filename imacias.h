@@ -19,6 +19,9 @@ class Background {
         void draw_ground(); 
         void draw_bg();     // Draws background
         void render_tiles();
+	void add_image_level();
+	void add_image_level2();
+	void add_image_level3();
 };
 
 #endif
