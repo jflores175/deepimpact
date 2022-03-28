@@ -15,13 +15,11 @@
 void print_my_name();
 class Background {
     public:
-        void color_bg();    // Colors background
-        void draw_ground(); 
-        void draw_bg();     // Draws background
-        void render_tiles();
-	void add_image_level(int, int, unsigned int);
-	void add_image_level2(int, int, unsigned int);
-	void add_image_level3(int, int, unsigned int);
+        void color_bg();    				// Colors background
+        void draw_bg();     				// Draws background
+	void add_image_level(int, int, unsigned int);	// Add image for level 1
+	void add_image_level2(int, int, unsigned int);	// Add image for level 2
+	void add_image_level3(int, int, unsigned int);	// Add image for level 3
 };
 
 #endif

@@ -17,37 +17,18 @@
 #include </usr/include/AL/alut.h>
 #endif //USE_OPENAL_SOUND
 
-typedef double Flt;
-typedef double Vec[3];
-
-#define rnd() (((double)rand())/(double)RAND_MAX)
-
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
-	printf("-------------\n"); // Tells what key was pressed
+	printf("-------------\n");
 }
 
 //class Level; possibly implement multiple levels: 1-3
 //class Sound; possibly implement sound to level
 
-class Info {
-    public:
-        int x_res, y_res;
-        Vec box[20];
-        
-        Info() {
-            x_res = 680;
-            y_res = 480;            
-            for (int i=0; i<20; i++) {
-                box[i][0] = rnd() * x_res;
-                box[i][1] = rnd() * (y_res-220) + 220.0;
-                box[i][2] = 0.0;
-            }
-        }
-} info;
-
-// This will be for the space level
+// This will be for the space level.
+// It will set the background color
+// 	to a dark blue.
 void Background::color_bg()
 {
     glClearColor(0.0, 0.0, 0.15, 0.0);   
