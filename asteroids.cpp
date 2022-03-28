@@ -121,7 +121,7 @@ class Image {
     }        
 };
 
-Image img("./images/game.png");
+//Image img("./images/game.png");
 
 class Global {
 public:
@@ -133,9 +133,9 @@ public:
 
     Global() {
         xres = 640;
-		yres = 480;
-		memset(keys, 0, 65536);
-		credits_state = 0;
+	yres = 480;
+	memset(keys, 0, 65536);
+	credits_state = 0;
         }
         //memset(keys, 0, 65536);	
 } gl;
@@ -884,7 +884,9 @@ void render()
     //
     // This comment block will be removed once we work on 
     // the level implementation.
-    //
+    // Image img1("./images/game.png");
+    // Image img2("./images/clouds.png");
+    // Image img3("./images/space.png");
     // Background bb; // Background class from imacias.cpp  
     // bb.color_bg(); // From imacias.cpp
     // bb.draw_bg();  // From imacias.cpp
