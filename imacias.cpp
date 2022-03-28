@@ -88,7 +88,7 @@ void Background::add_bg_image(int x, int y, unsigned int textid)
     glEnd();
     glPopMatrix();
 }
-
+/*
 void Background::music() {
 //Get started right here.
 #ifdef USE_OPENAL_SOUND
@@ -141,4 +141,6 @@ void Background::music() {
 	//Disable context.
 	alcMakeContextCurrent(NULL);
 #endif
-}
+}*/
+
+
