@@ -20,9 +20,5 @@ class Background {
         void draw_bg();     // Draws background
         void render_tiles();
 };
-/*
-class Info {
-    public:
-        void removeCrLf(char *);
-};*/
+
 #endif
