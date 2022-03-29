@@ -66,7 +66,7 @@ extern double timeSpan;
 extern double timeDiff(struct timespec *start, struct timespec *end);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 //-----------------------------------------------------------------------------
-
+/*
 class Image {
     public:
         int width, height;
@@ -121,8 +121,12 @@ class Image {
     }        
 };
 
-//Image img("./images/game.png");
-
+Image img[4] = {"./images/menu_image.png",
+                "./images/game.png",
+                "./images/clouds.png",
+                "./images/space.png"};
+ 
+*/
 class Global {
 public:
     unsigned char keys[65536];
@@ -442,15 +446,15 @@ void init_opengl(void)
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
     //
-    //Define texture maps for background image stream
     /*
+    //Define texture maps for background image stream
     glGenTextures(1, &gl.textid);
     glBindTexture(GL_TEXTURE_2D, gl.textid);
     //
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, img.width, img.height, 0,
-        GL_RGB, GL_UNSIGNED_BYTE, img.data);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[0].width, img[0].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
     glBindTexture(GL_TEXTURE_2D, 0);
     */
 }
@@ -885,10 +889,7 @@ void render()
     //
     // This comment block will be removed once we work on 
     // the level implementation.
-    //Background bb; // Background class from imacias.cpp  
-    // bb.color_bg(); // From imacias.cpp
-    // This will set the background for the first level
-    // bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
+    Background bb; // Background class from imacias.cpp  
     //
     // ----------------------------------------------------
 
@@ -908,11 +909,15 @@ void render()
 		ggprint8b(&r, 16, 0x00ff0000, "Press s to start");
 		//menu.output(320,240, "Press F to start");
 		
-		//Image menu[1] = {"/images/menu_image.png"};
-		//bb.add_menu_image(gl.xres, gl.yres); //adds image for menu
-	}
+		//Image menu("./images/menu_image.png");
+		
+        bb.add_menu_image(gl.xres, gl.yres); //adds image for menu
+        
+        bb.blink_text(gl.xres, gl.yres);
+    }
 	else
 	{
+        bb.add_image_level(gl.xres, gl.yres);
 		r.bot = gl.yres - 20;
 		r.left = 10;
 		r.center = 0;

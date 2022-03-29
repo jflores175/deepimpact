@@ -13,6 +13,7 @@
 #include <X11/Xlib.h>
 #include "imacias.h"
 #include <cstring>
+#include <unistd.h>
 #ifdef USE_OPENAL_SOUND
 #include </usr/include/AL/alut.h>
 #endif //USE_OPENAL_SOUND
@@ -23,8 +24,66 @@ void print_my_name() {
 	printf("-------------\n");
 }
 
-//class Level; possibly implement multiple levels: 1-3
-//class Sound; possibly implement sound to level
+class Image {
+    public:
+        unsigned int textid;
+        int width, height;
+        unsigned char *data;
+        ~Image() { delete [] data; }
+        Image(const char *fname) {
+        if (fname[0] == '\0')
+            return;
+        //
+        int ppmFlag = 0;
+        char name[40];
+        strcpy(name, fname);
+        int slen = strlen(name);
+        char ppmname[80];
+        if (strncmp(name+(slen-4), ".ppm", 4) == 0)
+            ppmFlag = 1;
+        if (ppmFlag) {
+            strcpy(ppmname, name);
+        } else {
+            name[slen-4] = '\0';
+            //printf("name **%s**\n", name);
+            sprintf(ppmname,"%s.ppm", name);
+            //printf("ppmname **%s**\n", ppmname);
+            char ts[100];
+            //system("convert eball.jpg eball.ppm");
+            sprintf(ts, "convert %s %s", fname, ppmname);
+            system(ts);
+        }
+
+        FILE *fpi = fopen(ppmname, "r");
+        if (fpi) {
+            char line[200];
+            fgets(line, 200, fpi);
+            fgets(line, 200, fpi);
+            //
+            while (line[0] == '#' || strlen(line) < 2)
+                fgets(line, 200, fpi);
+            sscanf(line, "%i %i", &width, &height);
+            fgets(line, 200, fpi);
+            //
+            int n = width * height * 3;
+            data = new unsigned char[n];
+            for (int i=0; i<n; i++) 
+                data[i] = fgetc(fpi);
+            fclose(fpi);
+         } else {
+            printf("ERROR opening image: %s\n",ppmname);
+            exit(0);
+         }
+         if (!ppmFlag) 
+            unlink(ppmname);
+    }        
+};
+
+Image img[5] = {"./images/menu_image.png",
+                "./images/game.png",
+                "./images/clouds.png",
+                "./images/space.png",
+                "./images/title.png"};
 
 // This will be for the space level.
 // It will set the background color
@@ -35,13 +94,23 @@ void Background::color_bg()
 }
 
 // This is for the first level
-void Background::add_image_level(int x, int y, unsigned int textid)
+void Background::add_image_level(int x, int y)
 {
+    //Define texture maps for background image stream
+    glGenTextures(1, &img[1].textid);
+    glBindTexture(GL_TEXTURE_2D, img[1].textid);
+    //
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[1].width, img[1].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[1].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+ 
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, textid);
+    glBindTexture(GL_TEXTURE_2D, img[1].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -54,13 +123,13 @@ void Background::add_image_level(int x, int y, unsigned int textid)
 
 // This is for the second level in the clouds
 //
-void Background::add_image_level2(int x, int y, unsigned int textid)
+void Background::add_image_level2(int x, int y)
 {
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, textid);
+    glBindTexture(GL_TEXTURE_2D, img[2].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -73,13 +142,13 @@ void Background::add_image_level2(int x, int y, unsigned int textid)
 
 // This is for the third level in the clouds
 //
-void Background::add_image_level3(int x, int y, unsigned int textid)
+void Background::add_image_level3(int x, int y)
 {
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, textid);
+    glBindTexture(GL_TEXTURE_2D, img[3].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -90,13 +159,23 @@ void Background::add_image_level3(int x, int y, unsigned int textid)
     glPopMatrix();
 }
 
-void Background::add_menu_image(int x, int y, unsigned int textid)
+void Background::add_menu_image(int x, int y)
 {
+    //Define texture maps for background image stream
+    glGenTextures(1, &img[0].textid);
+    glBindTexture(GL_TEXTURE_2D, img[0].textid);
+    //
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[0].width, img[0].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, textid);
+    glBindTexture(GL_TEXTURE_2D, img[0].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -105,6 +184,49 @@ void Background::add_menu_image(int x, int y, unsigned int textid)
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();
+    
+}
+
+void Background::add_menu_text(int x, int y)
+{
+    //Define texture maps for background image stream
+    glGenTextures(1, &img[4].textid);
+    glBindTexture(GL_TEXTURE_2D, img[4].textid);
+    //
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[4].width, img[4].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[4].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+
+    float u = 275.0;
+    glColor3ub(255, 255, 255); 
+    glPushMatrix();
+    glTranslatef(x/2, y/4, 0);
+    glBindTexture(GL_TEXTURE_2D, img[4].textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -40);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   20);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( u,   20);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( u,  -40);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+}
+
+void Background::blink_text(int x, int y)
+{
+    // This is to get the button to blink
+    static bool flip = 0;
+    if (flip == true) {         
+        add_menu_text(x, y);
+    }
+    else 
+    {
+        flip = 0;
+    }
+    flip = !flip;
 }
 
 /*
