@@ -443,6 +443,7 @@ void init_opengl(void)
 	initialize_fonts();
     //
     //Define texture maps for background image stream
+    /*
     glGenTextures(1, &gl.textid);
     glBindTexture(GL_TEXTURE_2D, gl.textid);
     //
@@ -451,7 +452,7 @@ void init_opengl(void)
     glTexImage2D(GL_TEXTURE_2D, 0, 3, img.width, img.height, 0,
         GL_RGB, GL_UNSIGNED_BYTE, img.data);
     glBindTexture(GL_TEXTURE_2D, 0);
-
+    */
 }
 
 void normalize2d(Vec v)
@@ -884,7 +885,7 @@ void render()
     //
     // This comment block will be removed once we work on 
     // the level implementation.
-    Background bb; // Background class from imacias.cpp  
+    //Background bb; // Background class from imacias.cpp  
     // bb.color_bg(); // From imacias.cpp
     // This will set the background for the first level
     // bb.add_bg_image(gl.xres, gl.yres, gl.textid);   
@@ -907,8 +908,8 @@ void render()
 		ggprint8b(&r, 16, 0x00ff0000, "Press s to start");
 		//menu.output(320,240, "Press F to start");
 		
-		Image menu[1] = {"/images/menu_image.png"};
-		bb.add_menu_image(gl.xres, gl.yres); //adds image for menu
+		//Image menu[1] = {"/images/menu_image.png"};
+		//bb.add_menu_image(gl.xres, gl.yres); //adds image for menu
 	}
 	else
 	{
