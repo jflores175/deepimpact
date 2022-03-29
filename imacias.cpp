@@ -90,6 +90,23 @@ void Background::add_image_level3(int x, int y, unsigned int textid)
     glPopMatrix();
 }
 
+void Background::add_menu_image(int x, int y)
+{
+    float w = 325.0;
+    glPushMatrix();
+    glTranslatef(x/2, y/2, 0);
+    glColor3ub(255, 255, 255);
+    glBindTexture(GL_TEXTURE_2D, textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+}
+
 /*
 void Background::music() {
 //Get started right here.

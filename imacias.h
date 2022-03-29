@@ -19,6 +19,7 @@ class Background {
 	void add_image_level(int, int, unsigned int);	// Add image for level 1
 	void add_image_level2(int, int, unsigned int);	// Add image for level 2
 	void add_image_level3(int, int, unsigned int);	// Add image for level 3
+	void add_menu_image(int, int); 			// Adds image for menu
 };
 
 #endif
