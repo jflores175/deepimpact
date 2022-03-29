@@ -34,25 +34,6 @@ void Background::color_bg()
     glClearColor(0.0, 0.0, 0.15, 0.0);   
 }
 
-// This will be for the space level
-/*
-void Background::draw_bg()
-{
-    //show boxes as stars for background
-    for (int i=0; i<40; i++) {
-        glPushMatrix();
-        glTranslated(info.box[i][0],info.box[i][1],info.box[i][2]);
-        glColor3ub(200, 200, 0);
-        glBegin(GL_QUADS);
-            glVertex2i( 0,  0);
-            glVertex2i( 0, 10);
-            glVertex2i(10, 10);
-            glVertex2i(10,  0);
-        glEnd();
-        glPopMatrix();
-    }
-}*/
-
 // This is for the first level
 void Background::add_image_level(int x, int y, unsigned int textid)
 {
