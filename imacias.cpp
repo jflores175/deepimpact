@@ -90,7 +90,7 @@ void Background::add_image_level3(int x, int y, unsigned int textid)
     glPopMatrix();
 }
 
-void Background::add_menu_image(int x, int y)
+void Background::add_menu_image(int x, int y, unsigned int textid)
 {
     float w = 325.0;
     glPushMatrix();
