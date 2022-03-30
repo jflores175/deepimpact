@@ -885,15 +885,16 @@ void render()
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
 	    
-    // ----------------------------------------------------
-    //
-    // This comment block will be removed once we work on 
-    // the level implementation.
-    Background bb; // Background class from imacias.cpp  
-    //
-    // ----------------------------------------------------
-
-    //NEW
+    	// ---------------------------------------------------
+    	//
+    	// The Background class is from imacias.cpp/imacias.h
+	// 	and is used to implement all the artwork that
+	// 	will be used for Deep Impact.
+    	//
+	// ---------------------------------------------------
+	Background bb;   
+    
+        //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
 	//	return;
@@ -910,14 +911,38 @@ void render()
 		//menu.output(320,240, "Press F to start");
 		
 		//Image menu("./images/menu_image.png");
-		
-        bb.add_menu_image(gl.xres, gl.yres); //adds image for menu
-        
+	
+	// ------------------------------------------------------------
+	//
+	// add_menu_image will add an image to the menu.
+	// 
+	// blink_text will cause the "Press S to Start" image to blink 
+	// 	on and off.
+	// 
+	// game_logo will add the games logo to the top half of 
+	// 	the menu page.
+	//
+	// gl.xres and gl.yres are used to format the images that 
+	// 	are rendered on the menu.
+	//
+	// ------------------------------------------------------------
+        bb.add_menu_image(gl.xres, gl.yres);
         bb.blink_text(gl.xres, gl.yres);
-    }
+	bb.game_logo(gl.xres);
+    	
+	}
 	else
 	{
-        bb.add_image_level(gl.xres, gl.yres);
+		// --------------------------------------------------------------
+		//
+		// add_image_level is a temporary function for when we 
+		// 	are able to implement multiples levels 
+		// 	into the game.
+		//
+		// This is just to test adding a background image to a level. 
+		//
+		// --------------------------------------------------------------
+        	bb.add_image_level(gl.xres, gl.yres);
 		r.bot = gl.yres - 20;
 		r.left = 10;
 		r.center = 0;

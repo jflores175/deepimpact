@@ -79,11 +79,12 @@ class Image {
     }        
 };
 
-Image img[5] = {"./images/menu_image.png",
+Image img[6] = {"./images/menu_image.png",
                 "./images/game.png",
                 "./images/clouds.png",
                 "./images/space.png",
-                "./images/title.png"};
+                "./images/title.png",
+		"./images/deep_logo.png"};
 
 // This will be for the space level.
 // It will set the background color
@@ -227,6 +228,38 @@ void Background::blink_text(int x, int y)
         flip = 0;
     }
     flip = !flip;
+}
+
+// This function will add the game logo to menu page
+void Background::game_logo(int x)
+{
+   //Define texture maps for background image stream
+    glGenTextures(1, &img[5].textid);
+    glBindTexture(GL_TEXTURE_2D, img[5].textid);
+    //
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[5].width, img[5].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[5].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    float u = 128.0;
+    float f = 64.0;
+    float y = 300.0;
+
+    glColor3ub(255, 255, 255);
+    glPushMatrix();
+    glTranslatef(x/2, y, 0);
+    glBindTexture(GL_TEXTURE_2D, img[5].textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -f);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   f);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( u,   f);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( u,  -f);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();
+
 }
 
 /*
