@@ -22,7 +22,8 @@ class Background {
 	void add_menu_image(int, int); 			// Adds image for menu
         void add_menu_text(int, int);
         void blink_text(int, int);
-	void game_logo(int);
+        void game_logo(int);
+        void draw_tank(int, int);
 };
 
 #endif

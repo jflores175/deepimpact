@@ -3,7 +3,12 @@
  *  Date: Feb 24, 2022
  *
  *  @source: imacias.cpp
- *
+ *  
+ *  My role is to create and implement the artwork for Deep Impact.
+ *  This includes designing the backgrounds for multiple levels, 
+ *  create sprites for the in-game character and enemies, and 
+ *  adding any effects that we can if there is time. This includes 
+ *  adding sound to the game. 
  */
 
 #include <stdio.h>
@@ -11,6 +16,7 @@
 #include <math.h>
 #include "fonts.h"
 #include <X11/Xlib.h>
+#include <X11/keysym.h>
 #include "imacias.h"
 #include <cstring>
 #include <unistd.h>
@@ -79,22 +85,49 @@ class Image {
     }        
 };
 
-Image img[6] = {"./images/menu_image.png",
+Image img[7] = {"./images/menu_image.png",
                 "./images/game.png",
                 "./images/clouds.png",
                 "./images/space.png",
                 "./images/title.png",
-		"./images/deep_logo.png"};
+                "./images/deep_logo.png",
+                "./images/tank.png"};
+/*
+unsigned char *buildAlphaData(Image *img)
+{
+    int i;
+    int a,b,c;
+    unsigned char *newdata, *ptr;
+    unsigned char *data = (unsigned char *)img->data;
+    newdata = (unsigned char *)malloc(img->width * img->height * 4);
+    ptr = newdata;
+    for (i=0; i<img->width * img->height * 3; i+=3) {
+        a = *(data+0);
+        b = *(data+1);
+        c = *(data+2);
 
-// This will be for the space level.
-// It will set the background color
-// 	to a dark blue.
+        *(ptr+3) = (a|b|c);
+
+        ptr += 4;
+        data += 3;
+    }
+    return newdata;
+}*/
+
+// ---------------------------------------
+// This will set the background color
+// 	to a dark blue if any of the images
+// 	fail to load
+// 	--------------------------------------
 void Background::color_bg()
 {
     glClearColor(0.0, 0.0, 0.15, 0.0);   
 }
 
-// This is for the first level
+// -----------------------------------------
+// This function will add the background
+//      image for the first level
+// -----------------------------------------
 void Background::add_image_level(int x, int y)
 {
     //Define texture maps for background image stream
@@ -122,16 +155,19 @@ void Background::add_image_level(int x, int y)
     glPopMatrix();
 }
 
-// This is for the second level in the clouds
-//
+// -----------------------------------------------
+// This function will add the background image
+//      for the second level in the clouds.
+// -----------------------------------------------
 void Background::add_image_level2(int x, int y)
 {
     float w = 325.0;
+    
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
     glBindTexture(GL_TEXTURE_2D, img[2].textid);
-    glBegin(GL_QUADS);
+    glBegin(GL_POLYGON);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
         glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
@@ -141,8 +177,10 @@ void Background::add_image_level2(int x, int y)
     glPopMatrix();
 }
 
-// This is for the third level in the clouds
-//
+// ---------------------------------------------
+// This function will add the background image
+//      for the third level in space.
+// ---------------------------------------------
 void Background::add_image_level3(int x, int y)
 {
     float w = 325.0;
@@ -160,6 +198,10 @@ void Background::add_image_level3(int x, int y)
     glPopMatrix();
 }
 
+// ------------------------------------------------
+// This function will add a background image for 
+//      the menu screen.
+// ------------------------------------------------
 void Background::add_menu_image(int x, int y)
 {
     //Define texture maps for background image stream
@@ -188,6 +230,11 @@ void Background::add_menu_image(int x, int y)
     
 }
 
+// ------------------------------------------------
+// This function will add a non-functional button
+//      on the menu screen that says
+//      "Press S to Start".
+// ------------------------------------------------
 void Background::add_menu_text(int x, int y)
 {
     //Define texture maps for background image stream
@@ -216,6 +263,12 @@ void Background::add_menu_text(int x, int y)
     glPopMatrix();
 }
 
+// -------------------------------------------
+// This function will make the non-functional
+//      button switch between on and off.
+//      This means it will and appear, then
+//      disappear repeatadly. 
+// ------------------------------------------
 void Background::blink_text(int x, int y)
 {
     // This is to get the button to blink
@@ -230,24 +283,26 @@ void Background::blink_text(int x, int y)
     flip = !flip;
 }
 
-// This function will add the game logo to menu page
+// ------------------------------------
+// This function will add the games
+//      logo to the menu screen.
+// ------------------------------------
 void Background::game_logo(int x)
-{
-   //Define texture maps for background image stream
+{ 
     glGenTextures(1, &img[5].textid);
     glBindTexture(GL_TEXTURE_2D, img[5].textid);
-    //
+    
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[5].width, img[5].height, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img[5].width, img[5].height, 0,
         GL_RGB, GL_UNSIGNED_BYTE, img[5].data);
     glBindTexture(GL_TEXTURE_2D, 0);
-
+    
     float u = 128.0;
-    float f = 64.0;
+    float f = 64.0; 
     float y = 300.0;
 
-    glColor3ub(255, 255, 255);
+    glColor3ub(255, 255, 255); 
     glPushMatrix();
     glTranslatef(x/2, y, 0);
     glBindTexture(GL_TEXTURE_2D, img[5].textid);
@@ -258,8 +313,24 @@ void Background::game_logo(int x)
         glTexCoord2f(1.0f, 1.0f); glVertex2f( u,  -f);
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
-    glPopMatrix();
+    glPopMatrix();    
+}
 
+void Background::draw_tank(int x, int y)
+{
+    float u = 64.0;
+    //glColor3ub(255, 255, 255); 
+    glPushMatrix();
+    glTranslatef(x/2, y/4, 0);
+    //glBindTexture(GL_TEXTURE_2D, img[6].textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -16);
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   16);
+        glTexCoord2f(1.0f, 0.0f); glVertex2f( u,   16);
+        glTexCoord2f(1.0f, 1.0f); glVertex2f( u,  -16);
+    //glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();     
 }
 
 /*
