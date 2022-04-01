@@ -24,11 +24,19 @@
 #include </usr/include/AL/alut.h>
 #endif //USE_OPENAL_SOUND
 
+typedef float Vec[3];
+
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
 	printf("-------------\n");
 }
+class Bullet {
+    public:
+        Vec pos;
+        Vec vel;
+        Bullet();
+};
 
 class Image {
     public:
@@ -316,25 +324,55 @@ void Background::game_logo(int x)
     glPopMatrix();    
 }
 
-void Background::draw_tank(int x, int y)
+void Tank::draw_tank()
 {
-    float u = 64.0;
-    //glColor3ub(255, 255, 255); 
+    glGenTextures(1, &img[6].textid);
+    glBindTexture(GL_TEXTURE_2D, img[6].textid);
+    
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img[6].width, img[6].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    
+    float u = 32.0;
+    float s = 16.0; 
     glPushMatrix();
-    glTranslatef(x/2, y/4, 0);
-    //glBindTexture(GL_TEXTURE_2D, img[6].textid);
+    glColor3ub(255, 255, 255); 
+    glBindTexture(GL_TEXTURE_2D, img[6].textid);
     glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -16);
-        glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   16);
-        glTexCoord2f(1.0f, 0.0f); glVertex2f( u,   16);
-        glTexCoord2f(1.0f, 1.0f); glVertex2f( u,  -16);
-    //glBindTexture(GL_TEXTURE_2D, 0);
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex2f(-s,  -u);
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex2f(-s,   u);
+        glTexCoord2f(1.0f, 1.0f); 
+        glVertex2f( s,   u);
+        glTexCoord2f(0.0f, 1.0f); 
+        glVertex2f( s,  -u);
+    glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
-    glPopMatrix();     
+    glPopMatrix();    
 }
-
 /*
-void Background::music() {
+void Beam::draw_beams(int num_bullets)
+{
+    float c = 1.0;
+    for (int i=0; i<num_bullets; i++)
+    {
+        Bullet *barr
+        b = &g.barr[i];
+        glColor3f(c, c, c);
+        glBegin(GL_QUADS);
+        glVertex2f(b->pos[0],       b->pos[1]);
+        glVertex2f(b->pos[0]-1.0f,  b->pos[1]);
+        glVertex2f(b->pos[0]+1.0f,  b->pos[1]);
+        glVertex2f(b->pos[0],       b->pos[1]-1.0f);
+        glVertex2f(b->pos[0],       b->pos[1]+1.0f); 
+    }
+}*/
+
+
+void Background::music() {/*
 //Get started right here.
 #ifdef USE_OPENAL_SOUND
 	alutInit(0, NULL);
@@ -386,13 +424,6 @@ void Background::music() {
 	//Disable context.
 	alcMakeContextCurrent(NULL);
 #endif
-}*/
-
-// ------------------------------------------------------------------------
-//
-// Should we do a while loop into a switch statement for multiple levels?
-// That way if the user wants to go back to main menu then they have that
-// option, and they can choose from various levels we desgin.
-//
-// ------------------------------------------------------------------------
+    return 0;*/
+}
 

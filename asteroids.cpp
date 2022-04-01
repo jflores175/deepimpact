@@ -885,16 +885,12 @@ void render()
 	Rect r;
 	glClear(GL_COLOR_BUFFER_BIT);
 	    
-    	// ---------------------------------------------------
-    	//
-    	// The Background class is from imacias.cpp/imacias.h
-	// 	and is used to implement all the artwork that
-	// 	will be used for Deep Impact.
-    	//
-	// ---------------------------------------------------
-	Background bb;   
-    
-        //NEW
+    // ----------------------------------------------------   
+    Background bb;   // Background class from imacias.cpp  
+    Tank space_tank; // Tank class from imacias.cpp
+    // ----------------------------------------------------
+
+    //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
 	//	return;
@@ -910,39 +906,22 @@ void render()
 		ggprint8b(&r, 16, 0x00ff0000, "Press s to start");
 		//menu.output(320,240, "Press F to start");
 		
-		//Image menu("./images/menu_image.png");
-	
-	// ------------------------------------------------------------
-	//
-	// add_menu_image will add an image to the menu.
-	// 
-	// blink_text will cause the "Press S to Start" image to blink 
-	// 	on and off.
-	// 
-	// game_logo will add the games logo to the top half of 
-	// 	the menu page.
-	//
-	// gl.xres and gl.yres are used to format the images that 
-	// 	are rendered on the menu.
-	//
-	// ------------------------------------------------------------
-        bb.add_menu_image(gl.xres, gl.yres);
-        bb.blink_text(gl.xres, gl.yres);
-	bb.game_logo(gl.xres);
-    	
-	}
-	else
-	{
-		// --------------------------------------------------------------
-		//
-		// add_image_level is a temporary function for when we 
-		// 	are able to implement multiples levels 
-		// 	into the game.
-		//
-		// This is just to test adding a background image to a level. 
-		//
-		// --------------------------------------------------------------
-        	bb.add_image_level(gl.xres, gl.yres);
+        // ---------------------------------------------
+        // add_menu_image will add the background 
+        //      image for the menu.
+        // blink_text will make the "Press S to Start"
+        //      non-functional button to appear and
+        //      disappear repeatedly.
+        // game_logo will add the game logo to the menu
+        //      screen. Still working on a final desgin.
+        // ----------------------------------------------
+		bb.add_menu_image(gl.xres, gl.yres); // adds image for menu
+        bb.blink_text(gl.xres, gl.yres);     // Makes menu text to blink
+        bb.game_logo(gl.xres); 
+    }
+    else 
+    {
+        bb.add_image_level(gl.xres, gl.yres);
 		r.bot = gl.yres - 20;
 		r.left = 10;
 		r.center = 0;
@@ -950,29 +929,27 @@ void render()
 		ggprint8b(&r, 16, 0x00ffff00, "n bullets: %i", g.nbullets);
 		ggprint8b(&r, 16, 0x00ffff00, "n asteroids: %i", g.nasteroids);
 		//-------------------------------------------------------------------------
-		//Draw the ship
-		glColor3fv(g.ship.color);
+		
+        //Draw the ship
+		//glColor3fv(g.ship.color);
 		glPushMatrix();
 		glTranslatef(g.ship.pos[0], g.ship.pos[1], g.ship.pos[2]);
 		//float angle = atan2(ship.dir[1], ship.dir[0]);
 		glRotatef(g.ship.angle, 0.0f, 0.0f, 1.0f);
-		glBegin(GL_TRIANGLES);
-		//glVertex2f(-10.0f, -10.0f);
-		//glVertex2f(  0.0f, 20.0f);
-		//glVertex2f( 10.0f, -10.0f);
-		glVertex2f(-12.0f, -10.0f);
-		glVertex2f(  0.0f,  20.0f);
-		glVertex2f(  0.0f,  -6.0f);
-		glVertex2f(  0.0f,  -6.0f);
-		glVertex2f(  0.0f,  20.0f);
-		glVertex2f( 12.0f, -10.0f);
-		glEnd();
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glBegin(GL_POINTS);
-		glVertex2f(0.0f, 0.0f);
-		glEnd();
-		glPopMatrix();
-		if (gl.keys[XK_Up] || g.mouseThrustOn) {
+		
+        // -----------------------------------------------
+        // This function is from imacias.cpp and will
+        //      draw the shape for the tank, and will 
+        //      add the image for the tank.
+        //
+        // Still working on removing the white background
+        //      from the tank image.
+        // -----------------------------------------------
+        space_tank.draw_tank();
+        glEnd();
+        glPopMatrix(); 
+        
+        if (gl.keys[XK_Up] || g.mouseThrustOn) {
 			int i;
 			//draw thrust
 			Flt rad = ((g.ship.angle+90.0) / 360.0f) * PI * 2.0;
@@ -1022,8 +999,8 @@ void render()
 			}
 		}
 		//-------------------------------------------------------------------------
-		//Draw the bullets
-		for (int i=0; i<g.nbullets; i++) {
+		//Draw the bullets        
+        for (int i=0; i<g.nbullets; i++) {
 			Bullet *b = &g.barr[i];
 			//Log("draw bullet...\n");
 			glColor3f(1.0, 1.0, 1.0);
@@ -1040,7 +1017,7 @@ void render()
 			glVertex2f(b->pos[0]+1.0f, b->pos[1]+1.0f);
 			glEnd();
 		}
-
+        
 	}
 }
 

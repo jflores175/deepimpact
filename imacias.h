@@ -13,6 +13,7 @@
 
 // This function will print out message from this file
 void print_my_name();
+class Image;
 class Background {
     public:
         void color_bg();
@@ -24,6 +25,17 @@ class Background {
         void blink_text(int, int);
         void game_logo(int);
         void draw_tank(int, int);
+        void music();
+};
+
+class Tank {
+    public:
+        void draw_tank();
+};
+
+class Beam {
+    public:
+        void draw_beams(int);
 };
 
 #endif
