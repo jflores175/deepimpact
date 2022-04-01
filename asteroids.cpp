@@ -66,67 +66,6 @@ extern double timeSpan;
 extern double timeDiff(struct timespec *start, struct timespec *end);
 extern void timeCopy(struct timespec *dest, struct timespec *source);
 //-----------------------------------------------------------------------------
-/*
-class Image {
-    public:
-        int width, height;
-        unsigned char *data;
-        ~Image() { delete [] data; }
-        Image(const char *fname) {
-        if (fname[0] == '\0')
-            return;
-        //
-        int ppmFlag = 0;
-        char name[40];
-        strcpy(name, fname);
-        int slen = strlen(name);
-        char ppmname[80];
-        if (strncmp(name+(slen-4), ".ppm", 4) == 0)
-            ppmFlag = 1;
-        if (ppmFlag) {
-            strcpy(ppmname, name);
-        } else {
-            name[slen-4] = '\0';
-            //printf("name **%s**\n", name);
-            sprintf(ppmname,"%s.ppm", name);
-            //printf("ppmname **%s**\n", ppmname);
-            char ts[100];
-            //system("convert eball.jpg eball.ppm");
-            sprintf(ts, "convert %s %s", fname, ppmname);
-            system(ts);
-        }
-
-        FILE *fpi = fopen(ppmname, "r");
-        if (fpi) {
-            char line[200];
-            fgets(line, 200, fpi);
-            fgets(line, 200, fpi);
-            //
-            while (line[0] == '#' || strlen(line) < 2)
-                fgets(line, 200, fpi);
-            sscanf(line, "%i %i", &width, &height);
-            fgets(line, 200, fpi);
-            //
-            int n = width * height * 3;
-            data = new unsigned char[n];
-            for (int i=0; i<n; i++) 
-                data[i] = fgetc(fpi);
-            fclose(fpi);
-         } else {
-            printf("ERROR opening image: %s\n",ppmname);
-            exit(0);
-         }
-         if (!ppmFlag)
-            unlink(ppmname);
-    }        
-};
-
-Image img[4] = {"./images/menu_image.png",
-                "./images/game.png",
-                "./images/clouds.png",
-                "./images/space.png"};
- 
-*/
 class Global {
 public:
     unsigned char keys[65536];
@@ -213,8 +152,8 @@ public:
 		nasteroids = 0;
 		nbullets = 0;
 		mouseThrustOn = false;
-		//build 10 asteroids...
-		for (int j=0; j<10; j++) {
+		//build 20 asteroids...
+		for (int j=0; j<20; j++) {
 			Asteroid *a = new Asteroid;
 			a->nverts = 8;
 			a->radius = rnd()*80.0 + 40.0;
@@ -766,35 +705,16 @@ void physics()
 			d1 = b->pos[1] - a->pos[1];
 			dist = (d0*d0 + d1*d1);
 			if (dist < (a->radius*a->radius)) {
-				//std::cout << "asteroid hit." << std::endl;
-				//this asteroid is hit.
-				if (a->radius > MINIMUM_ASTEROID_SIZE) {
-					//break it into pieces.
-					Asteroid *ta = a;
-					buildAsteroidFragment(ta, a);
-					int r = rand()%10+5;
-					for (int k=0; k<r; k++) {
-						//get the next asteroid position in the array
-						Asteroid *ta = new Asteroid;
-						buildAsteroidFragment(ta, a);
-						//add to front of asteroid linked list
-						ta->next = g.ahead;
-						if (g.ahead != NULL)
-							g.ahead->prev = ta;
-						g.ahead = ta;
-						g.nasteroids++;
-					}
-				} else {
-					a->color[0] = 1.0;
-					a->color[1] = 0.1;
-					a->color[2] = 0.1;
-					//asteroid is too small to break up
-					//delete the asteroid and bullet
-					Asteroid *savea = a->next;
-					deleteAsteroid(&g, a);
-					a = savea;
-					g.nasteroids--;
-				}
+				a->color[0] = 1.0;
+				a->color[1] = 0.1;
+				a->color[2] = 0.1;
+				
+				//delete the asteroid and bullet
+				Asteroid *savea = a->next;
+				deleteAsteroid(&g, a);
+				a = savea;
+				g.nasteroids--;
+                				                                          
 				//delete the bullet...
 				memcpy(&g.barr[i], &g.barr[g.nbullets-1], sizeof(Bullet));
 				g.nbullets--;
@@ -974,18 +894,30 @@ void render()
 		//Draw the asteroids
 		{
 			Asteroid *a = g.ahead;
-			while (a) {
+			// Instance of enemy class from imacias.cpp
+            Enemy ship1;
+            
+            while (a) {
 				//Log("draw asteroid...\n");
 				glColor3fv(a->color);
 				glPushMatrix();
 				glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
 				glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
-				glBegin(GL_LINE_LOOP);
+				// ----------------------------------------
+                // This function creates an enemy sprite
+                //      in place of the asteroids.
+                //      They will be deleted when hit with
+                //      a bullet.
+                // ----------------------------------------
+                ship1.draw_enemy();
+                
+                /*
+                glBegin(GL_LINE_LOOP);
 				//Log("%i verts\n",a->nverts);
 				for (int j=0; j<a->nverts; j++) {
 					glVertex2f(a->vert[j][0], a->vert[j][1]);
 				}
-				glEnd();
+				glEnd();*/
 				//glBegin(GL_LINES);
 				//	glVertex2f(0,   0);
 				//	glVertex2f(a->radius, 0);
@@ -996,9 +928,9 @@ void render()
 				glVertex2f(a->pos[0], a->pos[1]);
 				glEnd();
 				a = a->next;
-			}
-		}
-		//-------------------------------------------------------------------------
+            }
+        }
+        //-------------------------------------------------------------------------
 		//Draw the bullets        
         for (int i=0; i<g.nbullets; i++) {
 			Bullet *b = &g.barr[i];

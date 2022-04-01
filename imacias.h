@@ -33,6 +33,12 @@ class Tank {
         void draw_tank();
 };
 
+class Enemy {
+    public:
+        void draw_enemy();
+        void draw_enemy2();
+};
+
 class Beam {
     public:
         void draw_beams(int);

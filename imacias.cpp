@@ -93,13 +93,15 @@ class Image {
     }        
 };
 
-Image img[7] = {"./images/menu_image.png",
+Image img[9] = {"./images/menu_image.png",
                 "./images/game.png",
                 "./images/clouds.png",
                 "./images/space.png",
                 "./images/title.png",
                 "./images/deep_logo.png",
-                "./images/tank.png"};
+                "./images/tank.png",
+                "./images/enemy.png",
+                "./images/enemy2.png"};
 /*
 unsigned char *buildAlphaData(Image *img)
 {
@@ -353,6 +355,67 @@ void Tank::draw_tank()
     glEnd();
     glPopMatrix();    
 }
+
+void Enemy::draw_enemy()
+{
+    glGenTextures(1, &img[7].textid);
+    glBindTexture(GL_TEXTURE_2D, img[7].textid);
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img[7].width, img[7].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[7].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    float u = 64.0;
+    float s = 64.0; 
+    glPushMatrix();
+    glColor3ub(255, 255, 255); 
+    glBindTexture(GL_TEXTURE_2D, img[7].textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex2f(-s,  -u);
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex2f(-s,   u);
+        glTexCoord2f(1.0f, 1.0f); 
+        glVertex2f( s,   u);
+        glTexCoord2f(0.0f, 1.0f); 
+        glVertex2f( s,  -u);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();  
+}
+
+void Enemy::draw_enemy2()
+{
+    glGenTextures(1, &img[8].textid);
+    glBindTexture(GL_TEXTURE_2D, img[8].textid);
+
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img[8].width, img[8].height, 0,
+        GL_RGB, GL_UNSIGNED_BYTE, img[8].data);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    float u = 64.0;
+    float s = 64.0; 
+    glPushMatrix();
+    glColor3ub(255, 255, 255); 
+    glBindTexture(GL_TEXTURE_2D, img[8].textid);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f); 
+        glVertex2f(-s,  -u);
+        glTexCoord2f(1.0f, 0.0f); 
+        glVertex2f(-s,   u);
+        glTexCoord2f(1.0f, 1.0f); 
+        glVertex2f( s,   u);
+        glTexCoord2f(0.0f, 1.0f); 
+        glVertex2f( s,  -u);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnd();
+    glPopMatrix();  
+}
+
 /*
 void Beam::draw_beams(int num_bullets)
 {
