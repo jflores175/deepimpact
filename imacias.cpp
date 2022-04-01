@@ -335,8 +335,8 @@ void Tank::draw_tank()
         GL_RGB, GL_UNSIGNED_BYTE, img[6].data);
     glBindTexture(GL_TEXTURE_2D, 0);
     
-    float u = 32.0;
-    float s = 16.0; 
+    float u = 64.0;
+    float s = 32.0; 
     glPushMatrix();
     glColor3ub(255, 255, 255); 
     glBindTexture(GL_TEXTURE_2D, img[6].textid);
