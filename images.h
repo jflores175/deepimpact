@@ -66,17 +66,6 @@ class Image {
     }        
 };
 /*
-Image img[9] = {"./images/menu_image.png",
-                "./images/game.png",
-                "./images/clouds.png",
-                "./images/space.png",
-                "./images/title.png",
-                "./images/deep_logo.png",
-                "./images/tank.png",
-                "./images/enemy.png",
-                "./images/enemy2.png"};
-
-
 unsigned char *buildAlphaData(Image *img)
 {
     int i;
