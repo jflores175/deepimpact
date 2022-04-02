@@ -9,7 +9,7 @@ atorres.o: atorres.o atorres.h
 
 deepimpact: asteroids.cpp timers.cpp atorres.o
 	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \
-	imacias.cpp atorres.o libggfonts.a credits.h -Wall -Wextra $(LFLAGS) -o deepimpact
+	imacias.cpp atorres.o libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
 
 clean:
 	rm -f deepimpact
