@@ -1,6 +1,6 @@
 /* Author: Alexis Torres
-	Purpose: To build a menu for a game and in game HUB 
-	which will inclide health
+Purpose: To build a menu for a game and in game HUB 
+which will inclide health
 */
 #include "atorres.h"
 #include <stdio.h>
@@ -13,29 +13,37 @@ class Menu menu;
 
 Menu::Menu() 
 {
-	display = true;
+    display = true;
 }
 
 void Menu::show_menu(int xres, int yres)
 {
-	glColor3ub(250,214,165);
-	glPushMatrix();
-	//Build a square and give it vertices 
-	glBegin(GL_QUADS);
-	glVertex2f( 0.0, 0.0);
-	glVertex2f( xres, 0.0);
-	glVertex2f( xres, yres);
-	glVertex2f( 0.0, yres);
-	glEnd();
-	glPopMatrix();
+    glColor3ub(250,214,165);
+    glPushMatrix();
+    //Build a square and give it vertices 
+    glBegin(GL_QUADS);
+    glVertex2f( 0.0, 0.0);
+    glVertex2f( xres, 0.0);
+    glVertex2f( xres, yres);
+    glVertex2f( 0.0, yres);
+    glEnd();
+    glPopMatrix();
 }
 
 void Menu::name()
 {
-	printf("Alex\n");
+    printf("Alex\n");
 }
 
 
 Menu::~Menu()
 {
 }
+
+void atorres(int x, int y)                                      
+{            
+    if (x > y)    
+        printf("%i is greater %i", x, y);
+    else 
+        printf("%i is less than %i", x, y);  
+}            
