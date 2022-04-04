@@ -37,7 +37,7 @@ void print_my_name() {
 //      argument. If it fails then a response will be
 //      generated. 
 // ------------------------------------------------------------
-void imacias(bool display_name)
+void display_imacias(bool display_name)
 {
     if (display_name)
     {
@@ -45,7 +45,7 @@ void imacias(bool display_name)
     }
     else
     {
-        printf("Odin username failed to display.\n");
+        printf("Odin username did not display.\n");
     } 
 }
 
