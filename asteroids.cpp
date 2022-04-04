@@ -153,7 +153,7 @@ public:
 		nbullets = 0;
 		mouseThrustOn = false;
 		//build 20 asteroids...
-		for (int j=0; j<20; j++) {
+		for (int j=0; j<10; j++) {
 			Asteroid *a = new Asteroid;
 			a->nverts = 8;
 			a->radius = rnd()*80.0 + 40.0;
@@ -909,8 +909,11 @@ void render()
                 //      They will be deleted when hit with
                 //      a bullet.
                 // ----------------------------------------
-                ship1.draw_enemy();
                 
+				//important V
+                ship1.draw_enemy();
+                //important ^
+
                 /*
                 glBegin(GL_LINE_LOOP);
 				//Log("%i verts\n",a->nverts);
