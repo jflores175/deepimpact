@@ -4,6 +4,9 @@
 //Manage: Enemy Projectiles
 
 #include <stdio.h>
+#include <iostream>
+
+using namespace std;
 
 void show_name()
 {
