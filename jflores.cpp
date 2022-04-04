@@ -8,6 +8,11 @@ void printnamejulius()
 	printf("Julius\n");
 }
 
+void reset_position() 
+{
+	
+}
+
 Credits credits;
 
 /*
