@@ -37,7 +37,7 @@ void print_my_name() {
 //      argument. If it fails then a response will be
 //      generated. 
 // ------------------------------------------------------------
-void display_odin_username(bool display_name)
+void imacias(bool display_name)
 {
     if (display_name)
     {
