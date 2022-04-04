@@ -13,6 +13,16 @@ void reset_position()
 	
 }
 
+void jflores(int number) 
+{
+    if (number == 0)
+        printf("Your number was 0\n");
+    else if (number > 0) 
+        printf("Your number was positive\n");
+    else
+        printf("Your number was negative and failed\n");
+}
+
 Credits credits;
 
 /*
