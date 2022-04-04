@@ -31,6 +31,24 @@ void print_my_name() {
 	printf("Ivan Macias\n");
 	printf("-------------\n");
 }
+
+// ------------------------------------------------------------
+// This function will contain my Odin username that accepts an
+//      argument. If it fails then a response will be
+//      generated. 
+// ------------------------------------------------------------
+void display_odin_username(bool display_name)
+{
+    if (display_name)
+    {
+        printf("My odin username is: imacias\n");
+    }
+    else
+    {
+        printf("Odin username failed to display.\n");
+    } 
+}
+
 class Bullet {
     public:
         Vec pos;
