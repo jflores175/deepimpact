@@ -10,7 +10,7 @@ imacias.o: imacias.cpp imacias.h
 atorres.o: atorres.cpp atorres.h
 	g++ -c atorres.cpp -Wall $(LFLAGS)
 
-jflores.o: jflroes.cpp jflores.h
+jflores.o: jflores.cpp jflores.h
 	g++ -c jflores.cpp -Wall $(LFLAGS)
 
 deepimpact: asteroids.cpp timers.cpp atorres.o
