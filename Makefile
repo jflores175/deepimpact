@@ -4,6 +4,9 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
 all: deepimpact
 
+imacias: imacias.cpp
+	g++ -c imacias.cpp -Wall $(LFLAGS)
+
 atorres.o: atorres.o atorres.h
 	g++ -c atorres.cpp -Wall $(LFLAGS)
 
