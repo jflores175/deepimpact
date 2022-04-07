@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include "bayapantecat.h"
 
 using namespace std;
 

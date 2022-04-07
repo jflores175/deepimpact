@@ -29,6 +29,7 @@
 #include "atorres.h"
 #include "credits.h"
 #include "imacias.h"
+#include "bayapantecat.h"
 
 extern class Menu menu;
 
