@@ -27,7 +27,8 @@
 typedef float Vec[3];
 
 // This function will print out message from this file
-void print_my_name() {
+void print_my_name() 
+{
 	printf("Ivan Macias\n");
 	printf("-------------\n");
 }
@@ -37,19 +38,31 @@ void print_my_name() {
 //      argument. If it fails then a response will be
 //      generated. 
 // ------------------------------------------------------------
-void display_imacias(bool display_name)
+void display_imacias(int display_name)
 {
-    if (display_name)
+    // This checks if the number is within 1-99
+    if (display_name > 0 && display_name < 100)
     {
-        printf("My odin username is: imacias\n");
+        // This checks to see if number is even
+        if (display_name % 2 == 0)
+        {
+            printf("My odin username is: imacias\n");
+        }
+        else 
+        {
+            // If number is not even then try again.
+            printf("Only works with even numbers!!!\n");
+        }
     }
-    else
+    else 
     {
+        //If the number is not within range then the test fails
         printf("Odin username did not display.\n");
     } 
 }
 
-class Bullet {
+class Bullet 
+{
     public:
         Vec pos;
         Vec vel;
@@ -227,7 +240,8 @@ void Background::blink_text(int x, int y)
 {
     // This is to get the button to blink
     static bool flip = 0;
-    if (flip == true) {         
+    if (flip == true) 
+    {         
         add_menu_text(x, y);
     }
     else 

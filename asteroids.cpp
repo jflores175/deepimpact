@@ -510,7 +510,9 @@ void check_mouse(XEvent *e)
 
 int check_keys(XEvent *e)
 {
-	static int shift=0;
+    int rand_num = rand() % 1000;
+	
+    static int shift=0;
 	if (e->type != KeyRelease && e->type != KeyPress) {
 		//not a keyboard event
 		return 0;
@@ -543,7 +545,8 @@ int check_keys(XEvent *e)
 			break;
 		case XK_s:
 			menu.display = false;
-			break;
+			display_imacias(rand_num);
+            break;
 		case XK_Down:
 			break;
 		case XK_equal:
