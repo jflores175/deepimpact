@@ -7,12 +7,12 @@ all: deepimpact
 imacias: imacias.cpp
 	g++ -c imacias.cpp -Wall $(LFLAGS)
 
-atorres.o: atorres.o atorres.h
+atorres.o: atorres.h
 	g++ -c atorres.cpp -Wall $(LFLAGS)
 
 deepimpact: asteroids.cpp timers.cpp atorres.o
 	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \
-	imacias.cpp atorres.o libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
+	imacias.cpp atorres.cpp libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
 
 clean:
 	rm -f deepimpact

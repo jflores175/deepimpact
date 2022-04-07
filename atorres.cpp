@@ -44,8 +44,8 @@ Menu::~Menu()
 // Function for Midterm ---------------------------------
 void atorres(int x, int y)                                      
 {            
-    if (x => y)    
-        printf("%i falls outside the range", x);
+    if (x >= y)    
+        printf("%i falls outside the range\n", x);
     else 
-        printf("%i is not outside the range", x);  
+        printf("%i is not outside the range\n", x);  
 }            

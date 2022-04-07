@@ -17,5 +17,6 @@ public:
 	
 };
 
+void atorres(int x, int y);
 
 #endif
