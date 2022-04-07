@@ -4,19 +4,19 @@ LFLAGS = -lrt -lX11 -lGLU -lGL -pthread -lm #-lXrandr
 
 all: deepimpact
 
-imacias.o: imacias.cpp imacias.h
-	g++ -c imacias.cpp -Wall $(LFLAGS)
-
 atorres.o: atorres.cpp atorres.h
 	g++ -c atorres.cpp -Wall $(LFLAGS)
 
 bayapantecat.o: bayapantecat.cpp bayapantecat.h
 	g++ -c bayapantecat.cpp -Wall $(LFLAGS)
+
+imacias.o: imacias.cpp imacias.h
+	g++ -c imacias.cpp -Wall $(LFLAGS)
 	
 jflores.o: jflores.cpp jflores.h
 	g++ -c jflores.cpp -Wall $(LFLAGS)
 
-deepimpact: asteroids.cpp timers.cpp atorres.o
+deepimpact: asteroids.cpp timers.cpp atorres.o bayapantecat.o imacias.o jflores.o
 	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \
 	imacias.cpp atorres.cpp libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
 
