@@ -13,6 +13,7 @@
 
 // This function will print out message from this file
 void print_my_name();
+void display_name(int);
 class Image;
 class Background {
     public:
