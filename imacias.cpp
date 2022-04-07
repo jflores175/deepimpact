@@ -57,7 +57,7 @@ void display_imacias(int display_name)
     else 
     {
         //If the number is not within range then the test fails
-        printf("Odin username did not display.\n");
+        printf("Number not within 1-99.\nPress 's' again.\n");
     } 
 }
 

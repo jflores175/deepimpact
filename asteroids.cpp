@@ -30,6 +30,7 @@
 #include "credits.h"
 #include "imacias.h"
 #include "bayapantecat.h"
+#include "jflores.h"
 
 extern class Menu menu;
 
@@ -542,7 +543,9 @@ int check_keys(XEvent *e)
 			printnamejulius();
 			menu.name();
 			print_my_name();
-			atorres(100, 420);
+			bayapantecat(rand_num);
+            atorres(100, 420);
+            jflores(rand_num);
 			break;
 		case XK_s:
 			menu.display = false;
