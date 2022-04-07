@@ -539,7 +539,7 @@ int check_keys(XEvent *e)
 			printnamejulius();
 			menu.name();
 			print_my_name();
-			show_name();
+			atorres(100, 420);
 			break;
 		case XK_s:
 			menu.display = false;

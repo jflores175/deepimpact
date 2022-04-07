@@ -1,6 +1,7 @@
 /* Author: Alexis Torres
 Purpose: To build a menu for a game and in game HUB 
 which will inclide health
+Also credit screen
 */
 #include "atorres.h"
 #include <stdio.h>
@@ -40,10 +41,11 @@ Menu::~Menu()
 {
 }
 
+// Function for Midterm ---------------------------------
 void atorres(int x, int y)                                      
 {            
-    if (x > y)    
-        printf("%i is greater %i", x, y);
+    if (x => y)    
+        printf("%i falls outside the range", x);
     else 
-        printf("%i is less than %i", x, y);  
+        printf("%i is not outside the range", x);  
 }            
