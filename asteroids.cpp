@@ -29,6 +29,7 @@
 #include "atorres.h"
 #include "credits.h"
 #include "imacias.h"
+#include "jflores.h"
 
 extern class Menu menu;
 
@@ -541,7 +542,8 @@ int check_keys(XEvent *e)
 			printnamejulius();
 			menu.name();
 			print_my_name();
-			atorres(100, 420);
+            atorres(100, 420);
+            jflores(rand_num);
 			break;
 		case XK_s:
 			menu.display = false;

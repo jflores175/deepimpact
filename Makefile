@@ -7,8 +7,11 @@ all: deepimpact
 imacias: imacias.cpp
 	g++ -c imacias.cpp -Wall $(LFLAGS)
 
-atorres.o: atorres.h
+atorres.o: atorres.cpp atorres.h
 	g++ -c atorres.cpp -Wall $(LFLAGS)
+
+jflores.o: jflroes.cpp jflores.h
+	g++ -c jflores.cpp -Wall $(LFLAGS)
 
 deepimpact: asteroids.cpp timers.cpp atorres.o
 	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \

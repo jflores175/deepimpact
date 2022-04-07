@@ -1,3 +1,4 @@
+/* Julius Flores */ 
 #include <stdio.h>
 #include <string.h>
 #include <GL/glx.h>
