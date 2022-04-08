@@ -17,8 +17,8 @@ jflores.o: jflores.cpp jflores.h
 	g++ -c jflores.cpp -Wall $(LFLAGS)
 
 deepimpact: asteroids.cpp timers.cpp atorres.o bayapantecat.o imacias.o jflores.o
-	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.cpp bayapantecat.cpp \
-	imacias.cpp atorres.cpp libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
+	g++ $(CFLAGS) asteroids.cpp timers.cpp jflores.o bayapantecat.o \
+	imacias.o atorres.o libggfonts.a credits.h images.h -Wall -Wextra $(LFLAGS) -o deepimpact
 
 clean:
 	rm -f deepimpact
