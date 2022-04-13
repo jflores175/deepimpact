@@ -28,20 +28,24 @@ void print_my_name() {
 }
 
 // -----------------------------------------------------------
-// This function will contain my Odin username that accepts
-//      an argument of type int. If it fails then a response
-//      is generated asking to press 's' again.
+// This function will track the number of times a user has
+//      fired a shot. If it was the first then a message
+//      will let the player know.
 // -----------------------------------------------------------
-void display_imacias(int display_name)
+void display_imacias(bool start_shooting)
 {
-    if (display_name > 0 && display_name < 100)
+    static int shot_count = 0;
+
+    if (start_shooting == false)
     {
-        printf("My odin username is: imacias\n");
+        printf("(imacias) First shot fired!\n");
+        shot_count++;
     }
     else
     {
-        printf("Number not within 1-99\nPress 's' again.\n");
+        printf("(imacias) Shots fired: %i\n", shot_count);
     }
+    shot_count++;
 }
 
 #include "images.h"
@@ -52,14 +56,14 @@ Image img[10] = {"./images/menu_image.png",
                 "./images/space.png",
                 "./images/title.png",
                 "./images/deep_logo.png",
-                "./images/tank.png",
+                "./images/tank1.png",
                 "./images/enemy.png",
                 "./images/enemy2.png",
                 "./images/blue_beam.png"};
 
 // -----------------------------------------------------------------------
 // This will set the background color to a dark blue if any of the images
-// 	fail to load
+//      fail to load
 // 	----------------------------------------------------------------------
 void Background::color_bg()
 {
@@ -148,8 +152,8 @@ void Background::add_image_level3(int x, int y)
 
 // -----------------------------------------------------------------
 // This function check whether the user in on the menu screen.
-// If so, it will render the menu images such as the game logo,
-// and start button.
+//      If so, it will render the menu images such as the game logo,
+//      and start button.
 // -----------------------------------------------------------------
 void Background::load_menu_check(bool on_menu, int xres, int yres)
 {
@@ -269,7 +273,9 @@ void Tank::draw_tank()
     glEnd();
     glPopMatrix();    
 }
-
+// --------------------------------------------------------------------------
+// These functions [draw_enemy and draw_enemy2] will generate enemy sprites.
+// --------------------------------------------------------------------------
 void Enemy::draw_enemy()
 {     
     float u = 64.0;

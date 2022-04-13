@@ -14,7 +14,7 @@
 
 // This function will print out message from this file
 void print_my_name();
-void display_imacias(int);
+void display_imacias(bool);
 class Image;
 class Background {
     public:

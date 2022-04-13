@@ -386,18 +386,25 @@ void init_opengl(void)
     //Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+    // -----------------------------------------------------------------------
+    // Removed old code: 
+    //      Define texture maps for background image stream
+    //      glGenTextures(1, &gl.textid);
+    //      glBindTexture(GL_TEXTURE_2D, gl.textid);
     //
-    /*
-    //Define texture maps for background image stream
-    glGenTextures(1, &gl.textid);
-    glBindTexture(GL_TEXTURE_2D, gl.textid);
-    //
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, img[0].width, img[0].height, 0,
-        GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    */
+    //      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    //      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    //      glTexImage2D(GL_TEXTURE_2D, 0, 3, img[0].width, img[0].height, 0,
+    //          GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
+    //      glBindTexture(GL_TEXTURE_2D, 0);
+    // -----------------------------------------------------------------------
+    // Added:
+    //      This Background instance bg_inits will be used to initialize 
+    //      all the images used for deepimpact. No modification needed
+    //      if new images are added to game.
+    // -----------------------------------------------------------------------
+    Background bg_inits;
+    bg_inits.init_images();
 }
 
 void normalize2d(Vec v)
@@ -513,7 +520,8 @@ void check_mouse(XEvent *e)
 int check_keys(XEvent *e)
 {
     int rand_num = rand() % 1000;
-	
+    static bool shot_check = false;
+    //int shots = 0;	
     static int shift=0;
 	if (e->type != KeyRelease && e->type != KeyPress) {
 		//not a keyboard event
@@ -549,7 +557,7 @@ int check_keys(XEvent *e)
 			break;
 		case XK_s:
 			menu.display = false;
-			display_imacias(rand_num);
+			//display_imacias(shots);
             break;
 		case XK_Down:
 			break;
@@ -557,7 +565,11 @@ int check_keys(XEvent *e)
 			break;
 		case XK_minus:
 			break;
-		//new
+        case XK_space:
+            display_imacias(shot_check);
+            shot_check = true;
+            break;
+        //new
 		case XK_c:
 			gl.credits_state = !gl.credits_state;
 			break;
@@ -813,7 +825,7 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	    
     // ----------------------------------------------------   
-    //Background bb;   // Background class from imacias.cpp  
+    Background bg_images;   // Background class from imacias.cpp  
     Tank space_tank; // Tank class from imacias.cpp
     // ----------------------------------------------------
 
@@ -833,23 +845,25 @@ void render()
 		ggprint8b(&r, 16, 0x00ff0000, "Press s to start");
 		//menu.output(320,240, "Press F to start");
 		
-        // ---------------------------------------------
-        // add_menu_image will add the background 
-        //      image for the menu.
-        // blink_text will make the "Press S to Start"
-        //      non-functional button to appear and
-        //      disappear repeatedly.
-        // game_logo will add the game logo to the menu
-        //      screen. Still working on a final desgin.
-        // ----------------------------------------------
-        //bb.add_menu_image(gl.xres, gl.yres); // adds image for menu
-        //bb.blink_text(gl.xres, gl.yres);     // Makes menu text to blink
-        //bb.game_logo(gl.xres); 
+        // ------------------------------------------------------------
+        // This method call load_menu_check will use the boolean value 
+        //      of menu.display to see if currently on start  menu, then
+        //      it will load all images for the menu. When False, it
+        //      stop displaying them and move to the next menu. 
+        // ------------------------------------------------------------
+        bg_images.load_menu_check(menu.display, gl.xres, gl.yres);
+    
     }
     else 
     {
-        //bb.add_image_level(gl.xres, gl.yres);
-		r.bot = gl.yres - 20;
+        // ---------------------------------------------------------
+        // This method call will be used to load the image for 
+        //      the first level. Pending multiple levels that
+        //      will create complex functionality to this function.
+        // ---------------------------------------------------------
+        bg_images.add_image_level(gl.xres, gl.yres);
+
+        r.bot = gl.yres - 20;
 		r.left = 10;
 		r.center = 0;
 		//ggprint8b(&r, 16, 0x00ff0000, "3350 - Asteroids");
