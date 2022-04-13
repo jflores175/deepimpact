@@ -84,7 +84,7 @@ public:
 	credits_state = 0;
         }
         //memset(keys, 0, 65536);	
-} gl;
+} gl;  
 
 class Ship {
 public:
@@ -644,6 +644,9 @@ void physics()
 	//edit the below to prevent it from going out of bounds
 	//Julius Flores
 	
+	
+	detect_edges(g.ship.pos);
+	/*
 	if (g.ship.pos[0] < 0.0) {
 		g.ship.pos[0] = 0; // was += (float)gl.xres
 	}
@@ -656,7 +659,7 @@ void physics()
 	else if (g.ship.pos[1] > (float)gl.yres) {
 		g.ship.pos[1] = (float)gl.yres; // was -= (float)gl.yres
 	}
-	
+	*/
 
 	//
 	//

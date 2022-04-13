@@ -18,6 +18,49 @@ void reset_position(Vec pos)
 	pos[2] = 0;
 }
 
+void detect_edges(Vec pos, int xres, int yres) 
+{
+	//detect if position is at edges and if so prevent moving past them 
+	//first check corners
+
+	// top left corner
+	if (pos[0] < 0.0 && pos[1] > yres) {
+		pos[0] = 0;
+		pos[1] = yres;
+	}
+	//bottom left corner
+	else if (pos[0] < 0.0 && pos[1] < 0) {
+		pos[0] = 0;
+		pos[1] = 0;
+	}
+	// top right corner
+	else if (pos[0] > xres && pos[1] > yres) {
+		pos[0] = xres;
+		pos[1] = yres;
+	}
+	// bottom right corner
+	else if (pos[0] > xres && pos[1] < 0) {
+		pos[0] = xres;
+		pos[1] = 0;
+	}
+	// left edge
+	else if (pos[0] < 0.0) {
+		pos[0] = 0;
+	}
+	// right edge
+	else if (pos[0] > xres) {
+		pos[0] = xres; // was -= (float)gl.xres
+	}
+	// bottom edge
+	else if (pos[1] < 0.0) {
+		pos[1] = 0; // was += (float)gl.yres
+	}
+	// top edge
+	else if (pos[1] > yres) {
+		pos[1] = yres; // was -= (float)gl.yres
+	}
+}
+
 void jflores(int number) 
 {
     if (number == 0)
