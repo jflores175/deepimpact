@@ -838,6 +838,8 @@ void render()
     // ----------------------------------------------------   
     Background bg_images;   // Background class from imacias.cpp  
     Tank space_tank; // Tank class from imacias.cpp
+    int game_level = 0;
+    int level_for_enemy = 0;
     // ----------------------------------------------------
 
     //NEW
@@ -872,7 +874,8 @@ void render()
         //      the first level. Pending multiple levels that
         //      will create complex functionality to this function.
         // ---------------------------------------------------------
-        bg_images.add_image_level(gl.xres, gl.yres);
+        game_level = 1;
+        bg_images.load_game_background(game_level, gl.xres, gl.yres);
 
         r.bot = gl.yres - 20;
 		r.left = 10;
@@ -943,7 +946,8 @@ void render()
                 // ----------------------------------------
                 
 				//important V
-                ship1.draw_enemy();
+                level_for_enemy = 7;
+                ship1.load_enemy_sprites(game_level, level_for_enemy);
                 //important ^
 
                 /*
