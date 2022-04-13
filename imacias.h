@@ -21,10 +21,8 @@ class Background {
         void init_images();
         void color_bg();
 	    
-        void add_image_level(int, int);	    // Add image for level 1
-	    void add_image_level2(int, int);	// Add image for level 2
-	    void add_image_level3(int, int);	// Add image for level 3
-	    
+        void add_image_level(int, int, int);	    // Add image for level 1
+        void load_game_background(int, int, int); 
         void load_menu_check(bool, int, int);
 
         void add_menu_image(int, int); 		// Adds image for menu
@@ -44,7 +42,7 @@ class Tank {
 
 class Enemy {
     public:
-        void draw_enemy();
-        void draw_enemy2();
+        void draw_enemy(int);
+        void load_enemy_sprites(int, int);
 };
 #endif

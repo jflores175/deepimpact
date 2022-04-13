@@ -51,15 +51,15 @@ void display_imacias(bool start_shooting)
 #include "images.h"
 
 Image img[10] = {"./images/menu_image.png",
-                "./images/game.png",
-                "./images/clouds.png",
-                "./images/space.png",
-                "./images/title.png",
-                "./images/deep_logo.png",
-                "./images/tank1.png",
-                "./images/enemy.png",
-                "./images/enemy2.png",
-                "./images/blue_beam.png"};
+                 "./images/game.png",
+                 "./images/clouds.png",
+                 "./images/space.png",
+                 "./images/title.png",
+                 "./images/deep_logo.png",
+                 "./images/tank1.png",
+                 "./images/enemy.png",
+                 "./images/enemy2.png",
+                 "./images/blue_beam.png"};
 
 // -----------------------------------------------------------------------
 // This will set the background color to a dark blue if any of the images
@@ -91,13 +91,13 @@ void Background::init_images()
 // ---------------------------------------------------------------
 // This function will add the background image for the first level
 // ---------------------------------------------------------------
-void Background::add_image_level(int x, int y)
+void Background::add_image_level(int u, int x, int y)
 {
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, img[1].textid);
+    glBindTexture(GL_TEXTURE_2D, img[u].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -108,46 +108,18 @@ void Background::add_image_level(int x, int y)
     glPopMatrix();
 }
 
-// -----------------------------------------------------------------
-// This function will add the background image for the second level 
-//      in the clouds.
-// -----------------------------------------------------------------
-void Background::add_image_level2(int x, int y)
+// ------------------------------------------------------------------
+// This function will load the background image based on the current
+//      level being played.
+// ------------------------------------------------------------------
+void Background::load_game_background(int level, int x, int y)
 {
-    float w = 325.0;
-    
-    glPushMatrix();
-    glTranslatef(x/2, y/2, 0);
-    glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, img[2].textid);
-    glBegin(GL_POLYGON);
-        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
-        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
-        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
-        glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glEnd();
-    glPopMatrix();
-}
+    if (level == 1)
+    {
+        add_image_level(level, x, y);
+    }
 
-// -------------------------------------------------------------------------
-// This function will add the background image for the third level in space.
-// -------------------------------------------------------------------------
-void Background::add_image_level3(int x, int y)
-{
-    float w = 325.0;
-    glPushMatrix();
-    glTranslatef(x/2, y/2, 0);
-    glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, img[3].textid);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
-        glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
-        glTexCoord2f(1.0f, 0.0f); glVertex2f( w,  w);
-        glTexCoord2f(1.0f, 1.0f); glVertex2f( w, -w);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glEnd();
-    glPopMatrix();
+    // pending new levels
 }
 
 // -----------------------------------------------------------------
@@ -274,47 +246,41 @@ void Tank::draw_tank()
     glPopMatrix();    
 }
 // --------------------------------------------------------------------------
-// These functions [draw_enemy and draw_enemy2] will generate enemy sprites.
+// These function will load enemy sprite based on current level.
 // --------------------------------------------------------------------------
-void Enemy::draw_enemy()
+void Enemy::draw_enemy(int element_num)
 {     
-    float u = 64.0;
     float s = 64.0; 
     glPushMatrix();
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, img[7].textid);
+    glBindTexture(GL_TEXTURE_2D, img[element_num].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
-        glVertex2f(-s,  -u);
+        glVertex2f(-s,  -s);
         glTexCoord2f(1.0f, 0.0f); 
-        glVertex2f(-s,   u);
+        glVertex2f(-s,   s);
         glTexCoord2f(1.0f, 1.0f); 
-        glVertex2f( s,   u);
+        glVertex2f( s,   s);
         glTexCoord2f(0.0f, 1.0f); 
-        glVertex2f( s,  -u);
-    glEnd();
+        glVertex2f( s,  -s);
+    glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();  
 }
 
-void Enemy::draw_enemy2()
+// --------------------------------------------------------------------------
+// This function determines which level the players is currently on and
+//      loads the correct enemy based on level.
+// --------------------------------------------------------------------------
+void Enemy::load_enemy_sprites(int current_level, int img_num)
 {
-    float u = 64.0;
-    float s = 64.0; 
-    glPushMatrix();
-    glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, img[8].textid);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 0.0f); 
-        glVertex2f(-s,  -u);
-        glTexCoord2f(1.0f, 0.0f); 
-        glVertex2f(-s,   u);
-        glTexCoord2f(1.0f, 1.0f); 
-        glVertex2f( s,   u);
-        glTexCoord2f(0.0f, 1.0f); 
-        glVertex2f( s,  -u);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glEnd();
-    glPopMatrix();  
+    if (current_level == 1 && img_num == 7)
+    {
+        draw_enemy(img_num);
+    }
+    else if (current_level == 2 && img_num == 8)
+    {
+        draw_enemy(img_num);
+    }
 }
 
