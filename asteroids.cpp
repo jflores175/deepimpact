@@ -813,7 +813,7 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	    
     // ----------------------------------------------------   
-    Background bb;   // Background class from imacias.cpp  
+    //Background bb;   // Background class from imacias.cpp  
     Tank space_tank; // Tank class from imacias.cpp
     // ----------------------------------------------------
 
@@ -842,13 +842,13 @@ void render()
         // game_logo will add the game logo to the menu
         //      screen. Still working on a final desgin.
         // ----------------------------------------------
-		bb.add_menu_image(gl.xres, gl.yres); // adds image for menu
-        bb.blink_text(gl.xres, gl.yres);     // Makes menu text to blink
-        bb.game_logo(gl.xres); 
+        //bb.add_menu_image(gl.xres, gl.yres); // adds image for menu
+        //bb.blink_text(gl.xres, gl.yres);     // Makes menu text to blink
+        //bb.game_logo(gl.xres); 
     }
     else 
     {
-        bb.add_image_level(gl.xres, gl.yres);
+        //bb.add_image_level(gl.xres, gl.yres);
 		r.bot = gl.yres - 20;
 		r.left = 10;
 		r.center = 0;
