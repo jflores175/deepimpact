@@ -10,27 +10,35 @@
 #define IMACIAS_H
 
 #include <stdio.h>
+#include <cstring>
 
 // This function will print out message from this file
 void print_my_name();
-void display_imacias(int);
 class Image;
 class Background {
     public:
+        void init_images();
         void color_bg();
-	    void add_image_level(int, int);	    // Add image for level 1
+	    
+        void add_image_level(int, int);	    // Add image for level 1
 	    void add_image_level2(int, int);	// Add image for level 2
 	    void add_image_level3(int, int);	// Add image for level 3
-	    void add_menu_image(int, int); 		// Adds image for menu
+	    
+        void load_menu_check(bool, int, int);
+
+        void add_menu_image(int, int); 		// Adds image for menu
         void add_menu_text(int, int);
         void blink_text(int, int);
-        void game_logo(int);
+        
+        void load_game_logo(int);
         void draw_tank(int, int);
 };
 
 class Tank {
     public:
+        //void init_tank();
         void draw_tank();
+        void trans_tank();
 };
 
 class Enemy {
@@ -38,5 +46,4 @@ class Enemy {
         void draw_enemy();
         void draw_enemy2();
 };
-
 #endif
