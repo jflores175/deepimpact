@@ -4,15 +4,18 @@
 #include <GL/glx.h>
 #include "credits.h"
 #include "jflores.h"
+//#include "defs.h"
 
 void printnamejulius() 
 {
 	printf("Julius\n");
 }
 
-void reset_position() 
+void reset_position(Vec pos) 
 {
-	
+	pos[0] = 0;
+	pos[1] = 240;
+	pos[2] = 0;
 }
 
 void jflores(int number) 

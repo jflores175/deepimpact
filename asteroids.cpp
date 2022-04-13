@@ -37,6 +37,7 @@ extern class Menu menu;
 //defined types
 typedef float Flt;
 typedef float Vec[3];
+//vector has x, y, and magnitude
 typedef Flt	Matrix[4][4];
 
 //macros
@@ -554,6 +555,7 @@ int check_keys(XEvent *e)
 			bayapantecat(rand_num);
             atorres(100, 420);
             jflores(rand_num);
+            reset_position(g.ship.pos); 
 			break;
 		case XK_s:
 			menu.display = false;
@@ -638,18 +640,24 @@ void physics()
 	g.ship.pos[0] += g.ship.vel[0];
 	g.ship.pos[1] += g.ship.vel[1];
 	//Check for collision with window edges
+	
+	//edit the below to prevent it from going out of bounds
+	//Julius Flores
+	
 	if (g.ship.pos[0] < 0.0) {
-		g.ship.pos[0] += (float)gl.xres;
+		g.ship.pos[0] = 0; // was += (float)gl.xres
 	}
 	else if (g.ship.pos[0] > (float)gl.xres) {
-		g.ship.pos[0] -= (float)gl.xres;
+		g.ship.pos[0] = (float)gl.xres; // was -= (float)gl.xres
 	}
 	else if (g.ship.pos[1] < 0.0) {
-		g.ship.pos[1] += (float)gl.yres;
+		g.ship.pos[1] = 0; // was += (float)gl.yres
 	}
 	else if (g.ship.pos[1] > (float)gl.yres) {
-		g.ship.pos[1] -= (float)gl.yres;
+		g.ship.pos[1] = (float)gl.yres; // was -= (float)gl.yres
 	}
+	
+
 	//
 	//
 	//Update bullet positions
