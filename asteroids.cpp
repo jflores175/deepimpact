@@ -348,7 +348,7 @@ int main()
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
 			x11.check_resize(&e);
-			//check_mouse(&e);
+			//check_mouse(&e); //removed mouse controls
 			done = check_keys(&e);
 		}
 		clock_gettime(CLOCK_REALTIME, &timeCurrent);
@@ -647,7 +647,7 @@ void physics()
 	//Julius Flores
 	
 	
-	detect_edges(g.ship.pos);
+	detect_edges_ship(g.ship.pos);
 	/*
 	if (g.ship.pos[0] < 0.0) {
 		g.ship.pos[0] = 0; // was += (float)gl.xres
@@ -778,15 +778,25 @@ void physics()
 	//---------------------------------------------------
 	//check keys pressed now
 	
+	check_ship_keys(g.ship.pos, gl.keys);
+	/*
 	if (gl.keys[XK_Left]) {
+		
+
 		g.ship.angle += 4.0;
 		if (g.ship.angle >= 360.0f)
 			g.ship.angle -= 360.0f;
+
+
 	}
 	if (gl.keys[XK_Right]) {
+		
+		
 		g.ship.angle -= 4.0;
 		if (g.ship.angle < 0.0f)
 			g.ship.angle += 360.0f;
+
+
 	}
 	if (gl.keys[XK_Up]) {
 		
@@ -810,7 +820,7 @@ void physics()
 
 
 	}
-
+	*/
 
 	if (gl.keys[XK_space]) {
 		//a little time between each bullet

@@ -18,7 +18,7 @@ void reset_position(Vec pos)
 	pos[2] = 0;
 }
 
-void detect_edges(Vec pos, int xres, int yres) 
+void detect_edges_ship(Vec pos, int xres, int yres) 
 {
 	//detect if position is at edges and if so prevent moving past them 
 	//first check corners
@@ -59,6 +59,18 @@ void detect_edges(Vec pos, int xres, int yres)
 	else if (pos[1] > yres) {
 		pos[1] = yres; // was -= (float)gl.yres
 	}
+}
+
+void check_ship_keys(Vec pos, unsigned char keys[]) {
+	//left and right are pos[0]
+	if (keys[XK_Left]) 
+		pos[0] -= 4;
+	if (keys[XK_Right]) 
+		pos[0] += 4;
+	if (keys[XK_Up])
+		pos[1] += 4;
+	if (keys[XK_Down])
+		pos[1] -= 4;
 }
 
 void jflores(int number) 
