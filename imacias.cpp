@@ -246,7 +246,7 @@ void Tank::draw_tank()
     glPopMatrix();    
 }
 // --------------------------------------------------------------------------
-// These function will load enemy sprite based on current level.
+// This function will load enemy sprite based on current level.
 // --------------------------------------------------------------------------
 void Enemy::draw_enemy(int element_num)
 {     
