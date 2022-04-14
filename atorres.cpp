@@ -24,6 +24,7 @@ void atorres(int x, int y)
 Menu::Menu() 
 {
     display = true;
+    pause = false;
 }
 // pass in rgb values to change color of created window
 void Menu::show_menu(int red, int green, int blue, int xres, int yres)
@@ -36,6 +37,21 @@ void Menu::show_menu(int red, int green, int blue, int xres, int yres)
     glVertex2f( xres, 0.0);
     glVertex2f( xres, yres);
     glVertex2f( 0.0, yres);
+    glEnd();
+    glPopMatrix();
+}
+
+void Menu::pause_screen(int red, int green, int blue, int xres, int yres)
+{
+	show_menu(0,0,0, xres, yres);
+	glColor3ub(red,green,blue);
+    glPushMatrix();
+    //Build a square and give it vertices 
+    glBegin(GL_QUADS);
+    glVertex2f( xres/4, yres/4);
+    glVertex2f( (xres/4)*3, yres/4);
+    glVertex2f( (xres/4)*3, (yres/4)*3);
+    glVertex2f( xres/4, (yres/4)*3);
     glEnd();
     glPopMatrix();
 }
