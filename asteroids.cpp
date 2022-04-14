@@ -102,7 +102,8 @@ public:
 		VecZero(dir);
 		VecZero(vel);
 		VecZero(acc);
-		angle = 0.0;
+		//angle = 0.0;
+		angle = 270.0;
 		color[0] = color[1] = color[2] = 1.0;
 	}
 };
@@ -347,7 +348,7 @@ int main()
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
 			x11.check_resize(&e);
-			check_mouse(&e);
+			//check_mouse(&e);
 			done = check_keys(&e);
 		}
 		clock_gettime(CLOCK_REALTIME, &timeCurrent);
@@ -509,7 +510,7 @@ void check_mouse(XEvent *e)
 				g.ship.vel[0] *= speed;
 				g.ship.vel[1] *= speed;
 			}
-			g.mouseThrustOn = true;
+			g.mouseThrustOn = false;
 			clock_gettime(CLOCK_REALTIME, &g.mouseThrustTimer);
 		}
 		x11.set_mouse_position(100,100);
@@ -555,7 +556,6 @@ int check_keys(XEvent *e)
 			bayapantecat(rand_num);
             atorres(100, 420);
             jflores(rand_num);
-            reset_position(g.ship.pos); 
 			break;
 		case XK_s:
 			menu.display = false;
@@ -575,6 +575,8 @@ int check_keys(XEvent *e)
 		case XK_c:
 			gl.credits_state = !gl.credits_state;
 			break;
+		case XK_r:
+			reset_position(g.ship.pos); 
 		//bew
 	}
 	return 0;
@@ -683,17 +685,33 @@ void physics()
 		b->pos[0] += b->vel[0];
 		b->pos[1] += b->vel[1];
 		//Check for collision with window edges
+		
+		//delete bullets at edges 
+		//jflores
+
 		if (b->pos[0] < 0.0) {
-			b->pos[0] += (float)gl.xres;
+			//b->pos[0] += (float)gl.xres; 
+			memcpy(&g.barr[i], &g.barr[g.nbullets-1],
+				sizeof(Bullet));
+			g.nbullets--;
 		}
 		else if (b->pos[0] > (float)gl.xres) {
-			b->pos[0] -= (float)gl.xres;
+			//b->pos[0] -= (float)gl.xres;
+			memcpy(&g.barr[i], &g.barr[g.nbullets-1],
+				sizeof(Bullet));
+			g.nbullets--;
 		}
 		else if (b->pos[1] < 0.0) {
-			b->pos[1] += (float)gl.yres;
+			//b->pos[1] += (float)gl.yres;
+			memcpy(&g.barr[i], &g.barr[g.nbullets-1],
+				sizeof(Bullet));
+			g.nbullets--;
 		}
 		else if (b->pos[1] > (float)gl.yres) {
-			b->pos[1] -= (float)gl.yres;
+			//b->pos[1] -= (float)gl.yres;
+			memcpy(&g.barr[i], &g.barr[g.nbullets-1],
+				sizeof(Bullet));
+			g.nbullets--;
 		}
 		++i;
 	}
@@ -759,6 +777,7 @@ void physics()
 	}
 	//---------------------------------------------------
 	//check keys pressed now
+	
 	if (gl.keys[XK_Left]) {
 		g.ship.angle += 4.0;
 		if (g.ship.angle >= 360.0f)
@@ -770,6 +789,8 @@ void physics()
 			g.ship.angle += 360.0f;
 	}
 	if (gl.keys[XK_Up]) {
+		
+
 		//apply thrust
 		//convert ship angle to radians
 		Flt rad = ((g.ship.angle+90.0) / 360.0f) * PI * 2.0;
@@ -786,7 +807,11 @@ void physics()
 			g.ship.vel[0] *= speed;
 			g.ship.vel[1] *= speed;
 		}
+
+
 	}
+
+
 	if (gl.keys[XK_space]) {
 		//a little time between each bullet
 		struct timespec bt;
