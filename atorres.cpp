@@ -12,14 +12,23 @@ Also credit screen
 
 class Menu menu;
 
+// Function for Midterm ---------------------------------
+void atorres(int x, int y)                                      
+{            
+    if (x >= y)    
+        printf("%i falls outside the range\n", x);
+    else 
+        printf("%i is not outside the range\n", x);  
+}            
+//-------------------------------------------------------
 Menu::Menu() 
 {
     display = true;
 }
-
-void Menu::show_menu(int xres, int yres)
+// pass in rgb values to change color of created window
+void Menu::show_menu(int red, int green, int blue, int xres, int yres)
 {
-    glColor3ub(250,214,165);
+    glColor3ub(red,green,blue);
     glPushMatrix();
     //Build a square and give it vertices 
     glBegin(GL_QUADS);
@@ -41,11 +50,3 @@ Menu::~Menu()
 {
 }
 
-// Function for Midterm ---------------------------------
-void atorres(int x, int y)                                      
-{            
-    if (x >= y)    
-        printf("%i falls outside the range\n", x);
-    else 
-        printf("%i is not outside the range\n", x);  
-}            

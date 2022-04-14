@@ -8,7 +8,7 @@ public:
 	Menu();
 
 	// As of right now it should set the background for the menu
-	void show_menu(int xres, int yres);
+	void show_menu(int red, int green, int blue, int xres, int yres);
 	// This function will print out message from this file
 	void name();
 	// Function to print out a string
