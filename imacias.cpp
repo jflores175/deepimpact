@@ -57,7 +57,7 @@ Image img[10] = {"./images/menu_image.png",
                  "./images/title.png",
                  "./images/deep_logo.png",
                  "./images/tank1.png",
-                 "./images/enemy.png",
+                 "./images/enemy1.png",
                  "./images/enemy2.png",
                  "./images/blue_beam.png"};
 
@@ -77,12 +77,15 @@ void Background::init_images()
 
     for (int i=0; i<num_imgs; i++)
     {
+        int w = img[i].width;
+        int h = img[i].height;
+        
         glGenTextures(1, &img[i].textid);
         glBindTexture(GL_TEXTURE_2D, img[i].textid);
     
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, 3, img[i].width, img[i].height, 0,
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0,
             GL_RGB, GL_UNSIGNED_BYTE, img[i].data);
         glBindTexture(GL_TEXTURE_2D, 0);
     }
@@ -226,9 +229,9 @@ void Background::load_game_logo(int x)
 }
 
 void Tank::draw_tank()
-{    
-    float u = 64.0;
-    float s = 32.0;
+{
+    float u = 32.0;//64
+    float s = 16.0;//32
     glPushMatrix();
     glColor3ub(255, 255, 255); 
     glBindTexture(GL_TEXTURE_2D, img[6].textid);
@@ -244,13 +247,15 @@ void Tank::draw_tank()
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();    
+
+
 }
 // --------------------------------------------------------------------------
 // This function will load enemy sprite based on current level.
 // --------------------------------------------------------------------------
 void Enemy::draw_enemy(int element_num)
 {     
-    float s = 64.0; 
+    float s = 32.0; 
     glPushMatrix();
     glColor3ub(255, 255, 255); 
     glBindTexture(GL_TEXTURE_2D, img[element_num].textid);
