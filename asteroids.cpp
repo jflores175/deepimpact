@@ -886,7 +886,7 @@ void render()
 	//
 	if(menu.display == true)
 	{
-		menu.show_menu(gl.xres, gl.yres);
+		menu.show_menu(250,214,165,gl.xres, gl.yres);
 		r.bot = gl.yres - 220;
 		r.left = 240;
 		r.center = 0;	
