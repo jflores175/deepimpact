@@ -41,28 +41,28 @@ typedef float Vec[3];
 typedef Flt	Matrix[4][4];
 
 //macros
-#define rnd() (((Flt)rand())/(Flt)RAND_MAX)
-#define random(a) (rand()%a)
-#define VecZero(v) (v)[0]=0.0,(v)[1]=0.0,(v)[2]=0.0
-#define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)
-#define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
-#define VecDot(a,b)	((a)[0]*(b)[0]+(a)[1]*(b)[1]+(a)[2]*(b)[2])
+#define rnd() (((Flt)rand())/(Flt)RAND_MAX)                       //Creates a random float number
+#define random(a) (rand()%a)                                      //Creates random number integer
+#define VecZero(v) (v)[0]=0.0,(v)[1]=0.0,(v)[2]=0.0               //Fills a 3 element array with zeros
+#define MakeVector(x, y, z, v) (v)[0]=(x),(v)[1]=(y),(v)[2]=(z)   //Create and set a 3 element 
+#define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]    //Copies two 3 element vector a to b
+#define VecDot(a,b)	((a)[0]*(b)[0]+(a)[1]*(b)[1]+(a)[2]*(b)[2])   //Calculates the dotproduct of two 3 element vectors
 #define VecSub(a,b,c) (c)[0]=(a)[0]-(b)[0]; \
 						(c)[1]=(a)[1]-(b)[1]; \
-						(c)[2]=(a)[2]-(b)[2]
+						(c)[2]=(a)[2]-(b)[2]                      //Subtracts vector b from a and stores it in c
 //constants
-const float timeslice = 1.0f;
-const float gravity = -0.2f;
-#define PI 3.141592653589793
-#define ALPHA 1
-const int MAX_BULLETS = 11;
-const Flt MINIMUM_ASTEROID_SIZE = 60.0;
+const float timeslice = 1.0f;            //NO DESCRIPTION
+const float gravity = -0.2f;             //Gravity Variable
+#define PI 3.141592653589793             //Pi value
+#define ALPHA 1                          //Alpha value
+const int MAX_BULLETS = 11;              //Maximum amount of bullets on the screen
+const Flt MINIMUM_ASTEROID_SIZE = 60.0;  //Minimum size asteroids are allowed to exist
 
 //-----------------------------------------------------------------------------
 //Setup timers
-const double physicsRate = 1.0 / 60.0;
-const double oobillion = 1.0 / 1e9;
-extern struct timespec timeStart, timeCurrent;
+const double physicsRate = 1.0 / 60.0;          //NO DESCRIPTION; 1/60
+const double oobillion = 1.0 / 1e9;             //No DESCRIPTION: 1/1,000,000,000
+extern struct timespec timeStart, timeCurrent;  //
 extern struct timespec timePause;
 extern double physicsCountdown;
 extern double timeSpan;
