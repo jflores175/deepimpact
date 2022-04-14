@@ -778,7 +778,7 @@ void physics()
 	//---------------------------------------------------
 	//check keys pressed now
 	
-	check_ship_keys(g.ship.pos, gl.keys);
+	check_arrow_keys(g.ship.pos, gl.keys);
 	/*
 	if (gl.keys[XK_Left]) {
 		

@@ -1,4 +1,9 @@
-/* Julius Flores */ 
+/* Author: Julius Flores
+Purpose: 
+Add functionality of controlling the ship
+Prevent ship from going off edges
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include <GL/glx.h>
@@ -11,6 +16,10 @@ void printnamejulius()
 	printf("Julius\n");
 }
 
+//-----------------------------------------------------------------------------
+//resets position of the ship to the left edge of the screen and in the middle
+//middle vertically
+//-----------------------------------------------------------------------------
 void reset_position(Vec pos) 
 {
 	pos[0] = 0;
@@ -18,6 +27,11 @@ void reset_position(Vec pos)
 	pos[2] = 0;
 }
 
+
+//-----------------------------------------------------------------------------
+//detects if the ship has reached the edges of the screen
+//if so, prevents the ship from going past it
+//-----------------------------------------------------------------------------
 void detect_edges_ship(Vec pos, int xres, int yres) 
 {
 	//detect if position is at edges and if so prevent moving past them 
@@ -61,8 +75,13 @@ void detect_edges_ship(Vec pos, int xres, int yres)
 	}
 }
 
-void check_ship_keys(Vec pos, unsigned char keys[]) {
-	//left and right are pos[0]
+//----------------------------------------------------
+//checks arrow key presses
+//then move in their respective directions
+//----------------------------------------------------
+void check_arrow_keys(Vec pos, unsigned char keys[]) {
+	// left and right are pos[0]
+	// up and down are pos[1]
 	if (keys[XK_Left]) 
 		pos[0] -= 4;
 	if (keys[XK_Right]) 
