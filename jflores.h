@@ -11,4 +11,5 @@ void detect_edges_bullet(Vec pos, int xres = 640, int yres= 480);
 void jflores(int number);
 void check_arrow_keys(Vec pos, unsigned char keys[]);
 
+
 #endif
