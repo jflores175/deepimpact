@@ -62,137 +62,147 @@ const Flt MINIMUM_ASTEROID_SIZE = 60.0;  //Minimum size asteroids are allowed to
 //Setup timers
 const double physicsRate = 1.0 / 60.0;          //NO DESCRIPTION; 1/60
 const double oobillion = 1.0 / 1e9;             //No DESCRIPTION: 1/1,000,000,000
-extern struct timespec timeStart, timeCurrent;  //
-extern struct timespec timePause;
-extern double physicsCountdown;
+extern struct timespec timeStart, timeCurrent;  //Seems to be intial time variable
+extern struct timespec timePause;               //Seems to hold a time placeholder
+extern double physicsCountdown;                 
 extern double timeSpan;
-extern double timeDiff(struct timespec *start, struct timespec *end);
-extern void timeCopy(struct timespec *dest, struct timespec *source);
+extern double timeDiff(struct timespec *start, struct timespec *end); //Subracts the end time from the start time
+extern void timeCopy(struct timespec *dest, struct timespec *source); //Copys one time variable to another
 //-----------------------------------------------------------------------------
+
+//Global Class
 class Global {
 public:
     unsigned char keys[65536];
     unsigned int textid;
-    int xres, yres;
+    int xres, yres;              //X and Y Resolution variables
     
-    int credits_state;
+    int credits_state;		     //States whether credit is showing
 
-    Global() {
-        xres = 640;
-	yres = 480;
-	memset(keys, 0, 65536);
-	credits_state = 0;
-        }
+    Global() {	//Global Constructor
+        xres = 640;              //Sets X Resolution to 640
+		yres = 480;              //Sets Y Resolution to 480
+		memset(keys, 0, 65536);  //All elements of Keys array get set to 0
+		credits_state = 0;       //Credit state initialized to be false
+    }
         //memset(keys, 0, 65536);	
-} gl;  
+} gl; 
+//Global instance named gl
 
+
+//Ship Class
 class Ship {
 public:
-	Vec pos;
-	Vec dir;
-	Vec vel;
-	Vec acc;
-	float angle;
-	float color[3];
+	Vec pos;          //Ship Position vector 
+	Vec dir;          //Ship Direction vector
+	Vec vel;          //Ship Velocity vector
+	Vec acc;          //Ship Acceleration vector
+	float angle;      //Ship Angle variable
+	float color[3];   //Ship Color array, 3 elements
 public:
-	Ship() {
-		pos[0] = (Flt)(gl.xres/2);
-		pos[1] = (Flt)(gl.yres/2);
-		pos[2] = 0.0f;
-		VecZero(dir);
-		VecZero(vel);
-		VecZero(acc);
+	Ship() {   //Ship Constructor
+		pos[0] = (Flt)(gl.xres/2);              //Position #1: Half X resolution
+		pos[1] = (Flt)(gl.yres/2);              //Position #2: Half Y resolution
+		pos[2] = 0.0f;                          //Position #3: 0.0
+		VecZero(dir);          //First 3 elements of Direction vector set to 0.0
+		VecZero(vel);          //First 3 elements of Velocity vector set to 0.0
+		VecZero(acc);          //First 3 elements of Accleration vector set to 0.0
 		//angle = 0.0;
-		angle = 270.0;
-		color[0] = color[1] = color[2] = 1.0;
+		angle = 270.0;                          //Angle set to 270 degrees
+		color[0] = color[1] = color[2] = 1.0;   //All 3 elements of color array set to 1.0
 	}
 };
 
+
+//Bullet Class
 class Bullet {
 public:
-	Vec pos;
-	Vec vel;
-	float color[3];
-	struct timespec time;
+	Vec pos;                 //Bullet Position vector
+	Vec vel;                 //Bullet Veclocity vector
+	float color[3];          //Bullet color array, 3 elements
+	struct timespec time;    //Bullet time
 public:
-	Bullet() { }
+	Bullet() { } //Bullet Constructor
 };
 
+
+//Astroid Class
 class Asteroid {
 public:
-	Vec pos;
-	Vec vel;
-	int nverts;
-	Flt radius;
-	Vec vert[8];
-	float angle;
-	float rotate;
-	float color[3];
-	struct Asteroid *prev;
-	struct Asteroid *next;
+	Vec pos;        //Asteroid Position vector
+	Vec vel;        //Asteroid Velocity vector
+	int nverts;     //
+	Flt radius;     //Astroid Radius variable
+	Vec vert[8];    //Astroid Vertex of size 8
+	float angle;    //Astroid Angle
+	float rotate;   //Astroid Rotate
+	float color[3]; //Astroid Color array, 3 elements
+	struct Asteroid *prev; //Astroid Previous
+	struct Asteroid *next; //Astroid Next
 public:
-	Asteroid() {
-		prev = NULL;
-		next = NULL;
+	Asteroid() { //Astroid Constructor
+		prev = NULL; //Previous set to NULL
+		next = NULL; //Next set to NULL
 	}
 };
-
 
 
 class Game {
 public:
-	Ship ship;
-	Asteroid *ahead;
-	Bullet *barr;
-	int nasteroids;
-	int nbullets;
-	struct timespec bulletTimer;
-	struct timespec mouseThrustTimer;
-	bool mouseThrustOn;
+	Ship ship;        //Ship object named ship
+	Asteroid *ahead;  //Asteroid pointer named ahead
+	Bullet *barr;     //Bullet pointer named barr
+	int nasteroids;   //Number of Asteroids
+	int nbullets;     //Number of bullets
+	struct timespec bulletTimer;       //Bullet Timer 
+	struct timespec mouseThrustTimer;  //Mouse Thruster Timer
+	bool mouseThrustOn; //Mouse Thrust boolean
 public:
-	Game() {
-		ahead = NULL;
-		barr = new Bullet[MAX_BULLETS];
-		nasteroids = 0;
-		nbullets = 0;
-		mouseThrustOn = false;
+	Game() {  //Game constructor
+		ahead = NULL;                              //Astroid ahead pointer set to NULL
+		barr = new Bullet[MAX_BULLETS];            //Bullet barr pointer set to a Bullet array of MAX_BULLETS = 11
+		nasteroids = 0;                            //Zero asteroids
+		nbullets = 0;                              //Zero bullets
+		mouseThrustOn = false;                     //Mouse Thrust OFF
 		//build 20 asteroids...
 		for (int j=0; j<10; j++) {
-			Asteroid *a = new Asteroid;
-			a->nverts = 8;
-			a->radius = rnd()*80.0 + 40.0;
-			Flt r2 = a->radius / 2.0;
-			Flt angle = 0.0f;
-			Flt inc = (PI * 2.0) / (Flt)a->nverts;
+			Asteroid *a = new Asteroid;                                 //Creates Astroid object
+			a->nverts = 8; 												//'A' astroid has 8 verticies
+			a->radius = rnd()*80.0 + 40.0;                              //'A' radius is set to a random size
+			Flt r2 = a->radius / 2.0;                                   //Radius2 is half of 'A' radius; Probably the size after destorying the astroid once
+			Flt angle = 0.0f;                                           //Angle is set to 0
+			Flt inc = (PI * 2.0) / (Flt)a->nverts;                      //Don't know; 2PI / Number of vertices
 			for (int i=0; i<a->nverts; i++) {
 				a->vert[i][0] = sin(angle) * (r2 + rnd() * a->radius);
 				a->vert[i][1] = cos(angle) * (r2 + rnd() * a->radius);
 				angle += inc;
 			}
-			a->pos[0] = (Flt)(rand() % gl.xres);
-			a->pos[1] = (Flt)(rand() % gl.yres);
-			a->pos[2] = 0.0f;
-			a->angle = 0.0;
-			a->rotate = rnd() * 4.0 - 2.0;
-			a->color[0] = 0.8;
-			a->color[1] = 0.8;
-			a->color[2] = 0.7;
-			a->vel[0] = (Flt)(rnd()*2.0-1.0);
-			a->vel[1] = (Flt)(rnd()*2.0-1.0);
+			a->pos[0] = (Flt)(rand() % gl.xres);      //Astroid Position #1 = RAND % X Resolution
+			a->pos[1] = (Flt)(rand() % gl.yres);      //Astroid Position #2 = RAND % Y Resolution
+			a->pos[2] = 0.0f;                         //Astroid Position #3 = 0
+			a->angle = 0.0;                           //Astroid Angle = 0
+			a->rotate = rnd() * 4.0 - 2.0;            //Astroid Rotate = RAND * 4 - 2
+			a->color[0] = 0.8;                        //Astroid Color #1 = 0.8
+			a->color[1] = 0.8;						  //Astroid Color #2 = 0.8
+			a->color[2] = 0.7;         				  //Astroid Color #3 = 0.7
+			a->vel[0] = (Flt)(rnd()*2.0-1.0);         //Astroid Velocity #1 = RAND * 2 - 1
+			a->vel[1] = (Flt)(rnd()*2.0-1.0);		  //Astroid Velocity #2 = RAND * 2 - 1
 			//std::cout << "asteroid" << std::endl;
 			//add to front of linked list
-			a->next = ahead;
-			if (ahead != NULL)
-				ahead->prev = a;
-			ahead = a;
-			++nasteroids;
+			a->next = ahead;       //'A' Next set to ahead; First instance ahead = NULL
+			if (ahead != NULL)     //If ahead not NULL
+				ahead->prev = a;   //'ahead' Previous = a
+			ahead = a;             //ahead set to a
+			++nasteroids;          //Increments number of astroids
 		}
 		clock_gettime(CLOCK_REALTIME, &bulletTimer);
 	}
-	~Game() {
-		delete [] barr;
+	~Game() { //Destructor
+		delete [] barr; //Delete Bullet object
 	}
 } g;
+// Game instance named g
+
 
 //X Windows variables
 class X11_wrapper {
