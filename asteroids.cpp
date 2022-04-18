@@ -891,8 +891,7 @@ void render()
     // All of these size_of functions will return the length
     //      of each image array to be used to load the images.
     // --------------------------------------------------------
-    int size_of_menu = *(&menu_img + 1) - menu_img; 
-    printf("%i", size_of_menu);
+    int size_of_menu = *(&menu_img + 1) - menu_img;  
     init_images(menu_img, size_of_menu);
     
     int size_of_bg = *(&bg + 1) - bg;
