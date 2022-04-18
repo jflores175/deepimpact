@@ -20,6 +20,7 @@
 #include "imacias.h"
 #include <cstring>
 #include <unistd.h>
+#include "images.h"
 
 // This function will print out message from this file
 void print_my_name() {
@@ -48,19 +49,6 @@ void display_imacias(bool start_shooting)
     shot_count++;
 }
 
-#include "images.h"
-
-Image img[10] = {"./images/menu_image.png",
-                 "./images/game.png",
-                 "./images/clouds.png",
-                 "./images/space.png",
-                 "./images/title.png",
-                 "./images/deep_logo.png",
-                 "./images/tank1.png",
-                 "./images/enemy1.png",
-                 "./images/enemy2.png",
-                 "./images/blue_beam.png"};
-
 // -----------------------------------------------------------------------
 // This will set the background color to a dark blue if any of the images
 //      fail to load
@@ -71,11 +59,9 @@ void Background::color_bg()
 }
 
 // Initialize every image in img array
-void Background::init_images()
+void init_images(Image *img, int size)
 {
-    int num_imgs = sizeof(img) / sizeof(img[0]);
-
-    for (int i=0; i<num_imgs; i++)
+    for (int i=0; i<size; i++)
     {
         int w = img[i].width;
         int h = img[i].height;
@@ -94,7 +80,7 @@ void Background::init_images()
 // ---------------------------------------------------------------
 // This function will add the background image for the first level
 // ---------------------------------------------------------------
-void Background::add_image_level(int u, int x, int y)
+void Background::add_image_level(Image *img, int u, int x, int y)
 {
     float w = 325.0;
     glPushMatrix();
@@ -115,11 +101,11 @@ void Background::add_image_level(int u, int x, int y)
 // This function will load the background image based on the current
 //      level being played.
 // ------------------------------------------------------------------
-void Background::load_game_background(int level, int x, int y)
+void Background::load_game_background(Image *menu_img, int level, int x, int y)
 {
     if (level == 1)
     {
-        add_image_level(level, x, y);
+        add_image_level(menu_img, level-1, x, y);
     }
 
     // pending new levels
@@ -130,14 +116,18 @@ void Background::load_game_background(int level, int x, int y)
 //      If so, it will render the menu images such as the game logo,
 //      and start button.
 // -----------------------------------------------------------------
-void Background::load_menu_check(bool on_menu, int xres, int yres)
+void Background::load_menu_check(Image *im, bool on_menu, int xres, int yres)
 {
+    int a = 0;
+    int b = 1;
+    int c = 2;
+
     if (on_menu)
     {
         // load menu images
-        add_menu_image(xres, yres);
-        load_game_logo(xres);
-        blink_text(xres, yres);
+        add_menu_image(im, a, xres, yres);
+        load_game_logo(im, b, xres);
+        blink_text(im, c, xres, yres);
     }
     else
     {
@@ -148,13 +138,13 @@ void Background::load_menu_check(bool on_menu, int xres, int yres)
 // ---------------------------------------------------------------
 // This function will add a background image for the menu screen.
 // ---------------------------------------------------------------
-void Background::add_menu_image(int x, int y)
+void Background::add_menu_image(Image *mnu, int o, int x, int y)
 {   
     float w = 325.0;
     glPushMatrix();
     glTranslatef(x/2, y/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, img[0].textid);
+    glBindTexture(GL_TEXTURE_2D, mnu[o].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -163,20 +153,19 @@ void Background::add_menu_image(int x, int y)
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();
-    
 }
 
 // ---------------------------------------------------------------------------
 // This function will add a non-functional button on the menu screen that says
 //      "Press S to Start".
 // ---------------------------------------------------------------------------
-void Background::add_menu_text(int x, int y)
+void Background::add_menu_text(Image *text, int a, int x, int y)
 {    
     float u = 275.0;
     glColor3ub(255, 255, 255); 
     glPushMatrix();
     glTranslatef(x/2, y/4, 0);
-    glBindTexture(GL_TEXTURE_2D, img[4].textid);
+    glBindTexture(GL_TEXTURE_2D, text[a].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -40);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   20);
@@ -191,12 +180,12 @@ void Background::add_menu_text(int x, int y)
 // This function will make the non-functional button switch between on and off.
 //      This means it will and appear, then disappear repeatadly. 
 // ----------------------------------------------------------------------------
-void Background::blink_text(int x, int y)
+void Background::blink_text(Image *tx, int tx_size, int x, int y)
 {
     // This is to get the button to blink
     static bool flip = 0;
     if (flip == true) {         
-        add_menu_text(x, y);
+        add_menu_text(tx, tx_size, x, y);
     }
     else 
     {
@@ -208,7 +197,7 @@ void Background::blink_text(int x, int y)
 // ----------------------------------------------------------
 // This function will add the games logo to the menu screen.
 // ----------------------------------------------------------
-void Background::load_game_logo(int x)
+void Background::load_game_logo(Image *logo, int c, int x)
 { 
     float u = 128.0;
     float f = 64.0; 
@@ -217,7 +206,7 @@ void Background::load_game_logo(int x)
     glColor3ub(255, 255, 255); 
     glPushMatrix();
     glTranslatef(x/2, y, 0);
-    glBindTexture(GL_TEXTURE_2D, img[5].textid);
+    glBindTexture(GL_TEXTURE_2D, logo[c].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -f);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-u,   f);
@@ -228,13 +217,13 @@ void Background::load_game_logo(int x)
     glPopMatrix();    
 }
 
-void Tank::draw_tank()
+void Tank::draw_tank(Image *us, int model)
 {
     float u = 32.0;//64
     float s = 16.0;//32
     glPushMatrix();
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, img[6].textid);
+    glBindTexture(GL_TEXTURE_2D, us[model-1].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
         glVertex2f(-s,  -u);
@@ -253,12 +242,12 @@ void Tank::draw_tank()
 // --------------------------------------------------------------------------
 // This function will load enemy sprite based on current level.
 // --------------------------------------------------------------------------
-void Enemy::draw_enemy(int element_num)
-{     
+void Enemy::draw_enemy(Image *enem, int level)
+{  
     float s = 32.0; 
     glPushMatrix();
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, img[element_num].textid);
+    glBindTexture(GL_TEXTURE_2D, enem[level].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
         glVertex2f(-s,  -s);
@@ -277,15 +266,15 @@ void Enemy::draw_enemy(int element_num)
 // This function determines which level the players is currently on and
 //      loads the correct enemy based on level.
 // --------------------------------------------------------------------------
-void Enemy::load_enemy_sprites(int current_level, int img_num)
+void Enemy::load_enemy_sprites(Image *e, int current_level)
 {
-    if (current_level == 1 && img_num == 7)
+    if (current_level == 1)
     {
-        draw_enemy(img_num);
+        draw_enemy(e, current_level-1);
     }
-    else if (current_level == 2 && img_num == 8)
+    else if (current_level == 2)
     {
-        draw_enemy(img_num);
+        draw_enemy(e, current_level-2);
     }
 }
 

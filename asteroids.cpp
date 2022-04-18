@@ -31,6 +31,7 @@
 #include "imacias.h"
 #include "bayapantecat.h"
 #include "jflores.h"
+#include "images.h"
 
 extern class Menu menu;
 
@@ -398,25 +399,6 @@ void init_opengl(void)
     //Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
-    // -----------------------------------------------------------------------
-    // Removed old code: 
-    //      Define texture maps for background image stream
-    //      glGenTextures(1, &gl.textid);
-    //      glBindTexture(GL_TEXTURE_2D, gl.textid);
-    //
-    //      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-    //      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    //      glTexImage2D(GL_TEXTURE_2D, 0, 3, img[0].width, img[0].height, 0,
-    //          GL_RGB, GL_UNSIGNED_BYTE, img[0].data);
-    //      glBindTexture(GL_TEXTURE_2D, 0);
-    // -----------------------------------------------------------------------
-    // Added:
-    //      This Background instance bg_inits will be used to initialize 
-    //      all the images used for deepimpact. No modification needed
-    //      if new images are added to game.
-    // -----------------------------------------------------------------------
-    Background bg_inits;
-    bg_inits.init_images();
 }
 
 void normalize2d(Vec v)
@@ -875,6 +857,23 @@ void physics()
 	}
 }
 
+// --------------------------------------------------------
+// Instances of the image class.
+// --------------------------------------------------------
+Image menu_img[3] = {"./images/menu_image.png",
+                     "./images/deep_logo.png",
+                     "./images/title.png"};
+
+Image bg[3] = {"./images/game.png",
+               "./images/clouds.png",
+               "./images/space.png"};
+
+Image user[1] = {"./images/tank1.png"};
+
+Image enemy[2] = {"./images/enemy1.png",
+                  "./images/enemy2.png"};
+// ----------------------------------------------------------
+
 void render()
 {
 	Rect r;
@@ -883,10 +882,30 @@ void render()
     // ----------------------------------------------------   
     Background bg_images;   // Background class from imacias.cpp  
     Tank space_tank; // Tank class from imacias.cpp
+    Enemy ship1;
+
     int game_level = 0;
     int level_for_enemy = 0;
-    // ----------------------------------------------------
-
+    
+    // --------------------------------------------------------
+    // All of these size_of functions will return the length
+    //      of each image array to be used to load the images.
+    // --------------------------------------------------------
+    int size_of_menu = *(&menu_img + 1) - menu_img; 
+    printf("%i", size_of_menu);
+    init_images(menu_img, size_of_menu);
+    
+    int size_of_bg = *(&bg + 1) - bg;
+    init_images(bg, size_of_bg);
+    
+    int size_of_user = *(&user + 1) - user;
+    init_images(user, size_of_user);
+    
+    int size_of_enemy = *(&enemy + 1) - enemy;
+    init_images(enemy, size_of_enemy);
+    //-----------------------------------------------------------
+    
+    
     //NEW
 	//if (gl.credits_state) {
 	//	credits.showPage(gl.xres, gl.yres);
@@ -909,7 +928,7 @@ void render()
         //      it will load all images for the menu. When False, it
         //      stop displaying them and move to the next menu. 
         // ------------------------------------------------------------
-        bg_images.load_menu_check(menu.display, gl.xres, gl.yres);
+        bg_images.load_menu_check(menu_img, menu.display, gl.xres, gl.yres);
     
     }
     else 
@@ -919,8 +938,8 @@ void render()
         //      the first level. Pending multiple levels that
         //      will create complex functionality to this function.
         // ---------------------------------------------------------
-        game_level = 1;
-        bg_images.load_game_background(game_level, gl.xres, gl.yres);
+        game_level = 1;        
+        bg_images.load_game_background(bg, game_level, gl.xres, gl.yres);
 
         r.bot = gl.yres - 20;
 		r.left = 10;
@@ -945,7 +964,8 @@ void render()
         // Still working on removing the white background
         //      from the tank image.
         // -----------------------------------------------
-        space_tank.draw_tank();
+        int current_model = 1;
+        space_tank.draw_tank(user, current_model);
         glEnd();
         glPopMatrix(); 
         
@@ -975,11 +995,10 @@ void render()
 		{
 			Asteroid *a = g.ahead;
 			// Instance of enemy class from imacias.cpp
-            Enemy ship1;
             
             while (a) {
 				//Log("draw asteroid...\n");
-				glColor3fv(a->color);
+				//glColor3fv(a->color);
 				glPushMatrix();
 				glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
 				glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
@@ -988,11 +1007,11 @@ void render()
                 //      in place of the asteroids.
                 //      They will be deleted when hit with
                 //      a bullet.
-                // ----------------------------------------
-                
+                // ---------------------------------------- 
+                //
 				//important V
-                level_for_enemy = 7;
-                ship1.load_enemy_sprites(game_level, level_for_enemy);
+                level_for_enemy = 1;
+                ship1.load_enemy_sprites(enemy, level_for_enemy);
                 //important ^
 
                 /*
