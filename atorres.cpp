@@ -56,6 +56,20 @@ void Menu::pause_screen(int red, int green, int blue, int xres, int yres)
     glPopMatrix();
 }
 
+void Menu::credit_page(int xres, int yres)
+{
+	glColor3ub(250,214,165);
+	glPushMatrix();
+	//Build a square and give it vertices 
+	glBegin(GL_QUADS);
+	glVertex2f( 0.0, 0.0);
+	glVertex2f( xres, 0.0);
+	glVertex2f( xres, yres);
+	glVertex2f( 0.0, yres);
+	glEnd();
+	glPopMatrix();
+}
+
 void Menu::name()
 {
     printf("Alex\n");

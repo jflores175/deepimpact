@@ -19,6 +19,8 @@ public:
 	
 	// Function that should pause the game current game and show some options
 	void pause_screen(int red, int green, int blue, int xres, int yres);
+	
+	void credit_page(int xres, int yres);
 	~Menu();
 	
 };
