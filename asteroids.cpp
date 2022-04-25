@@ -151,6 +151,7 @@ public:
 class Game {
 public:
 	Ship ship;        //Ship object named ship
+	EnemyShip badGuy;
 	Asteroid *ahead;  //Asteroid pointer named ahead
 	Bullet *barr;     //Bullet pointer named barr
 	int nasteroids;   //Number of Asteroids
@@ -632,6 +633,9 @@ void buildAsteroidFragment(Asteroid *ta, Asteroid *a)
 void physics()
 {
 	Flt d0,d1,dist;
+
+	g.badGuy.rightLeft();
+
 	//Update ship position
 	//g.ship.pos[0] += g.ship.vel[0];
 	//g.ship.pos[1] += g.ship.vel[1];
@@ -873,6 +877,7 @@ void physics()
 		if (tdif < -0.3)
 			g.mouseThrustOn = false;
 	}
+
 }
 
 // --------------------------------------------------------
@@ -982,7 +987,8 @@ void render()
         //      from the tank image.
         // -----------------------------------------------
         int current_model = 1;
-        space_tank.draw_tank(user, current_model, g.ship.pos);
+        space_tank.draw_tank(user, current_model, g.ship.pos); //User Tank
+		space_tank.draw_tank(enemy,current_model, g.badGuy.pos); //Enemy 
         //glEnd();
         //glPopMatrix(); 
         
