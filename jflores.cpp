@@ -27,6 +27,12 @@ void reset_position(Vec pos)
 	pos[2] = 0;
 }
 
+void change_position(Vec pos, int x, int y) {
+	pos[0] = x;
+	pos[1] = y;
+	pos[2] = 0;
+}
+
 
 //-----------------------------------------------------------------------------
 //detects if the ship has reached the edges of the screen
@@ -79,7 +85,8 @@ void detect_edges_ship(Vec pos, int xres, int yres)
 //checks arrow key presses
 //then move in their respective directions
 //----------------------------------------------------
-void check_arrow_keys(Vec pos, unsigned char keys[]) {
+void check_arrow_keys(Vec pos, unsigned char keys[]) 
+{
 	// left and right are pos[0]
 	// up and down are pos[1]
 	if (keys[XK_Left]) 
