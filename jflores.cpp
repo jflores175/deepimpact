@@ -27,10 +27,19 @@ void reset_position(Vec pos)
 	pos[2] = 0;
 }
 
+
+//-----------------------------------------------------------------------------
+//puts ship immediately at the x and y position given as parameters
+//-----------------------------------------------------------------------------
 void change_position(Vec pos, int x, int y) {
 	pos[0] = x;
 	pos[1] = y;
 	pos[2] = 0;
+}
+
+void shift_position(Vec pos, int x, int y) {
+	pos[0] += x;
+	pos[1] += y;
 }
 
 
