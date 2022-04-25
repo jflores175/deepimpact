@@ -601,6 +601,7 @@ void deleteAsteroid(Game *g, Asteroid *node)
 	node = NULL;
 }
 
+/*
 void buildAsteroidFragment(Asteroid *ta, Asteroid *a)
 {
 	//build ta from a
@@ -626,13 +627,14 @@ void buildAsteroidFragment(Asteroid *ta, Asteroid *a)
 	ta->vel[1] = a->vel[1] + (rnd()*2.0-1.0);
 	//std::cout << "frag" << std::endl;
 }
+*/
 
 void physics()
 {
 	Flt d0,d1,dist;
 	//Update ship position
-	g.ship.pos[0] += g.ship.vel[0];
-	g.ship.pos[1] += g.ship.vel[1];
+	//g.ship.pos[0] += g.ship.vel[0];
+	//g.ship.pos[1] += g.ship.vel[1];
 	//Check for collision with window edges
 	
 	//edit the below to prevent it from going out of bounds
@@ -710,22 +712,28 @@ void physics()
 	//
 	//Update asteroid positions
 	Asteroid *a = g.ahead;
-	while (a) {
+	while (a) 
+	{
 		a->pos[0] += a->vel[0];
 		a->pos[1] += a->vel[1];
 		//Check for collision with window edges
-		if (a->pos[0] < -100.0) {
+		if (a->pos[0] < -100.0) 
+		{
 			a->pos[0] += (float)gl.xres+200;
 		}
-		else if (a->pos[0] > (float)gl.xres+100) {
+		else if (a->pos[0] > (float)gl.xres+100) 
+		{
 			a->pos[0] -= (float)gl.xres+200;
 		}
-		else if (a->pos[1] < -100.0) {
+		else if (a->pos[1] < -100.0) 
+		{
 			a->pos[1] += (float)gl.yres+200;
 		}
-		else if (a->pos[1] > (float)gl.yres+100) {
+		else if (a->pos[1] > (float)gl.yres+100) 
+		{
 			a->pos[1] -= (float)gl.yres+200;
 		}
+
 		a->angle += a->rotate;
 		a = a->next;
 	}
@@ -736,15 +744,19 @@ void physics()
 	//     2. break the asteroid into pieces
 	//        if asteroid small, delete it
 	a = g.ahead;
-	while (a) {
+	while (a) 
+	{
 		//is there a bullet within its radius?
 		int i=0;
-		while (i < g.nbullets) {
+		while (i < g.nbullets) 
+		{
 			Bullet *b = &g.barr[i];
 			d0 = b->pos[0] - a->pos[0];
 			d1 = b->pos[1] - a->pos[1];
 			dist = (d0*d0 + d1*d1);
-			if (dist < (a->radius*a->radius)) {
+
+			if (dist < (a->radius*a->radius)) 
+			{
 				a->color[0] = 1.0;
 				a->color[1] = 0.1;
 				a->color[2] = 0.1;
@@ -814,14 +826,19 @@ void physics()
 	}
 	*/
 
-	if (gl.keys[XK_space]) {
+	if (gl.keys[XK_space]) 
+	{
 		//a little time between each bullet
 		struct timespec bt;
 		clock_gettime(CLOCK_REALTIME, &bt);
 		double ts = timeDiff(&g.bulletTimer, &bt);
-		if (ts > 0.1) {
+
+		if (ts > 0.1) 
+		{
 			timeCopy(&g.bulletTimer, &bt);
-			if (g.nbullets < MAX_BULLETS) {
+
+			if (g.nbullets < MAX_BULLETS) 
+			{
 				//shoot a bullet...
 				//Bullet *b = new Bullet;
 				Bullet *b = &g.barr[g.nbullets];
@@ -846,7 +863,8 @@ void physics()
 			}
 		}
 	}
-	if (g.mouseThrustOn) {
+	if (g.mouseThrustOn) 
+	{
 		//should thrust be turned off
 		struct timespec mtt;
 		clock_gettime(CLOCK_REALTIME, &mtt);
