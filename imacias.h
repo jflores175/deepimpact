@@ -13,6 +13,8 @@
 #include <cstring>
 #include "images.h"
 
+typedef float Vec[3];
+
 // This function will print out message from this file
 void print_my_name();
 void display_imacias(bool);
@@ -33,14 +35,13 @@ class Background {
         void blink_text(Image*, int, int, int);
         
         void load_game_logo(Image*, int, int);
-        void draw_tank(int, int);
 };
 
 class Tank {
     public:
         //void init_tank();
         //void draw_tank();
-        void draw_tank(Image*, int);
+        void draw_tank(Image*, int, float*);
         void trans_tank();
 };
 

@@ -217,11 +217,15 @@ void Background::load_game_logo(Image *logo, int c, int x)
     glPopMatrix();    
 }
 
-void Tank::draw_tank(Image *us, int model)
+void Tank::draw_tank(Image *us, int model, float *pos)
 {
     float u = 32.0;//64
     float s = 16.0;//32
+    float angle = 270.0;
+
     glPushMatrix();
+    glTranslatef(pos[0],pos[1],pos[2]);
+    glRotatef(angle,0.0f,0.0f,1.0f);
     glColor3ub(255, 255, 255); 
     glBindTexture(GL_TEXTURE_2D, us[model-1].textid);
     glBegin(GL_QUADS);

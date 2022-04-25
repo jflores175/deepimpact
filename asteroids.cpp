@@ -968,10 +968,10 @@ void render()
 		
         //Draw the ship
 		//glColor3fv(g.ship.color);
-		glPushMatrix();
-		glTranslatef(g.ship.pos[0], g.ship.pos[1], g.ship.pos[2]);
+		//glPushMatrix();
+		//glTranslatef(g.ship.pos[0], g.ship.pos[1], g.ship.pos[2]);
 		//float angle = atan2(ship.dir[1], ship.dir[0]);
-		glRotatef(g.ship.angle, 0.0f, 0.0f, 1.0f);
+		//glRotatef(g.ship.angle, 0.0f, 0.0f, 1.0f);
 		
         // -----------------------------------------------
         // This function is from imacias.cpp and will
@@ -982,9 +982,9 @@ void render()
         //      from the tank image.
         // -----------------------------------------------
         int current_model = 1;
-        space_tank.draw_tank(user, current_model);
-        glEnd();
-        glPopMatrix(); 
+        space_tank.draw_tank(user, current_model, g.ship.pos);
+        //glEnd();
+        //glPopMatrix(); 
         
         if (!gl.keys[XK_Left] || g.mouseThrustOn) {  // original line
 			int i;
