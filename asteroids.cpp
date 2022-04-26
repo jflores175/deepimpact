@@ -969,28 +969,15 @@ void render()
 		//ggprint8b(&r, 16, 0x00ff0000, "3350 - Asteroids");
 		ggprint8b(&r, 16, 0x00ffff00, "n bullets: %i", g.nbullets);
 		ggprint8b(&r, 16, 0x00ffff00, "n asteroids: %i", g.nasteroids);
-		//-------------------------------------------------------------------------
-		
-        //Draw the ship
-		//glColor3fv(g.ship.color);
-		//glPushMatrix();
-		//glTranslatef(g.ship.pos[0], g.ship.pos[1], g.ship.pos[2]);
-		//float angle = atan2(ship.dir[1], ship.dir[0]);
-		//glRotatef(g.ship.angle, 0.0f, 0.0f, 1.0f);
-		
+		//------------------------------------------------------------------
+        
         // -----------------------------------------------
         // This function is from imacias.cpp and will
         //      draw the shape for the tank, and will 
         //      add the image for the tank.
-        //
-        // Still working on removing the white background
-        //      from the tank image.
         // -----------------------------------------------
         int current_model = 1;
-        space_tank.draw_tank(user, current_model, g.ship.pos); //User Tank
-		space_tank.draw_tank(enemy,current_model, g.badGuy.pos); //Enemy 
-        //glEnd();
-        //glPopMatrix(); 
+        space_tank.draw_tank(user, current_model, g.ship.pos); //User Tank  
         
         if (!gl.keys[XK_Left] || g.mouseThrustOn) {  // original line
 			int i;
@@ -1013,19 +1000,14 @@ void render()
 			}
 			glEnd();
 		}
-		//-------------------------------------------------------------------------
+		//---------------------------------------------------------------------
 		//Draw the asteroids
 		{
 			Asteroid *a = g.ahead;
 			// Instance of enemy class from imacias.cpp
             
             while (a) {
-				//Log("draw asteroid...\n");
-				//glColor3fv(a->color);
-				glPushMatrix();
-				glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
-				glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
-				// ----------------------------------------
+			    // ----------------------------------------
                 // This function creates an enemy sprite
                 //      in place of the asteroids.
                 //      They will be deleted when hit with
@@ -1034,21 +1016,12 @@ void render()
                 //
 				//important V
                 level_for_enemy = 1;
-                ship1.load_enemy_sprites(enemy, level_for_enemy);
+                ship1.load_enemy_sprites(enemy, level_for_enemy, a->pos);
+                
+                // This code is for the enemy that moves back and forth!!!
+                ship1.load_enemy_sprites(enemy, level_for_enemy, g.badGuy.pos);
                 //important ^
-
-                /*
-                glBegin(GL_LINE_LOOP);
-				//Log("%i verts\n",a->nverts);
-				for (int j=0; j<a->nverts; j++) {
-					glVertex2f(a->vert[j][0], a->vert[j][1]);
-				}
-				glEnd();*/
-				//glBegin(GL_LINES);
-				//	glVertex2f(0,   0);
-				//	glVertex2f(a->radius, 0);
-				//glEnd();
-				glPopMatrix();
+				
 				glColor3f(1.0f, 0.0f, 0.0f);
 				glBegin(GL_POINTS);
 				glVertex2f(a->pos[0], a->pos[1]);
@@ -1056,7 +1029,7 @@ void render()
 				a = a->next;
             }
         }
-        //-------------------------------------------------------------------------
+        //---------------------------------------------------------------------
 		//Draw the bullets        
         for (int i=0; i<g.nbullets; i++) {
 			Bullet *b = &g.barr[i];

@@ -14,6 +14,7 @@
 #include "images.h"
 
 typedef float Vec[3];
+class Asteroid;
 
 // This function will print out message from this file
 void print_my_name();
@@ -22,8 +23,7 @@ class Image;
 void init_images(Image*, int);
 
 class Background {
-    public:
-        //void init_images(Image*);
+    public: 
         void color_bg();
 	    
         void add_image_level(Image*, int, int, int);
@@ -39,15 +39,13 @@ class Background {
 
 class Tank {
     public:
-        //void init_tank();
-        //void draw_tank();
         void draw_tank(Image*, int, float*);
         void trans_tank();
 };
 
 class Enemy {
     public:
-        void draw_enemy(Image*, int);
-        void load_enemy_sprites(Image*, int);
+        void draw_enemy(Image*, int, float*);
+        void load_enemy_sprites(Image*, int, float*);
 };
 #endif

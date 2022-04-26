@@ -22,6 +22,8 @@
 #include <unistd.h>
 #include "images.h"
 
+class Asteroid *a;
+
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
@@ -197,7 +199,7 @@ void Background::blink_text(Image *tx, int tx_size, int x, int y)
 // ----------------------------------------------------------
 // This function will add the games logo to the menu screen.
 // ----------------------------------------------------------
-void Background::load_game_logo(Image *logo, int c, int x)
+void Background::load_game_logo(Image *logo, int c, int xres)
 { 
     float u = 128.0;
     float f = 64.0; 
@@ -205,7 +207,7 @@ void Background::load_game_logo(Image *logo, int c, int x)
 
     glColor3ub(255, 255, 255); 
     glPushMatrix();
-    glTranslatef(x/2, y, 0);
+    glTranslatef(xres/2, y, 0);
     glBindTexture(GL_TEXTURE_2D, logo[c].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -f);
@@ -246,21 +248,25 @@ void Tank::draw_tank(Image *us, int model, float *pos)
 // --------------------------------------------------------------------------
 // This function will load enemy sprite based on current level.
 // --------------------------------------------------------------------------
-void Enemy::draw_enemy(Image *enem, int level)
+void Enemy::draw_enemy(Image *enemies, int level, float *a)
 {  
-    float s = 32.0; 
+    float side = 32.0; 
+    float ANGLE = 90.0f;
+
     glPushMatrix();
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, enem[level].textid);
+    glTranslatef(a[0], a[1], a[2]);
+    glRotatef(ANGLE, 0.0f, 0.0f, 1.0f); 
+    glBindTexture(GL_TEXTURE_2D, enemies[level].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
-        glVertex2f(-s,  -s);
+        glVertex2f(-side,  -side);
         glTexCoord2f(1.0f, 0.0f); 
-        glVertex2f(-s,   s);
+        glVertex2f(-side,   side);
         glTexCoord2f(1.0f, 1.0f); 
-        glVertex2f( s,   s);
+        glVertex2f( side,   side);
         glTexCoord2f(0.0f, 1.0f); 
-        glVertex2f( s,  -s);
+        glVertex2f( side,  -side);
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();  
@@ -270,15 +276,15 @@ void Enemy::draw_enemy(Image *enem, int level)
 // This function determines which level the players is currently on and
 //      loads the correct enemy based on level.
 // --------------------------------------------------------------------------
-void Enemy::load_enemy_sprites(Image *e, int current_level)
+void Enemy::load_enemy_sprites(Image *e, int current_level, float *p)
 {
     if (current_level == 1)
     {
-        draw_enemy(e, current_level-1);
+        draw_enemy(e, current_level-1, p);
     }
     else if (current_level == 2)
     {
-        draw_enemy(e, current_level-2);
+        draw_enemy(e, current_level-2, p);
     }
 }
 
