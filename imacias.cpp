@@ -22,8 +22,6 @@
 #include <unistd.h>
 #include "images.h"
 
-class Asteroid *a;
-
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
@@ -82,11 +80,11 @@ void init_images(Image *img, int size)
 // ---------------------------------------------------------------
 // This function will add the background image for the first level
 // ---------------------------------------------------------------
-void Background::add_image_level(Image *img, int u, int x, int y)
+void Background::add_image_level(Image *img, int u, int xres, int yres)
 {
     float w = 325.0;
     glPushMatrix();
-    glTranslatef(x/2, y/2, 0);
+    glTranslatef(xres/2, yres/2, 0);
     glColor3ub(255, 255, 255);
     glBindTexture(GL_TEXTURE_2D, img[u].textid);
     glBegin(GL_QUADS);
@@ -140,13 +138,13 @@ void Background::load_menu_check(Image *im, bool on_menu, int xres, int yres)
 // ---------------------------------------------------------------
 // This function will add a background image for the menu screen.
 // ---------------------------------------------------------------
-void Background::add_menu_image(Image *mnu, int o, int x, int y)
+void Background::add_menu_image(Image *menu, int pic, int xres, int yres)
 {   
     float w = 325.0;
     glPushMatrix();
-    glTranslatef(x/2, y/2, 0);
+    glTranslatef(xres/2, yres/2, 0);
     glColor3ub(255, 255, 255);
-    glBindTexture(GL_TEXTURE_2D, mnu[o].textid);
+    glBindTexture(GL_TEXTURE_2D, menu[pic].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-w, -w);
         glTexCoord2f(0.0f, 0.0f); glVertex2f(-w,  w);
@@ -161,12 +159,12 @@ void Background::add_menu_image(Image *mnu, int o, int x, int y)
 // This function will add a non-functional button on the menu screen that says
 //      "Press S to Start".
 // ---------------------------------------------------------------------------
-void Background::add_menu_text(Image *text, int a, int x, int y)
+void Background::add_menu_text(Image *text, int a, int xres, int yres)
 {    
     float u = 275.0;
     glColor3ub(255, 255, 255); 
     glPushMatrix();
-    glTranslatef(x/2, y/4, 0);
+    glTranslatef(xres/2, yres/4, 0);
     glBindTexture(GL_TEXTURE_2D, text[a].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -40);
@@ -182,12 +180,12 @@ void Background::add_menu_text(Image *text, int a, int x, int y)
 // This function will make the non-functional button switch between on and off.
 //      This means it will and appear, then disappear repeatadly. 
 // ----------------------------------------------------------------------------
-void Background::blink_text(Image *tx, int tx_size, int x, int y)
+void Background::blink_text(Image *text, int text_size, int x, int y)
 {
     // This is to get the button to blink
     static bool flip = 0;
     if (flip == true) {         
-        add_menu_text(tx, tx_size, x, y);
+        add_menu_text(text, text_size, x, y);
     }
     else 
     {
@@ -203,11 +201,11 @@ void Background::load_game_logo(Image *logo, int c, int xres)
 { 
     float u = 128.0;
     float f = 64.0; 
-    float y = 300.0;
+    float yres = 300.0;
 
     glColor3ub(255, 255, 255); 
     glPushMatrix();
-    glTranslatef(xres/2, y, 0);
+    glTranslatef(xres/2, yres, 0);
     glBindTexture(GL_TEXTURE_2D, logo[c].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f); glVertex2f(-u,  -f);
@@ -219,7 +217,7 @@ void Background::load_game_logo(Image *logo, int c, int xres)
     glPopMatrix();    
 }
 
-void Tank::draw_tank(Image *us, int model, float *pos)
+void Tank::draw_tank(Image *user, int model, float *pos)
 {
     float u = 32.0;//64
     float s = 16.0;//32
@@ -229,7 +227,7 @@ void Tank::draw_tank(Image *us, int model, float *pos)
     glTranslatef(pos[0],pos[1],pos[2]);
     glRotatef(angle,0.0f,0.0f,1.0f);
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, us[model-1].textid);
+    glBindTexture(GL_TEXTURE_2D, user[model-1].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
         glVertex2f(-s,  -u);
