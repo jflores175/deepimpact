@@ -70,6 +70,19 @@ void Menu::credit_page(int xres, int yres)
 	glPopMatrix();
 }
 
+void Menu::show_controls()
+{
+    printf("KeyBindings");
+    printf("-----------");
+    printf("Arrow keys to move\n");
+    printf("Space to shoot\n");
+    printf("'f' to show names and midterm function\n");
+    printf("'Esc' to exit the game\n");
+    printf("'r' to reset your position\n");
+    printf("");
+    printf("");
+}
+
 void Menu::name()
 {
     printf("Alex\n");

@@ -20,7 +20,12 @@ public:
 	// Function that should pause the game current game and show some options
 	void pause_screen(int red, int green, int blue, int xres, int yres);
 	
+	//Function that will output a purple black canvas
 	void credit_page(int xres, int yres);
+
+	// Out put a liost of controls for the user can will know what are 
+	// appropiate keys to press
+	void show_controls();
 	~Menu();
 	
 };
