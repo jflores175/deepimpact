@@ -649,20 +649,6 @@ void physics()
 	
 	
 	detect_edges_ship(g.ship.pos);
-	/*
-	if (g.ship.pos[0] < 0.0) {
-		g.ship.pos[0] = 0; // was += (float)gl.xres
-	}
-	else if (g.ship.pos[0] > (float)gl.xres) {
-		g.ship.pos[0] = (float)gl.xres; // was -= (float)gl.xres
-	}
-	else if (g.ship.pos[1] < 0.0) {
-		g.ship.pos[1] = 0; // was += (float)gl.yres
-	}
-	else if (g.ship.pos[1] > (float)gl.yres) {
-		g.ship.pos[1] = (float)gl.yres; // was -= (float)gl.yres
-	}
-	*/
 
 	//
 	//
