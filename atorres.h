@@ -26,6 +26,9 @@ public:
 	// Out put a liost of controls for the user can will know what are 
 	// appropiate keys to press
 	void show_controls();
+
+	//void terminal_text();
+
 	~Menu();
 	
 };

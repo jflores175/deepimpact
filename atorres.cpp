@@ -19,13 +19,15 @@ void atorres(int x, int y)
         printf("%i falls outside the range\n", x);
     else 
         printf("%i is not outside the range\n", x);  
-}            
+}
+
 //-------------------------------------------------------
 Menu::Menu() 
 {
     display = true;
     pause = false;
 }
+
 // pass in rgb values to change color of created window
 void Menu::show_menu(int red, int green, int blue, int xres, int yres)
 {
@@ -72,15 +74,18 @@ void Menu::credit_page(int xres, int yres)
 
 void Menu::show_controls()
 {
-    printf("KeyBindings");
-    printf("-----------");
+    printf("KeyBindings\n");
+    printf("-----------\n");
     printf("Arrow keys to move\n");
     printf("Space to shoot\n");
     printf("'f' to show names and midterm function\n");
     printf("'Esc' to exit the game\n");
     printf("'r' to reset your position\n");
-    printf("");
-    printf("");
+} 
+
+void Menu::terminal_text()
+{
+    //output the controls 
 }
 
 void Menu::name()

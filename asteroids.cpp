@@ -358,6 +358,7 @@ int main()
 	clock_gettime(CLOCK_REALTIME, &timeStart);
 	x11.set_mouse_position(100,100);
 	int done=0;
+	menu.show_controls();
 	while (!done) {
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
@@ -563,7 +564,7 @@ int check_keys(XEvent *e)
 		case XK_minus:
 			break;
         case XK_space:
-            display_imacias(shot_check);
+            //display_imacias(shot_check);
             shot_check = true;
             break;
         //new
