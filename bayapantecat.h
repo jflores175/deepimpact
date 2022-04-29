@@ -20,4 +20,6 @@ class EnemyShip
         int move;
         EnemyShip();
         void rightLeft();
+        void diamond_cwise();
+        void diamond_ccwise();
 };

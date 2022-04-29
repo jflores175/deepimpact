@@ -154,8 +154,10 @@ public:
 	EnemyShip badGuy;
 	Asteroid *ahead;  //Asteroid pointer named ahead
 	Bullet *barr;     //Bullet pointer named barr
+	
 	int nasteroids;   //Number of Asteroids
 	int nbullets;     //Number of bullets
+	
 	struct timespec bulletTimer;       //Bullet Timer 
 	struct timespec mouseThrustTimer;  //Mouse Thruster Timer
 	bool mouseThrustOn; //Mouse Thrust boolean
@@ -634,7 +636,8 @@ void physics()
 {
 	Flt d0,d1,dist;
 
-	g.badGuy.rightLeft();
+	//g.badGuy.rightLeft();
+	g.badGuy.diamond_ccwise();
 
 	//Update ship position
 	//g.ship.pos[0] += g.ship.vel[0];
