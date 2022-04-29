@@ -83,10 +83,6 @@ void Menu::show_controls()
     printf("'r' to reset your position\n");
 } 
 
-void Menu::terminal_text()
-{
-    //output the controls 
-}
 
 void Menu::name()
 {
