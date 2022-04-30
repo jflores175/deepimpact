@@ -18,7 +18,8 @@ class Asteroid;
 
 // This function will print out message from this file
 void print_my_name();
-void display_imacias(bool);
+int display_imacias(bool);
+void check_shots(int);
 class Image;
 void init_images(Image*, int);
 

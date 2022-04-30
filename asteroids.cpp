@@ -71,7 +71,7 @@ extern double timeDiff(struct timespec *start, struct timespec *end); //Subracts
 extern void timeCopy(struct timespec *dest, struct timespec *source); //Copys one time variable to another
 //-----------------------------------------------------------------------------
 
-//Global Class
+// Global Class
 class Global {
 public:
     unsigned char keys[65536];
@@ -79,12 +79,15 @@ public:
     int xres, yres;              //X and Y Resolution variables
     
     int credits_state;		     //States whether credit is showing
+    
+    int shot_count;//testing
 
     Global() {	//Global Constructor
         xres = 640;              //Sets X Resolution to 640
 		yres = 480;              //Sets Y Resolution to 480
 		memset(keys, 0, 65536);  //All elements of Keys array get set to 0
 		credits_state = 0;       //Credit state initialized to be false
+        shot_count = 0;//testing
     }
         //memset(keys, 0, 65536);	
 } gl; 
@@ -359,7 +362,7 @@ int main()
 	x11.set_mouse_position(100,100);
 	int done=0;
 	menu.show_controls();
-	while (!done) {
+    while (!done) {
 		while (x11.getXPending()) {
 			XEvent e = x11.getXNextEvent();
 			x11.check_resize(&e);
@@ -377,7 +380,10 @@ int main()
 		render();
 		x11.swapBuffers();
 	}
-	cleanup_fonts();
+
+    // Checks how many shots were fired each round
+	check_shots(gl.shot_count);
+    cleanup_fonts();
 	//logClose();
 	return 0;
 }
@@ -518,7 +524,7 @@ void check_mouse(XEvent *e)
 int check_keys(XEvent *e)
 {
     int rand_num = rand() % 1000;
-    //static bool shot_check = false;
+    static bool shot_check = false;
     //int shots = 0;	
     static int shift=0;
 	if (e->type != KeyRelease && e->type != KeyPress) {
@@ -564,8 +570,9 @@ int check_keys(XEvent *e)
 		case XK_minus:
 			break;
         case XK_space:
-            //display_imacias(shot_check);
-            //shot_check = true;
+            gl.shot_count = display_imacias(shot_check);
+            //gl.shot_count++;
+            shot_check = true;
             break;
         //new
 		case XK_c:
@@ -952,6 +959,10 @@ void render()
         // ---------------------------------------------------------
         game_level = 1;        
         bg_images.load_game_background(bg, game_level, gl.xres, gl.yres);
+        //static bool shoot = true;
+        //gl.shot_count = display_imacias(shoot);
+        //check_shots(gl.shot_count);
+           
 
         r.bot = gl.yres - 20;
 		r.left = 10;

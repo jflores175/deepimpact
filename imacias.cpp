@@ -24,24 +24,38 @@ void print_my_name() {
 }
 
 // -----------------------------------------------------------
-// This function will track the number of times a user has
-// fired a shot. If it was the first then a message
-// will let the player know.
+// This function will return the number of times a user has
+// fired a shot. 
 // -----------------------------------------------------------
-void display_imacias(bool start_shooting)
+int display_imacias(bool start_shooting)
 {
     static int shot_count = 0;
-
-    if (start_shooting == false)
+    
+    if (start_shooting)
     {
-        printf("(imacias) First shot fired!\n");
         shot_count++;
+    }
+    
+    return shot_count;
+}
+
+// --------------------------------------------------------------------------
+// This function will check how many shots were fired this round.
+// If the number is greater than 25, then a message will appear to let the
+// user know to be more precise with their shooting.
+// --------------------------------------------------------------------------
+void check_shots(int shot)
+{
+    printf("\nThe number of shots fired this round: %i\n", shot);
+    
+    if (shot <= 20)
+    {
+        printf("GOOD JOB!\nYOU ARE A SHARP SHOOTER!!!\n");
     }
     else
     {
-        printf("(imacias) Shots fired: %i\n", shot_count);
-    }
-    shot_count++;
+        printf("\nTOO MANY! TRY TO SHOOT LESS!!!\n");
+    } 
 }
 
 // -----------------------------------------------------------------------
