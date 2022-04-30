@@ -518,7 +518,7 @@ void check_mouse(XEvent *e)
 int check_keys(XEvent *e)
 {
     int rand_num = rand() % 1000;
-    static bool shot_check = false;
+    //static bool shot_check = false;
     //int shots = 0;	
     static int shift=0;
 	if (e->type != KeyRelease && e->type != KeyPress) {
@@ -565,7 +565,7 @@ int check_keys(XEvent *e)
 			break;
         case XK_space:
             //display_imacias(shot_check);
-            shot_check = true;
+            //shot_check = true;
             break;
         //new
 		case XK_c:
