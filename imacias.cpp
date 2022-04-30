@@ -11,15 +11,10 @@
  *  adding sound to the game. 
  */
 
-#include <stdio.h>
 #include <GL/glx.h>
-#include <math.h>
-#include "fonts.h"
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include "imacias.h"
-#include <cstring>
-#include <unistd.h>
 #include "images.h"
 
 // This function will print out message from this file
@@ -30,8 +25,8 @@ void print_my_name() {
 
 // -----------------------------------------------------------
 // This function will track the number of times a user has
-//      fired a shot. If it was the first then a message
-//      will let the player know.
+// fired a shot. If it was the first then a message
+// will let the player know.
 // -----------------------------------------------------------
 void display_imacias(bool start_shooting)
 {
@@ -51,7 +46,7 @@ void display_imacias(bool start_shooting)
 
 // -----------------------------------------------------------------------
 // This will set the background color to a dark blue if any of the images
-//      fail to load
+// fail to load
 // 	----------------------------------------------------------------------
 void Background::color_bg()
 {
@@ -99,7 +94,7 @@ void Background::add_image_level(Image *img, int u, int xres, int yres)
 
 // ------------------------------------------------------------------
 // This function will load the background image based on the current
-//      level being played.
+// level being played.
 // ------------------------------------------------------------------
 void Background::load_game_background(Image *menu_img, int level, int x, int y)
 {
@@ -113,8 +108,8 @@ void Background::load_game_background(Image *menu_img, int level, int x, int y)
 
 // -----------------------------------------------------------------
 // This function check whether the user in on the menu screen.
-//      If so, it will render the menu images such as the game logo,
-//      and start button.
+// If so, it will render the menu images such as the game logo,
+// and start button.
 // -----------------------------------------------------------------
 void Background::load_menu_check(Image *im, bool on_menu, int xres, int yres)
 {
@@ -157,7 +152,7 @@ void Background::add_menu_image(Image *menu, int pic, int xres, int yres)
 
 // ---------------------------------------------------------------------------
 // This function will add a non-functional button on the menu screen that says
-//      "Press S to Start".
+// "Press S to Start".
 // ---------------------------------------------------------------------------
 void Background::add_menu_text(Image *text, int a, int xres, int yres)
 {    
@@ -178,7 +173,7 @@ void Background::add_menu_text(Image *text, int a, int xres, int yres)
 
 // ----------------------------------------------------------------------------
 // This function will make the non-functional button switch between on and off.
-//      This means it will and appear, then disappear repeatadly. 
+// This means it will and appear, then disappear repeatadly. 
 // ----------------------------------------------------------------------------
 void Background::blink_text(Image *text, int text_size, int x, int y)
 {
