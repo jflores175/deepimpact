@@ -645,7 +645,7 @@ void physics()
 	Flt d0,d1,dist;
 
 	//g.badGuy.rightLeft();
-	g.badGuy.diamond_ccwise();
+	g.badGuy.zpattern();
 
 	//Update ship position
 	//g.ship.pos[0] += g.ship.vel[0];

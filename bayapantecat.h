@@ -16,10 +16,12 @@ class EnemyShip
     public:
         Vec pos;          //Ship Position vector 
         Vec vel;          //Ship Velocity vector
+        Flt radius;          //Ship radius for enemy ship
         int angle;
         int move;
         EnemyShip();
         void rightLeft();
         void diamond_cwise();
         void diamond_ccwise();
+        void zpattern();
 };

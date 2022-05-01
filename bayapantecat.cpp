@@ -28,7 +28,8 @@ EnemyShip::EnemyShip()
 {
     pos[0] = (Flt)(640);              
     pos[1] = (Flt)(240);              
-    pos[2] = 0.0f;                                  
+    pos[2] = 0.0f;    
+    radius = 5;                              
     VecZero(vel);          
     angle = 270.0;
     move = 0;
@@ -49,5 +50,39 @@ void EnemyShip::rightLeft()
         shift_position(pos, 5, 0);
         if (pos[0] > 640)
             move = 0;
+    }
+}
+
+void EnemyShip::zpattern() {
+    if (move == 0) 
+    {
+        shift_position(pos, 0, 3);
+        if (pos[1] >= 480) {
+            move = 1;
+        }
+    }
+    if (move == 1) {
+        shift_position(pos, -2, -3);
+        if (pos[1] <= 0) {
+            move = 2;
+        }
+    }
+    if (move == 2) {
+        shift_position(pos, -2, 3);
+        if (pos[1] >= 480) {
+            move = 3;
+        }
+    }
+    if (move == 3) {
+        shift_position(pos, 2, -3);
+        if (pos[1] <= 0) {
+            move = 4;
+        }
+    }
+    if (move == 4) {
+        shift_position(pos, 2, 3);
+        if (pos[1] >= 480) {
+            move = 1;
+        }
     }
 }
