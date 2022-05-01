@@ -28,7 +28,8 @@ EnemyShip::EnemyShip()
 {
     pos[0] = (Flt)(640);              
     pos[1] = (Flt)(240);              
-    pos[2] = 0.0f;                                  
+    pos[2] = 0.0f;    
+    radius = 5;                              
     VecZero(vel);          
     angle = 270.0;
     move = 0;
