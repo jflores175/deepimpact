@@ -17,6 +17,25 @@
 #include "imacias.h"
 #include "images.h"
 
+unsigned char *buildAlphaData(Image *img)
+{
+    int i;
+    int a,b,c;
+    unsigned char *newdata, *ptr;
+    unsigned char *data = (unsigned char *)img->data;
+    newdata = (unsigned char *)malloc(img->width * img->height * 4);
+    ptr = newdata;
+    for (i=0; i<img->width * img->height * 3; i+=3) {
+        a = *(data+0);
+        b = *(data+1);
+        c = *(data+2);
+        //*(ptr+3) = (a|b|c);
+        *(ptr+3) = ((a^b)&c);
+        ptr += 4;
+        data += 3;
+    }
+    return newdata;
+}
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
@@ -259,9 +278,17 @@ void Enemy::draw_enemy(Image *enemies, int level, float *a)
 {  
     float side = 32.0; 
     float ANGLE = 90.0f;
-
+    int w = enemies[level].width;
+    int h = enemies[level].height;
+    unsigned char *e = buildAlphaData(&enemies[level]);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
+            GL_UNSIGNED_BYTE, e);
+    free(e);
     glPushMatrix();
-    glColor3ub(255, 255, 255); 
+    //glColor3ub(255, 255, 255); 
+    glColor4ub(255,255,255,1);
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
     glTranslatef(a[0], a[1], a[2]);
     glRotatef(ANGLE, 0.0f, 0.0f, 1.0f); 
     glBindTexture(GL_TEXTURE_2D, enemies[level].textid);
