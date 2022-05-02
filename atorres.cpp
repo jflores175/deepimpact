@@ -79,7 +79,7 @@ void Menu::show_controls()
     printf("Arrow keys to move\n");
     printf("Space to shoot\n");
     printf("'f' to show names and midterm function\n");
-    printf("'Esc' to exit the game\n");
+    printf("'Esc' to open the pause menu\n");
     printf("'r' to reset your position\n");
 } 
 
