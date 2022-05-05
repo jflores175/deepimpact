@@ -19,6 +19,8 @@
 #include "images.h"
 #include <string>
 #include <iomanip>
+#include <fstream>
+#include <map>
 
 using namespace std;
 
@@ -265,26 +267,51 @@ void GameSprite::draw_sprite(Image *user, int model, float *pos, float side1, fl
 // --------------------------------------------------------
 void display_leaderboard(int score)
 {
-    int width = 4;
-    string username;
-
+    int w = 4;          // This holds the width for leaderboard 
+    string username;    // This holds username input
+    string line;        // This holds a line from the file
+    ofstream f;         // This is the file output stream
+   
+    // If score is 0, then no leaderboard will be display
+    // Leaderboard only works for shot taken > 1
     if (score == 0)
     {
        cout << "\nLeaderboard is for those who play!" << endl;
     }
     else
     {
+        // Opens existing file, or creates if does not exist
+        // Appends a new score in the file
+        f.open("board.txt", ios_base::app);
+        
+        // Asks for user input to add to leaderboard
         cout << "\nEnter a username (3 LETTERS): ";
         getline(cin, username);
         
+        // Converts every letter to uppercase
         for (auto & letter: username) letter = toupper(letter);
-
+        
+        // If score is greater than 20 then 5 more is added
         if (score > 20)
             score +=5;
+        
+        // How the string is formatted into file       
+        f << "   " << username << setw(w) << ":" << setw(w+1) << score << endl;
+        
+        f.close();
+        
+        // Opens the file to print leaderboard
+        ifstream file("board.txt");
 
         cout << "\n| Player | SCORE |" << endl;
-        cout << "   "         << username
-             << setw(width)   << ":" 
-             << setw(width+1) <<  score << endl;
+        cout << "--------------------" << endl;
+
+        // Prints every score available
+        while (getline(file, line))
+        {
+            cout << line << endl;
+        }
+
+        file.close();
     }
 }
