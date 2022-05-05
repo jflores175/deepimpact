@@ -912,11 +912,10 @@ void render()
 	    
     // ----------------------------------------------------   
     Background bg_images;   // Background class from imacias.cpp  
-    Tank space_tank; // Tank class from imacias.cpp
-    Enemy ship1;
+    GameSprite player;        // GameSprite class from imacias.cpp
+    GameSprite enemies;
 
     int game_level = 0;
-    int level_for_enemy = 0;
     
     // --------------------------------------------------------
     // All of these size_of functions will return the length
@@ -1025,8 +1024,11 @@ void render()
 	        //      draw the shape for the tank, and will 
 	        //      add the image for the tank.
 	        // -----------------------------------------------
-	        int current_model = 1;
-	        space_tank.draw_tank(user, current_model, g.ship.pos); //User Tank  
+	        int current_model = 0;  // Current player model
+            float side1 = 16.0;     // Default size for ship image
+            float side2 = 32.0;     // Default size for ship image
+            float angle = 270.0;    // Default size for ship image
+	        player.draw_sprite(user, current_model, g.ship.pos, side1, side2, angle); //User Tank  
 	        
 	        if (!gl.keys[XK_Left] || g.mouseThrustOn) {  // original line
 				int i;
@@ -1052,7 +1054,10 @@ void render()
 			//---------------------------------------------------------------------
 			//Draw the asteroids
 			{
-				Asteroid *a = g.ahead;
+                float img_side = 32.0; // For sizing enemy image
+				int enemy_img = 0;     // For loading element from array
+                float angle2 = 90.0;   // Default angle for enemy sprite
+                Asteroid *a = g.ahead;
 				// Instance of enemy class from imacias.cpp
 	            
 	            while (a) {
@@ -1063,12 +1068,11 @@ void render()
 	                //      a bullet.
 	                // ---------------------------------------- 
 	                //
-					//important V
-	                level_for_enemy = 1;
-	                ship1.load_enemy_sprites(enemy, level_for_enemy, a->pos);
+					//important V 
+	                enemies.draw_sprite(enemy, enemy_img, a->pos, img_side, img_side, angle2);
 	                
 	                // This code is for the enemy that moves back and forth!!!
-	                ship1.load_enemy_sprites(enemy, level_for_enemy, g.badGuy.pos);
+	                enemies.draw_sprite(enemy, enemy_img, g.badGuy.pos, img_side, img_side, angle2);
 	                //important ^
 					
 					glColor3f(1.0f, 0.0f, 0.0f);

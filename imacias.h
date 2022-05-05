@@ -38,15 +38,8 @@ class Background {
         void load_game_logo(Image*, int, int);
 };
 
-class Tank {
+class GameSprite {
     public:
-        void draw_tank(Image*, int, float*);
-        void trans_tank();
-};
-
-class Enemy {
-    public:
-        void draw_enemy(Image*, int, float*);
-        void load_enemy_sprites(Image*, int, float*);
+        void draw_sprite(Image*, int, float*, float, float, float); 
 };
 #endif

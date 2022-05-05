@@ -16,26 +16,7 @@
 #include <X11/keysym.h>
 #include "imacias.h"
 #include "images.h"
-/*
-unsigned char *buildAlphaData(Image *img)
-{
-    int i;
-    int a,b,c;
-    unsigned char *newdata, *ptr;
-    unsigned char *data = (unsigned char *)img->data;
-    newdata = (unsigned char *)malloc(img->width * img->height * 4);
-    ptr = newdata;
-    for (i=0; i<img->width * img->height * 3; i+=3) {
-        a = *(data+0);
-        b = *(data+1);
-        c = *(data+2);
-        // *(ptr+3) = (a|b|c);
-        *(ptr+3) = ((a^b)&c);
-        ptr += 4;
-        data += 3;
-    }
-    return newdata;
-}*/
+
 // This function will print out message from this file
 void print_my_name() {
 	printf("Ivan Macias\n");
@@ -227,9 +208,9 @@ void Background::blink_text(Image *text, int text_size, int x, int y)
 // ----------------------------------------------------------
 void Background::load_game_logo(Image *logo, int c, int xres)
 { 
-    float u = 128.0;
-    float f = 64.0; 
-    float yres = 300.0;
+    float u = 128.0;          // Default size for game logo
+    float f = 64.0;           // Default size for game logo
+    float const yres = 300.0; // Constant yres for game logo
 
     glColor3ub(255, 255, 255); 
     glPushMatrix();
@@ -245,80 +226,24 @@ void Background::load_game_logo(Image *logo, int c, int xres)
     glPopMatrix();    
 }
 
-void Tank::draw_tank(Image *user, int model, float *pos)
+void GameSprite::draw_sprite(Image *user, int model, float *pos, float side1, float side2, float angle)
 {
-    float u = 32.0;//64
-    float s = 16.0;//32
-    float angle = 270.0;
-
     glPushMatrix();
     glTranslatef(pos[0],pos[1],pos[2]);
     glRotatef(angle,0.0f,0.0f,1.0f);
     glColor3ub(255, 255, 255); 
-    glBindTexture(GL_TEXTURE_2D, user[model-1].textid);
+    glBindTexture(GL_TEXTURE_2D, user[model].textid);
     glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f); 
-        glVertex2f(-s,  -u);
+        glVertex2f(-side1,  -side2);
         glTexCoord2f(1.0f, 0.0f); 
-        glVertex2f(-s,   u);
+        glVertex2f(-side1,   side2);
         glTexCoord2f(1.0f, 1.0f); 
-        glVertex2f( s,   u);
+        glVertex2f( side1,   side2);
         glTexCoord2f(0.0f, 1.0f); 
-        glVertex2f( s,  -u);
+        glVertex2f( side1,  -side2);
     glBindTexture(GL_TEXTURE_2D, 0);
     glEnd();
     glPopMatrix();    
-
-
-}
-// --------------------------------------------------------------------------
-// This function will load enemy sprite based on current level.
-// --------------------------------------------------------------------------
-void Enemy::draw_enemy(Image *enemies, int level, float *a)
-{  
-    float side = 32.0; 
-    float ANGLE = 90.0f;
-    //int w = enemies[level].width;
-    //int h = enemies[level].height;
-    //unsigned char *e = buildAlphaData(&enemies[level]);
-    //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
-    //        GL_UNSIGNED_BYTE, e);
-    //free(e);
-    glPushMatrix();
-    glColor3ub(255, 255, 255); 
-    //glColor4ub(255,255,255,1);
-    //glEnable(GL_ALPHA_TEST);
-    //glAlphaFunc(GL_GREATER, 0.0f);
-    glTranslatef(a[0], a[1], a[2]);
-    glRotatef(ANGLE, 0.0f, 0.0f, 1.0f); 
-    glBindTexture(GL_TEXTURE_2D, enemies[level].textid);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0.0f, 0.0f); 
-        glVertex2f(-side,  -side);
-        glTexCoord2f(1.0f, 0.0f); 
-        glVertex2f(-side,   side);
-        glTexCoord2f(1.0f, 1.0f); 
-        glVertex2f( side,   side);
-        glTexCoord2f(0.0f, 1.0f); 
-        glVertex2f( side,  -side);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glEnd();
-    glPopMatrix();  
-}
-
-// --------------------------------------------------------------------------
-// This function determines which level the players is currently on and
-//      loads the correct enemy based on level.
-// --------------------------------------------------------------------------
-void Enemy::load_enemy_sprites(Image *e, int current_level, float *p)
-{
-    if (current_level == 1)
-    {
-        draw_enemy(e, current_level-1, p);
-    }
-    else if (current_level == 2)
-    {
-        draw_enemy(e, current_level-2, p);
-    }
 }
 
