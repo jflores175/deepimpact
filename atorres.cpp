@@ -26,6 +26,7 @@ Menu::Menu()
 {
     display = true;
     pause = false;
+    credits = false;
 }
 
 // pass in rgb values to change color of created window
@@ -34,22 +35,32 @@ void Menu::show_menu(int red, int green, int blue, int xres, int yres)
     glColor3ub(red,green,blue);
     glPushMatrix();
     //Build a square and give it vertices 
+    // build a square with fpr vertices
     glBegin(GL_QUADS);
+    // top left corner
     glVertex2f( 0.0, 0.0);
+    // top right corner
     glVertex2f( xres, 0.0);
+    // bottom right corner
     glVertex2f( xres, yres);
+    // bottom left corner 
     glVertex2f( 0.0, yres);
     glEnd();
+    //connects back to the top left corner and gets ready to render
     glPopMatrix();
 }
 
 void Menu::pause_screen(int red, int green, int blue, int xres, int yres)
 {
+    // create a blank canvas to draw another square
 	show_menu(0,0,0, xres, yres);
 	glColor3ub(red,green,blue);
     glPushMatrix();
     //Build a square and give it vertices 
     glBegin(GL_QUADS);
+    // divide the screen into quarter sized segments
+    // then fill in four center segments to create another rectangle 
+    // in the center of the screen 
     glVertex2f( xres/4, yres/4);
     glVertex2f( (xres/4)*3, yres/4);
     glVertex2f( (xres/4)*3, (yres/4)*3);
@@ -72,6 +83,8 @@ void Menu::credit_page(int xres, int yres)
 	glPopMatrix();
 }
 
+// print the controls to the terminal so the user 
+// can see what the keybindins are
 void Menu::show_controls()
 {
     printf("KeyBindings\n");

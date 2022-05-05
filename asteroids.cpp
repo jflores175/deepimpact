@@ -552,6 +552,8 @@ int check_keys(XEvent *e)
 	switch (key) {
 		case XK_Escape:
 			Esc_count++;
+			// used for testing purposes
+			printf("%i", Esc_count);
 			menu.pause = true;
 			if (Esc_count >= 2)
 				return 1;
@@ -583,6 +585,7 @@ int check_keys(XEvent *e)
             break;
         //new
 		case XK_c:
+			menu.credits = true;
 			gl.credits_state = !gl.credits_state;
 			break;
 		case XK_r:
@@ -956,19 +959,43 @@ void render()
         //      stop displaying them and move to the next menu. 
         // ------------------------------------------------------------
         bg_images.load_menu_check(menu_img, menu.display, gl.xres, gl.yres);
+        
+        // exit the game if exit is pressed on the menu screen
+        if (Esc_count >= 1)
+        	exit(0);
     
     }
     else 
     {
-    	if(menu.pause == true)
+    	if (menu.pause == true)
     	{
+    		// render only this portion if the user has pressed Esc
+    		// Esc brings the pause menu. To fully exit the game you
+    		// press esc again while in the pause menu
     		menu.pause_screen(209,106,255, gl.xres, gl.yres); 
-    		r.bot = gl.yres - 240;
-			r.left = 280;
+    		r.bot = gl.yres - 230;
+			r.left = 220;
 			r.center = 0;
 			//ggprint8b(&r, 16, 0x00ff0000, "3350 - Asteroids");
 			ggprint8b(&r, 16, 0x00000000, "press Esc to exit");
 			ggprint8b(&r, 16, 0x00000000, "press s to continue");
+			ggprint8b(&r, 16, 0x00000000, "press c to enter the credits page");
+			if (gl.credits_state == true)
+			{
+				r.bot = gl.yres - 200;
+				r.left = 200;
+				r.center = 0;	
+				// Bryan Ayapantecatl
+				// Julius Flores
+				// Ivan Macias
+				// Alex Torres
+				menu.credit_page(gl.xres, gl.yres);
+				ggprint8b(&r, 16, 0x00000000, "Thanks your for playing our game");
+				ggprint8b(&r, 16, 0x00000000, "Original Artwork by Ivan Macias");
+				ggprint8b(&r, 16, 0x00000000, "Enemy projectiles by Bryan Ayapantecatl");
+				ggprint8b(&r, 16, 0x00000000, "Controls by Julius Flores");
+				ggprint8b(&r, 16, 0x00000000, "Menus by Alexis Torres");
+			}
     	}
    		else
    		{

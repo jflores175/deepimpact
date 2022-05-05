@@ -6,6 +6,8 @@ class Menu
 public:
 	bool display;
 	bool pause;
+	bool credits;
+	
 	Menu();
 
 	// As of right now it should set the background for the menu
