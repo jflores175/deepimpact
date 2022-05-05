@@ -267,7 +267,7 @@ void display_leaderboard(int score)
 {
     int width = 4;
     string username;
-    
+
     if (score == 0)
     {
        cout << "\nLeaderboard is for those who play!" << endl;
@@ -277,12 +277,14 @@ void display_leaderboard(int score)
         cout << "\nEnter a username (3 LETTERS): ";
         getline(cin, username);
         
+        for (auto & letter: username) letter = toupper(letter);
+
         if (score > 20)
             score +=5;
 
-        cout << "| Player | SCORE |" << endl;
-        cout << "   " <<username 
-             << setw(width) << ":" 
-             << setw(width-1) <<  score << endl;
+        cout << "\n| Player | SCORE |" << endl;
+        cout << "   "         << username
+             << setw(width)   << ":" 
+             << setw(width+1) <<  score << endl;
     }
 }
