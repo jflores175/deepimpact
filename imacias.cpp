@@ -226,6 +226,9 @@ void Background::load_game_logo(Image *logo, int c, int xres)
     glPopMatrix();    
 }
 
+// ----------------------------------------------------------------------------------------------------
+// This function will draw every sprite in the game, including the player and enemy.
+// ----------------------------------------------------------------------------------------------------
 void GameSprite::draw_sprite(Image *user, int model, float *pos, float side1, float side2, float angle)
 {
     glPushMatrix();
