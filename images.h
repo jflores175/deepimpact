@@ -65,26 +65,5 @@ class Image {
             unlink(ppmname);
     }        
 };
-/*
-unsigned char *buildAlphaData(Image *img)
-{
-    int i;
-    int a,b,c;
-    unsigned char *newdata, *ptr;
-    unsigned char *data = (unsigned char *)img->data;
-    newdata = (unsigned char *)malloc(img->width * img->height * 4);
-    ptr = newdata;
-    for (i=0; i<img->width * img->height * 3; i+=3) {
-        a = *(data+0);
-        b = *(data+1);
-        c = *(data+2);
-
-        *(ptr+3) = (a|b|c);
-
-        ptr += 4;
-        data += 3;
-    }
-    return newdata;
-}*/
 
 #endif //IMAGES_H
