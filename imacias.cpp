@@ -11,11 +11,16 @@
  *  adding sound to the game. 
  */
 
+#include <iostream>
 #include <GL/glx.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include "imacias.h"
 #include "images.h"
+#include <string>
+#include <iomanip>
+
+using namespace std;
 
 // This function will print out message from this file
 void print_my_name() {
@@ -46,15 +51,20 @@ int display_imacias(bool start_shooting)
 // --------------------------------------------------------------------------
 void check_shots(int shot)
 {
-    printf("\nThe number of shots fired this round: %i\n", shot);
+    cout << "\nThe number of shots fired this round: " << shot << endl;
     
-    if (shot <= 20)
+    if(shot == 0)
     {
-        printf("GOOD JOB!\nYOU ARE A SHARP SHOOTER!!!\n");
+        cout << "\nBOO! YOU DIDN'T TAKE ANY SHOTS" << endl;
+    }
+    else if (shot <= 20)
+    {
+        cout << "\nGOOD JOB!\nYOU ARE A SHARP SHOOTER!!!" << endl;
     }
     else
     {
-        printf("\nTOO MANY! TRY TO SHOOT LESS!!!\n");
+        cout << "\nTOO MANY! TRY TO SHOOT LESS!!!" << endl;
+        cout << "\n5 POINT PENALTY" << endl;
     } 
 }
 
@@ -250,3 +260,29 @@ void GameSprite::draw_sprite(Image *user, int model, float *pos, float side1, fl
     glPopMatrix();    
 }
 
+// --------------------------------------------------------
+// This function will display user score in a leaderboard
+// --------------------------------------------------------
+void display_leaderboard(int score)
+{
+    int width = 4;
+    string username;
+    
+    if (score == 0)
+    {
+       cout << "\nLeaderboard is for those who play!" << endl;
+    }
+    else
+    {
+        cout << "\nEnter a username (3 LETTERS): ";
+        getline(cin, username);
+        
+        if (score > 20)
+            score +=5;
+
+        cout << "| Player | SCORE |" << endl;
+        cout << "   " <<username 
+             << setw(width) << ":" 
+             << setw(width-1) <<  score << endl;
+    }
+}

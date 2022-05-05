@@ -383,6 +383,7 @@ int main()
 
     // Checks how many shots were fired each round
 	check_shots(gl.shot_count);
+    display_leaderboard(gl.shot_count);
     cleanup_fonts();
 	//logClose();
 	return 0;

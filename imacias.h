@@ -13,15 +13,14 @@
 #include <cstring>
 #include "images.h"
 
-typedef float Vec[3];
 class Asteroid;
+class Image;
 
-// This function will print out message from this file
 void print_my_name();
 int display_imacias(bool);
 void check_shots(int);
-class Image;
 void init_images(Image*, int);
+void display_leaderboard(int);
 
 class Background {
     public: 
