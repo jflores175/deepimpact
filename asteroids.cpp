@@ -554,7 +554,7 @@ int check_keys(XEvent *e)
 		case XK_Escape:
 			Esc_count++;
 			// used for testing purposes
-			printf("%i", Esc_count);
+			//printf("%i", Esc_count);
 			menu.pause = true;
 			if (Esc_count >= 2)
 				return 1;
