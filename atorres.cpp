@@ -2,7 +2,15 @@
 Purpose: To build a menu for a game and in game HUB 
 which will inclide health
 Also credit screen
+
+Vertex points were plotted on a graph 
+    The x-axis consisted
+    of 10 rows, each row being 64 pixels
+    The y-axis consisted of 
+    15 columns, each one being 32 pixels
 */
+
+
 #include "atorres.h"
 #include <stdio.h>
 #include <string.h>
@@ -50,39 +58,321 @@ void Menu::show_menu(int red, int green, int blue, int xres, int yres)
     glPopMatrix();
 }
 
-void Menu::pause_screen(int red, int green, int blue, int xres, int yres)
+void Menu::pause_screen(int xres, int yres)
 {
     // create a blank canvas to draw another square
-	//show_menu(0,0,0, xres, yres);
-	glColor3ub(red,green,blue);
+
+    show_menu(233,150,122,xres,yres);
+    //building city landscape
+    //starting from the left
+    //building is drawn first then windows after
+    
+    //building 1
+    //glColor3ub(139,69,19);
+    glColor3ub(90,90,84);
     glPushMatrix();
-    //Build a square and give it vertices 
-    glBegin(GL_QUADS);
-    // divide the screen into quarter sized segments
-    // then fill in four center segments to create another rectangle 
-    // in the center of the screen 
-    glVertex2f( xres/4, yres/4);
-    glVertex2f( (xres/4)*3, yres/4);
-    glVertex2f( (xres/4)*3, (yres/4)*3);
-    glVertex2f( xres/4, (yres/4)*3);
+    glBegin(GL_POLYGON);
+    glVertex2f((64*0),(32*10)); //1
+    glVertex2f((64*2),(32*11)); //2
+    glVertex2f((64*2),(32*0)); //3
+    glVertex2f((64*0),(32*0)); //4
     glEnd();
     glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*1),(32*10));
+    glVertex2f((64*2),(32*10)); 
+    glVertex2f((64*2),(32*9));
+    glVertex2f((64*1),(32*9));
+    glEnd();
+    glPopMatrix();
+    
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*0),(32*8));
+    glVertex2f((64*1),(32*8));
+    glVertex2f((64*1),(32*7));
+    glVertex2f((64*0),(32*7));
+    glEnd();
+    glPopMatrix();
+    
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*1.5),(32*7));
+    glVertex2f((64*2),(32*7));
+    glVertex2f((64*2),(32*6));
+    glVertex2f((64*1.5),(32*6));
+    glEnd();
+    glPopMatrix();
+    
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*0),(32*5));
+    glVertex2f((64*2),(32*5));
+    glVertex2f((64*2),(32*4));
+    glVertex2f((64*0),(32*4));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*0),(32*2));
+    glVertex2f((64*1),(32*2));
+    glVertex2f((64*1),(32*1));
+    glVertex2f((64*0),(32*1));
+    glEnd();
+    glPopMatrix();
+    
+    //building 2
+    glColor3ub(90,90,84);
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glVertex2f((64*2),(32*7));
+    glVertex2f((64*3),(32*8)); 
+    glVertex2f((64*4),(32*7));
+    glVertex2f((64*4),(32*0));
+    glVertex2f((64*2),(32*0));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*2),(32*3));
+    glVertex2f((64*3),(32*3));
+    glVertex2f((64*3),(32*2));
+    glVertex2f((64*2),(32*2));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*3),(32*6));
+    glVertex2f((64*4),(32*6));
+    glVertex2f((64*4),(32*5));
+    glVertex2f((64*3),(32*5));
+    glEnd();
+    glPopMatrix();
+    
+    //building 3
+    glColor3ub(90,90,84);
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glVertex2f((64*4),(32*9)); 
+    glVertex2f((64*6),(32*9));
+    glVertex2f((64*6),(32*0));
+    glVertex2f((64*4),(32*0));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*4),(32*8));
+    glVertex2f((64*6),(32*8));
+    glVertex2f((64*6),(32*7));
+    glVertex2f((64*4),(32*7));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*5),(32*5));
+    glVertex2f((64*6),(32*5));
+    glVertex2f((64*6),(32*4));
+    glVertex2f((64*5),(32*4));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*4),(32*2));
+    glVertex2f((64*5),(32*2));
+    glVertex2f((64*5),(32*1));
+    glVertex2f((64*4),(32*1));
+    glEnd();
+    glPopMatrix();
+    
+    //building 4
+    glColor3ub(90,90,84);
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glVertex2f((64*6),(32*14)); 
+    glVertex2f((64*8),(32*14));
+    glVertex2f((64*8),(32*0));
+    glVertex2f((64*6),(32*0)); 
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*7),(32*13));
+    glVertex2f((64*8),(32*13));
+    glVertex2f((64*8),(32*12));
+    glVertex2f((64*7),(32*12));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*6),(32*12));
+    glVertex2f((64*7),(32*12));
+    glVertex2f((64*7),(32*11));
+    glVertex2f((64*6),(32*11));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*7),(32*10));
+    glVertex2f((64*8),(32*10));
+    glVertex2f((64*8),(32*9));
+    glVertex2f((64*7),(32*9));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*6),(32*7));
+    glVertex2f((64*8),(32*7));
+    glVertex2f((64*8),(32*6));
+    glVertex2f((64*6),(32*6));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*7),(32*4));
+    glVertex2f((64*8),(32*4));
+    glVertex2f((64*8),(32*3));
+    glVertex2f((64*7),(32*3));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*6),(32*3));
+    glVertex2f((64*7),(32*3));
+    glVertex2f((64*7),(32*2));
+    glVertex2f((64*6),(32*2));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*7),(32*2));
+    glVertex2f((64*8),(32*2));
+    glVertex2f((64*8),(32*1));
+    glVertex2f((64*7),(32*1));
+    glEnd();
+    glPopMatrix();
+    
+    //building 5
+    glColor3ub(90,90,84);
+    glPushMatrix();
+    glBegin(GL_POLYGON);
+    glVertex2f((64*8),(32*11)); 
+    glVertex2f((64*10),(32*12));
+    glVertex2f((64*10),(32*0));
+    glVertex2f((64*8),(32*0));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*9),(32*10));
+    glVertex2f((64*10),(32*10));
+    glVertex2f((64*10),(32*9));
+    glVertex2f((64*9),(32*9));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*8),(32*8));
+    glVertex2f((64*10),(32*8));
+    glVertex2f((64*10),(32*7));
+    glVertex2f((64*8),(32*7));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*8),(32*6));
+    glVertex2f((64*9),(32*6));
+    glVertex2f((64*9),(32*5));
+    glVertex2f((64*8),(32*5));
+    glEnd();
+    glPopMatrix();
+
+    glColor3ub(255,255,153);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2f((64*9),(32*3));
+    glVertex2f((64*10),(32*3));
+    glVertex2f((64*10),(32*2));
+    glVertex2f((64*9),(32*2));
+    glEnd();
+    glPopMatrix();
+    
+    // lines seperating buildings    
+    glColor3ub(0,0,0);
+    glPushMatrix();
+    glBegin(GL_LINES);
+    glVertex2f((64*2),(32*7));
+    glVertex2f((64*2),(32*0));
+    glEnd();
+    glPopMatrix(); 
+    
+    glColor3ub(0,0,0);
+    glPushMatrix();
+    glBegin(GL_LINES);
+    glVertex2f((64*4),(32*7));
+    glVertex2f((64*4),(32*0));
+    glEnd();
+    glPopMatrix(); 
+    
+    glColor3ub(0,0,0);
+    glPushMatrix();
+    glBegin(GL_LINES);
+    glVertex2f((64*6),(32*9));
+    glVertex2f((64*6),(32*0));
+    glEnd();
+    glPopMatrix(); 
+
+    glColor3ub(0,0,0);
+    glPushMatrix();
+    glBegin(GL_LINES);
+    glVertex2f((64*8),(32*11));
+    glVertex2f((64*8),(32*0));
+    glEnd();
+    glPopMatrix(); 
+ 
 
 }
 
 void Menu::credit_page(int xres, int yres)
 {
-	// glColor3ub(250,214,165);
-	// glPushMatrix();
-	// //Build a square and give it vertices 
-	// glBegin(GL_QUADS);
-	// glVertex2f( 0.0, 0.0);
-	// glVertex2f( xres, 0.0);
-	// glVertex2f( xres, yres);
-	// glVertex2f( 0.0, yres);
-	// glEnd();
-	//glPopMatrix();
-
+	
     //blackout the background so the pause menu wont show
     show_menu(0,0,0,xres,yres);
     //output an asteroid like shape that will rotate 
