@@ -19,6 +19,12 @@ class EnemyShip
         Flt radius;          //Ship radius for enemy ship
         int angle;
         int move;
+        
+        struct EnemyShip *prev;
+        struct EnemyShip *next;
+
+
+        //constructor
         EnemyShip();
         void rightLeft();
         void diamond_cwise();

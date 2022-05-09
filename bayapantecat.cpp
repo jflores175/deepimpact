@@ -33,6 +33,9 @@ EnemyShip::EnemyShip()
     VecZero(vel);          
     angle = 270.0;
     move = 0;
+    
+    prev = NULL;
+    next = NULL;
 }
 
 void EnemyShip::rightLeft()

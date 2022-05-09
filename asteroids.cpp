@@ -137,10 +137,12 @@ public:
 	Vec vel;        //Asteroid Velocity vector
 	int nverts;     //
 	Flt radius;     //Astroid Radius variable
+	
 	Vec vert[8];    //Astroid Vertex of size 8
 	float angle;    //Astroid Angle
 	float rotate;   //Astroid Rotate
 	float color[3]; //Astroid Color array, 3 elements
+	
 	struct Asteroid *prev; //Astroid Previous
 	struct Asteroid *next; //Astroid Next
 public:
@@ -154,8 +156,13 @@ public:
 class Game {
 public:
 	Ship ship;        //Ship object named ship
+	
 	EnemyShip badGuy;
+	EnemyShip enemies[4];
+
 	Asteroid *ahead;  //Asteroid pointer named ahead
+	EnemyShip *ahead2;   //EnemyShip pointer named ahead
+
 	Bullet *barr;     //Bullet pointer named barr
 	
 	int nasteroids;   //Number of Asteroids
@@ -172,8 +179,13 @@ public:
 		nbullets = 0;                              //Zero bullets
 		mouseThrustOn = false;                     //Mouse Thrust OFF
 		//build 20 asteroids...
+		//build 4 enemyships
+		
+
 		for (int j=0; j<10; j++) {
 			Asteroid *a = new Asteroid;                                 //Creates Astroid object
+			
+
 			a->nverts = 8; 												//'A' astroid has 8 verticies
 			a->radius = rnd()*80.0 + 40.0;                              //'A' radius is set to a random size
 			Flt r2 = a->radius / 2.0;                                   //Radius2 is half of 'A' radius; Probably the size after destorying the astroid once
@@ -202,6 +214,23 @@ public:
 			ahead = a;             //ahead set to a
 			++nasteroids;          //Increments number of astroids
 		}
+
+		
+		
+		for (int j = 0; j<4; j++) {
+			EnemyShip *e = new EnemyShip;
+			enemies[j] = *e;
+			e->next = ahead2;
+			if (ahead2 != NULL) {
+				ahead2->prev = e;
+			}
+			ahead2 = e;
+		}
+		
+
+
+
+
 		clock_gettime(CLOCK_REALTIME, &bulletTimer);
 	}
 	~Game() { //Destructor
@@ -657,7 +686,12 @@ void physics()
 	Flt d0,d1,dist;
 
 	//g.badGuy.rightLeft();
-	g.badGuy.zpattern();
+	//g.badGuy.zpattern();
+
+	g.enemies[0].rightLeft();
+	g.enemies[1].zpattern();
+	g.enemies[2].diamond_cwise();
+	g.enemies[3].diamond_ccwise();
 
 	//Update ship position
 	//g.ship.pos[0] += g.ship.vel[0];
@@ -1074,6 +1108,10 @@ void render()
 	                
 	                // This code is for the enemy that moves back and forth!!!
 	                enemies.draw_sprite(enemy, enemy_img, g.badGuy.pos, img_side, img_side, angle2);
+	                enemies.draw_sprite(enemy, enemy_img, g.enemies[0].pos, img_side, img_side, angle2);
+	                enemies.draw_sprite(enemy, enemy_img, g.enemies[1].pos, img_side, img_side, angle2);
+	                enemies.draw_sprite(enemy, enemy_img, g.enemies[2].pos, img_side, img_side, angle2);
+	                enemies.draw_sprite(enemy, enemy_img, g.enemies[3].pos, img_side, img_side, angle2);
 	                //important ^
 					
 					glColor3f(1.0f, 0.0f, 0.0f);
