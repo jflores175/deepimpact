@@ -284,10 +284,17 @@ void display_leaderboard(int score)
         // Appends a new score in the file
         f.open("board.txt", ios_base::app);
         
-        // Asks for user input to add to leaderboard
-        cout << "\nEnter a username (3 LETTERS): ";
-        getline(cin, username);
+        // Checks if user has entered 3 characters
+        // If not, then repeats this step until exactly
+        // 3 characters have been entered. 
+        do
+        {
+            // Asks for user input to add to leaderboard
+            cout << "\nEnter a username (3 CHARACTERS): ";
+            getline(cin, username);
         
+        } while (username.size() != 3);
+
         // Converts every letter to uppercase
         for (auto & letter: username) letter = toupper(letter);
         
