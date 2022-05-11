@@ -317,7 +317,7 @@ void display_scoreboard(int score)
         // Opens the file to print leaderboard
         ifstream file("board.txt");
 
-        cout << "\n| PLAYER | SCORE |   TIME    |" << endl;
+        cout << "\n| PLAYER | SCORE |   TIME   |" << endl;
         cout << "-----------------------------" << endl;
 
         // Prints every score available
