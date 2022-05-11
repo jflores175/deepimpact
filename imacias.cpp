@@ -20,7 +20,7 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
-#include <map>
+#include <time.h>
 
 using namespace std;
 
@@ -265,13 +265,16 @@ void GameSprite::draw_sprite(Image *user, int model, float *pos, float side1, fl
 // --------------------------------------------------------
 // This function will display user score in a leaderboard
 // --------------------------------------------------------
-void display_leaderboard(int score)
+void display_scoreboard(int score)
 {
+    clock_t timer;      // This holds the time for scoreboard
     int w = 4;          // This holds the width for leaderboard 
     string username;    // This holds username input
     string line;        // This holds a line from the file
     ofstream f;         // This is the file output stream
-   
+    
+    timer = clock();    // Calculates time
+
     // If score is 0, then no leaderboard will be display
     // Leaderboard only works for shot taken > 1
     if (score == 0)
@@ -302,23 +305,27 @@ void display_leaderboard(int score)
         if (score > 20)
             score +=5;
         
-        // How the string is formatted into file       
-        f << "   " << username << setw(w) << ":" << setw(w+1) << score << endl;
+        // How the string is formatted into file
+        // Time is set to 3 decimal places, but will be 2 if time goes over 10 sec       
+        f << "   " << username << setw(w) << ":" 
+          << setw(w) << score << setw(w) << ":"
+          << " " << setprecision(4) << (((float)timer)/CLOCKS_PER_SEC) << " sec" 
+          << endl;
         
         f.close();
         
         // Opens the file to print leaderboard
         ifstream file("board.txt");
 
-        cout << "\n| Player | SCORE |" << endl;
-        cout << "--------------------" << endl;
+        cout << "\n| Player | SCORE | TIME" << endl;
+        cout << "-----------------------------" << endl;
 
         // Prints every score available
         while (getline(file, line))
         {
             cout << line << endl;
         }
-
-        file.close();
+        
+        file.close();  
     }
 }

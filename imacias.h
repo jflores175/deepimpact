@@ -20,7 +20,7 @@ void print_my_name();
 int display_imacias(bool);
 void check_shots(int);
 void init_images(Image*, int);
-void display_leaderboard(int);
+void display_scoreboard(int);
 
 class Background {
     public: 
