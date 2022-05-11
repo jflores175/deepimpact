@@ -402,9 +402,11 @@ int main()
 		timeSpan = timeDiff(&timeStart, &timeCurrent);
 		timeCopy(&timeStart, &timeCurrent);
 		physicsCountdown += timeSpan;
-		while (physicsCountdown >= physicsRate) {
-			physics();
-			physicsCountdown -= physicsRate;
+		if (menu.pause != true) {
+			while (physicsCountdown >= physicsRate) {
+				physics();
+				physicsCountdown -= physicsRate;
+			}
 		}
 		render();
 		x11.swapBuffers();
