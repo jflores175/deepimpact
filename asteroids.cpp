@@ -159,7 +159,7 @@ public:
 		//build 4 enemyships
 		
 		int path = 1;
-		for (int j = 0; j<4; j++) {
+		for (int j = 0; j<5; j++) {
 			EnemyShip *e = new EnemyShip;
 
 			//e->pos[0] = (Flt)(rand() % gl.xres);      
@@ -168,7 +168,7 @@ public:
 			e->path = path;
 
 
-			enemies[j] = *e;
+			//enemies[j] = *e;
 			e->next = ahead2;
 			if (ahead2 != NULL) {
 				ahead2->prev = e;

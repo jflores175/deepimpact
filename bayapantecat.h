@@ -32,4 +32,5 @@ class EnemyShip
         void diamond_cwise();
         void diamond_ccwise();
         void zpattern();
+        void zigzag();
 };

@@ -48,6 +48,8 @@ void EnemyShip::flight()
         diamond_ccwise();
     if (path == 4)
         diamond_cwise();
+    if (path == 5)
+        zigzag();
 }
 
 void EnemyShip::rightLeft()
