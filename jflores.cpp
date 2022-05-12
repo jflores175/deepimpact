@@ -5,6 +5,7 @@ Prevent ship from going off edges
 */
 
 #include <stdio.h>
+#include <iostream>
 #include <string.h>
 #include <GL/glx.h>
 #include "credits.h"
@@ -188,32 +189,42 @@ void EnemyShip::diamond_ccwise()
 void EnemyShip::zigzag()
 {
 	if (move == 0) {
-		shift_position(pos, -2, 2);
-		if (pos[0] <= 320 && pos[1] >= 480) 
+		shift_position(pos, -5, 5);
+		if (pos[0] <= 320 && pos[1] >= 480) {
+			change_position(pos, 320, 480);
 			move = 1;
+		}
 	}
-	if (move == 1  || move == 4) {
-		shift_position(pos, 0, -2);
+	if (move == 1) {
+		shift_position(pos, 0, -5);
 		if (pos[1] <= 0) {
-			if (move == 1)
-				move = 2;
-			if (move == 4)
-				move = 5;
-
+			change_position(pos, 320, 0);
+			move = 2;
 		}
 	}
 	if (move == 2) {
-		shift_position(pos, -2, 2);
-		if (pos[0] <= 320 && pos[1] >= 480) 
+		shift_position(pos, -6, 4);		
+		if (pos[0] <= 0 && pos[1] >= 240) {
+			change_position(pos, 0, 240);
 			move = 3;
+		}
 	}
 	if (move == 3) {
-		shift_position(pos, 2, 2);
-		if (pos[0] <= 320 && pos[1] >= 480) 
+		shift_position(pos, 6, -4);
+		if (pos[0] >= 240 && pos[1] <= 0) {
+			change_position(pos, 320, 0);
 			move = 4;
+		}
 	}
-	if (move == 2) {
-		if (pos[0] >= 640 && pos[1] >= 240) {
+	if (move == 4) {
+		shift_position(pos, 0, 5);
+		if (pos[1] >= 480) {
+			move = 5;
+		}
+	}
+	if (move == 5) {
+		shift_position(pos, 5, -5);
+		if (pos[0] >= 640 && pos[1] <= 240) {
 			move = 0;
 		}
 	}

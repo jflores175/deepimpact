@@ -22,5 +22,6 @@ deepimpact: asteroids.cpp timers.cpp atorres.o bayapantecat.o imacias.o jflores.
 
 clean:
 	rm -f deepimpact
+	rm -f board.txt
 	rm -f *.o
 
