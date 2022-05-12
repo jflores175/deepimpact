@@ -29,13 +29,25 @@ EnemyShip::EnemyShip()
     pos[0] = (Flt)(640);              
     pos[1] = (Flt)(240);              
     pos[2] = 0.0f;    
-    radius = 5;                              
+    radius = 10;                              
     VecZero(vel);          
     angle = 270.0;
     move = 0;
-    
+    path = 1;
     prev = NULL;
     next = NULL;
+}
+
+void EnemyShip::flight() 
+{
+    if (path == 1)
+        rightLeft();
+    if (path == 2)
+        zpattern();
+    if (path == 3)
+        diamond_ccwise();
+    if (path == 4)
+        diamond_cwise();
 }
 
 void EnemyShip::rightLeft()

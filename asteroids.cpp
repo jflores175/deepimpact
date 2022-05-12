@@ -130,29 +130,6 @@ public:
 };
 
 
-//Astroid Class
-class Asteroid {
-public:
-	Vec pos;        //Asteroid Position vector
-	Vec vel;        //Asteroid Velocity vector
-	int nverts;     //
-	Flt radius;     //Astroid Radius variable
-	
-	Vec vert[8];    //Astroid Vertex of size 8
-	float angle;    //Astroid Angle
-	float rotate;   //Astroid Rotate
-	float color[3]; //Astroid Color array, 3 elements
-	
-	struct Asteroid *prev; //Astroid Previous
-	struct Asteroid *next; //Astroid Next
-public:
-	Asteroid() { //Astroid Constructor
-		prev = NULL; //Previous set to NULL
-		next = NULL; //Next set to NULL
-	}
-};
-
-
 class Game {
 public:
 	Ship ship;        //Ship object named ship
@@ -160,71 +137,45 @@ public:
 	EnemyShip badGuy;
 	EnemyShip enemies[4];
 
-	Asteroid *ahead;  //Asteroid pointer named ahead
 	EnemyShip *ahead2;   //EnemyShip pointer named ahead
 
 	Bullet *barr;     //Bullet pointer named barr
 	
-	int nasteroids;   //Number of Asteroids
 	int nbullets;     //Number of bullets
+	int nenemies;
 	
 	struct timespec bulletTimer;       //Bullet Timer 
 	struct timespec mouseThrustTimer;  //Mouse Thruster Timer
 	bool mouseThrustOn; //Mouse Thrust boolean
 public:
 	Game() {  //Game constructor
-		ahead = NULL;                              //Astroid ahead pointer set to NULL
+		ahead2 = NULL;                              //Astroid ahead pointer set to NULL
 		barr = new Bullet[MAX_BULLETS];            //Bullet barr pointer set to a Bullet array of MAX_BULLETS = 11
-		nasteroids = 0;                            //Zero asteroids
+
+		nenemies = 0;                         //Zero asteroids
 		nbullets = 0;                              //Zero bullets
 		mouseThrustOn = false;                     //Mouse Thrust OFF
-		//build 20 asteroids...
+		
 		//build 4 enemyships
 		
-
-		for (int j=0; j<10; j++) {
-			Asteroid *a = new Asteroid;                                 //Creates Astroid object
-			
-
-			a->nverts = 8; 												//'A' astroid has 8 verticies
-			a->radius = rnd()*80.0 + 40.0;                              //'A' radius is set to a random size
-			Flt r2 = a->radius / 2.0;                                   //Radius2 is half of 'A' radius; Probably the size after destorying the astroid once
-			Flt angle = 0.0f;                                           //Angle is set to 0
-			Flt inc = (PI * 2.0) / (Flt)a->nverts;                      //Don't know; 2PI / Number of vertices
-			for (int i=0; i<a->nverts; i++) {
-				a->vert[i][0] = sin(angle) * (r2 + rnd() * a->radius);
-				a->vert[i][1] = cos(angle) * (r2 + rnd() * a->radius);
-				angle += inc;
-			}
-			a->pos[0] = (Flt)(rand() % gl.xres);      //Astroid Position #1 = RAND % X Resolution
-			a->pos[1] = (Flt)(rand() % gl.yres);      //Astroid Position #2 = RAND % Y Resolution
-			a->pos[2] = 0.0f;                         //Astroid Position #3 = 0
-			a->angle = 0.0;                           //Astroid Angle = 0
-			a->rotate = rnd() * 4.0 - 2.0;            //Astroid Rotate = RAND * 4 - 2
-			a->color[0] = 0.8;                        //Astroid Color #1 = 0.8
-			a->color[1] = 0.8;						  //Astroid Color #2 = 0.8
-			a->color[2] = 0.7;         				  //Astroid Color #3 = 0.7
-			a->vel[0] = (Flt)(rnd()*2.0-1.0);         //Astroid Velocity #1 = RAND * 2 - 1
-			a->vel[1] = (Flt)(rnd()*2.0-1.0);		  //Astroid Velocity #2 = RAND * 2 - 1
-			//std::cout << "asteroid" << std::endl;
-			//add to front of linked list
-			a->next = ahead;       //'A' Next set to ahead; First instance ahead = NULL
-			if (ahead != NULL)     //If ahead not NULL
-				ahead->prev = a;   //'ahead' Previous = a
-			ahead = a;             //ahead set to a
-			++nasteroids;          //Increments number of astroids
-		}
-
-		
-		
+		int path = 1;
 		for (int j = 0; j<4; j++) {
 			EnemyShip *e = new EnemyShip;
+
+			//e->pos[0] = (Flt)(rand() % gl.xres);      
+			//e->pos[1] = (Flt)(rand() % gl.yres);
+
+			e->path = path;
+
+
 			enemies[j] = *e;
 			e->next = ahead2;
 			if (ahead2 != NULL) {
 				ahead2->prev = e;
 			}
 			ahead2 = e;
+			nenemies++;
+			path++;
 		}
 		
 
@@ -627,18 +578,17 @@ int check_keys(XEvent *e)
 	return 0;
 }
 
-void deleteAsteroid(Game *g, Asteroid *node)
+
+void deleteEnemies(Game *g, EnemyShip *node) 
 {
-	//Remove a node from doubly-linked list
-	//Must look at 4 special cases below.
 	if (node->prev == NULL) {
 		if (node->next == NULL) {
 			//only 1 item in list.
-			g->ahead = NULL;
+			g->ahead2 = NULL;
 		} else {
 			//at beginning of list.
 			node->next->prev = NULL;
-			g->ahead = node->next;
+			g->ahead2 = node->next;
 		}
 	} else {
 		if (node->next == NULL) {
@@ -654,34 +604,6 @@ void deleteAsteroid(Game *g, Asteroid *node)
 	node = NULL;
 }
 
-/*
-void buildAsteroidFragment(Asteroid *ta, Asteroid *a)
-{
-	//build ta from a
-	ta->nverts = 8;
-	ta->radius = a->radius / 2.0;
-	Flt r2 = ta->radius / 2.0;
-	Flt angle = 0.0f;
-	Flt inc = (PI * 2.0) / (Flt)ta->nverts;
-	for (int i=0; i<ta->nverts; i++) {
-		ta->vert[i][0] = sin(angle) * (r2 + rnd() * ta->radius);
-		ta->vert[i][1] = cos(angle) * (r2 + rnd() * ta->radius);
-		angle += inc;
-	}
-	ta->pos[0] = a->pos[0] + rnd()*10.0-5.0;
-	ta->pos[1] = a->pos[1] + rnd()*10.0-5.0;
-	ta->pos[2] = 0.0f;
-	ta->angle = 0.0;
-	ta->rotate = a->rotate + (rnd() * 4.0 - 2.0);
-	ta->color[0] = 0.8;
-	ta->color[1] = 0.8;
-	ta->color[2] = 0.7;
-	ta->vel[0] = a->vel[0] + (rnd()*2.0-1.0);
-	ta->vel[1] = a->vel[1] + (rnd()*2.0-1.0);
-	//std::cout << "frag" << std::endl;
-}
-*/
-
 void physics()
 {
 	
@@ -690,10 +612,6 @@ void physics()
 	//g.badGuy.rightLeft();
 	//g.badGuy.zpattern();
 
-	g.enemies[0].rightLeft();
-	g.enemies[1].zpattern();
-	g.enemies[2].diamond_cwise();
-	g.enemies[3].diamond_ccwise();
 
 	//Update ship position
 	//g.ship.pos[0] += g.ship.vel[0];
@@ -758,122 +676,61 @@ void physics()
 		}
 		++i;
 	}
-	//
-	//Update asteroid positions
-	Asteroid *a = g.ahead;
-	while (a) 
-	{
-		a->pos[0] += a->vel[0];
-		a->pos[1] += a->vel[1];
-		//Check for collision with window edges
-		if (a->pos[0] < -100.0) 
-		{
-			a->pos[0] += (float)gl.xres+200;
-		}
-		else if (a->pos[0] > (float)gl.xres+100) 
-		{
-			a->pos[0] -= (float)gl.xres+200;
-		}
-		else if (a->pos[1] < -100.0) 
-		{
-			a->pos[1] += (float)gl.yres+200;
-		}
-		else if (a->pos[1] > (float)gl.yres+100) 
-		{
-			a->pos[1] -= (float)gl.yres+200;
-		}
+	
+	EnemyShip *e = g.ahead2;
 
-		a->angle += a->rotate;
-		a = a->next;
+	while (e) 
+	{
+		e->flight();
+		//e->zpattern();
+		e = e->next;
 	}
-	//
-	//Asteroid collision with bullets?
+
+
+	//Enemy collision with bullets?
 	//If collision detected:
 	//     1. delete the bullet
 	//     2. break the asteroid into pieces
 	//        if asteroid small, delete it
-	a = g.ahead;
-	while (a) 
+	e = g.ahead2;
+	while (e) 
 	{
 		//is there a bullet within its radius?
 		int i=0;
 		while (i < g.nbullets) 
 		{
 			Bullet *b = &g.barr[i];
-			d0 = b->pos[0] - a->pos[0];
-			d1 = b->pos[1] - a->pos[1];
+			d0 = b->pos[0] - e->pos[0];
+			d1 = b->pos[1] - e->pos[1];
 			dist = (d0*d0 + d1*d1);
 
-			if (dist < (a->radius*a->radius)) 
+			if (dist < (e->radius*e->radius)) 
 			{
-				a->color[0] = 1.0;
-				a->color[1] = 0.1;
-				a->color[2] = 0.1;
 				
 				//delete the asteroid and bullet
-				Asteroid *savea = a->next;
-				deleteAsteroid(&g, a);
-				a = savea;
-				g.nasteroids--;
+				EnemyShip *savee = e->next;
+				deleteEnemies(&g, e);
+				e = savee;
+				g.nenemies--;
                 				                                          
 				//delete the bullet...
 				memcpy(&g.barr[i], &g.barr[g.nbullets-1], sizeof(Bullet));
 				g.nbullets--;
-				if (a == NULL)
+				if (e == NULL)
 					break;
 			}
 			i++;
 		}
-		if (a == NULL)
+		if (e == NULL)
 			break;
-		a = a->next;
+		e = e->next;
 	}
 	//---------------------------------------------------
 	//check keys pressed now
-	
+
+
 	check_arrow_keys(g.ship.pos, gl.keys);
-	/*
-	if (gl.keys[XK_Left]) {
-		
 
-		g.ship.angle += 4.0;
-		if (g.ship.angle >= 360.0f)
-			g.ship.angle -= 360.0f;
-
-
-	}
-	if (gl.keys[XK_Right]) {
-		
-		
-		g.ship.angle -= 4.0;
-		if (g.ship.angle < 0.0f)
-			g.ship.angle += 360.0f;
-
-
-	}
-	if (gl.keys[XK_Up]) {
-		
-
-		//apply thrust
-		//convert ship angle to radians
-		Flt rad = ((g.ship.angle+90.0) / 360.0f) * PI * 2.0;
-		//convert angle to a vector
-		Flt xdir = cos(rad);
-		Flt ydir = sin(rad);
-		g.ship.vel[0] += xdir*0.02f;
-		g.ship.vel[1] += ydir*0.02f;
-		Flt speed = sqrt(g.ship.vel[0]*g.ship.vel[0]+
-				g.ship.vel[1]*g.ship.vel[1]);
-		if (speed > 10.0f) {
-			speed = 10.0f;
-			normalize2d(g.ship.vel);
-			g.ship.vel[0] *= speed;
-			g.ship.vel[1] *= speed;
-		}
-
-
-	}
-	*/
 
 	if (gl.keys[XK_space]) 
 	{
@@ -1056,7 +913,7 @@ void render()
 			r.center = 0;
 			//ggprint8b(&r, 16, 0x00ff0000, "3350 - Asteroids");
 			ggprint8b(&r, 16, 0x00ffff00, "n bullets: %i", g.nbullets);
-			ggprint8b(&r, 16, 0x00ffff00, "n asteroids: %i", g.nasteroids);
+			ggprint8b(&r, 16, 0x00ffff00, "n enemies: %i", g.nenemies);
 			//------------------------------------------------------------------
 	        
 	        // -----------------------------------------------
@@ -1097,10 +954,11 @@ void render()
                 float img_side = 32.0; // For sizing enemy image
 				int enemy_img = 0;     // For loading element from array
                 float angle2 = 90.0;   // Default angle for enemy sprite
-                Asteroid *a = g.ahead;
+                //Asteroid *a = g.ahead;
+                EnemyShip *e = g.ahead2;
 				// Instance of enemy class from imacias.cpp
 	            
-	            while (a) {
+	            while (e) {
 				    // ----------------------------------------
 	                // This function creates an enemy sprite
 	                //      in place of the asteroids.
@@ -1109,21 +967,18 @@ void render()
 	                // ---------------------------------------- 
 	                //
 					//important V 
-	                enemies.draw_sprite(enemy, enemy_img, a->pos, img_side, img_side, angle2);
+	                
+	                //enemies.draw_sprite(enemy, enemy_img, a->pos, img_side, img_side, angle2);
+	            	enemies.draw_sprite(enemy, enemy_img, e->pos, img_side, img_side, angle2);
 	                
 	                // This code is for the enemy that moves back and forth!!!
-	                enemies.draw_sprite(enemy, enemy_img, g.badGuy.pos, img_side, img_side, angle2);
-	                enemies.draw_sprite(enemy, enemy_img, g.enemies[0].pos, img_side, img_side, angle2);
-	                enemies.draw_sprite(enemy, enemy_img, g.enemies[1].pos, img_side, img_side, angle2);
-	                enemies.draw_sprite(enemy, enemy_img, g.enemies[2].pos, img_side, img_side, angle2);
-	                enemies.draw_sprite(enemy, enemy_img, g.enemies[3].pos, img_side, img_side, angle2);
 	                //important ^
 					
 					glColor3f(1.0f, 0.0f, 0.0f);
 					glBegin(GL_POINTS);
-					glVertex2f(a->pos[0], a->pos[1]);
+					glVertex2f(e->pos[0], e->pos[1]);
 					glEnd();
-					a = a->next;
+					e = e->next;
 	            }
 	          }
 	        //---------------------------------------------------------------------
